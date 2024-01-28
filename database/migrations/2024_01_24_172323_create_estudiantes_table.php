@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->date('date_of_birth')->nullable();
             $table->text('history')->nullable();
             $table->timestamps();
-            $table->foreign('id_FK')->references('id')->on('users');
-            $table->foreign('dni_FK')->references('dni')->on('users');
+            $table->foreign('id_FK')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('dni_FK')->references('dni')->on('users')->onDelete('cascade');
         });
     }
 

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -34,6 +35,10 @@ Route::get('/', function () {
 // Route::post('/inicia-sesion', [LoginController::class, 'login'])->name('iniciar-sesion');
 
 // Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+//Ruta para CRUD
+Route::resource('/gestion', UserController::class);
+
 
 Route::get('/login', [LoginController::class, 'show'])->name('loginShow');
 

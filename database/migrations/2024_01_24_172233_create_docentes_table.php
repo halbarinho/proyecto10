@@ -15,8 +15,8 @@ return new class extends Migration {
             $table->string('dni_FK', 9)->unique();
             $table->string('speciality', 50);
             $table->timestamps();
-            $table->foreign('id_FK')->references('id')->on('users');
-            $table->foreign('dni_FK')->references('dni')->on('users');
+            $table->foreign('id_FK')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('dni_FK')->references('dni')->on('users')->onDelete('cascade');
         });
     }
 

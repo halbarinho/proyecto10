@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Rules\DniNieValidationRule;
 use Illuminate\Support\Facades\Validator;
-use App\Models\User;
-use App\Models\Docente;
-use App\Models\Estudiante;
 
 class UserController extends Controller
 {
@@ -17,7 +14,6 @@ class UserController extends Controller
     public function index()
     {
         //
-        return view("CRUD.index");
     }
 
     /**
@@ -26,7 +22,6 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view("CRUD.create");
     }
 
     /**
@@ -57,11 +52,6 @@ class UserController extends Controller
                 'max:100',
                 'regex:/^[A-Za-zñáéíóú]+(?: [A-Za-zñáéíóú]+)?(?: [A-Za-zñáéíóú]+)?$/',
             ],
-            'user_type' => [
-                'required',
-                'string',
-                'in:docente,alumno'
-            ],
             'gender' => [
                 'required',
             ],
@@ -74,68 +64,14 @@ class UserController extends Controller
                 'min:6',
                 'max:50',
                 'confirmed',
-            ],
-            'speciality' => [
-                'required_if:user_type,docente',
-                'string',
-                'max:50',
-            ],
-            'date_of_birth' => [
-                'required_if:user_type,alumno',
-                'string',
-                'max:50',
-            ],
-            'history' => [
-                'required_if:user_type,alumno',
-                'string',
-                'max:50',
-            ],
+            ]
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             // Handle validation errors
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
         }
-
-        /**
-         * No ha fallado la validacion se procede a crear USER
-         */
-        $user = new User();
-        $user->dni = $request->dni;
-        $user->name = $request->name;
-        $user->last_name_1 = $request->last_name_1;
-        $user->last_name_2 = $request->last_name_2;
-        $user->gender = $request->gender;
-        $user->user_type = $request->user_type;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->profile_photo_path = $request->profile_photo_path;
-
-
-        $user->save();
-
-        /**
-         * Condicionales docente y alumno
-         */
-        if ($request->user_type == 'docente') {
-            $docente = new Docente();
-            $docente->speciality = $request->speciality;
-
-            $docente->save();
-
-        } else {
-            $estudiante = new Estudiante();
-            $estudiante->date_of_birth = $request->date_of_birth;
-            $estudiante->history = $request->history;
-
-            $estudiante->save();
-        }
-
-        return redirect('welcome');
     }
 
     /**
