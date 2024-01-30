@@ -42,6 +42,10 @@ Route::resource('/gestion', UserController::class);
 
 Route::get('/login', [LoginController::class, 'show'])->name('loginShow');
 
+
+Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     /**
      * Home Routes
@@ -68,12 +72,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('/login', 'LoginController@authenticate')->name('login');
 
     });
-
+    //PARA PODER USARLO A LO MEJOR DEBO RENOMBRAR auth-> COMO authMiddleware para que no se dupliquen los nombres de las clases
     Route::group(['middleware' => ['auth']], function () {
 
         /**
          * Logout Routes
          */
-        Route::get('/logout', 'LogoutController@perform')->name('logout');
+        // Route::get('/logout', 'LogoutController@logout')->name('logout');
+        // Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     });
 });

@@ -53,4 +53,18 @@ class LoginController extends Controller
 
     }
 
+
+    //Añado el metodo para controlar LOGOUT
+    // public function logout(Request $request)
+    // {
+
+    //     Auth::logout();
+
+    //     //Resetear la sesion para evitar problemas
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
+
+    //     return redirect(route('login'));
+    // }
+
 }
