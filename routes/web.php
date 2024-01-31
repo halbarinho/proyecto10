@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ForgetPasswordController;
 
 
 /*
@@ -44,6 +45,26 @@ Route::get('/login', [LoginController::class, 'show'])->name('loginShow');
 
 
 Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+//Ruta para recuperar/cambiar password
+Route::get('/forget-password', [ForgetPasswordController::class, 'forgetPassword'])->name('forgetPassword');
+
+//Ruta que gestiona el Request de recuperar/cambiar password
+Route::post('/forget-password', [ForgetPasswordController::class, 'forgetPasswordPost'])->name('forgetPasswordPost');
+
+// Route::get('/reset-password/{token}', function (string $token) {
+//     return view('auth.reset-password', ['token' => $token]);
+// })->middleware('guest')->name('password.reset');
+
+Route::get('/reset-password/{token}', [ForgetPasswordController::class, 'resetPassword'])
+    // ->middleware('guest')
+    ->name('password.reset');
+
+Route::post('/reset-password', [ForgetPasswordController::class, 'resetPasswordPost'])->name('password.update');
+
+
+
+
 
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {

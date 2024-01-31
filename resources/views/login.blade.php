@@ -15,12 +15,12 @@
     <div class="container mx-auto">
         <div class="flex justify-center px-6 my-12">
             <!-- Row -->
-            <div class="w-full xl:w-3/4 lg:w-11/12 flex">
+            <div class="flex w-full xl:w-3/4 lg:w-11/12">
                 <!-- Col -->
-                <div class="w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
+                <div class="hidden w-full h-auto bg-gray-400 bg-cover rounded-l-lg lg:block lg:w-1/2"
                     style="background-image: url('https://source.unsplash.com/K4mSJ7kc0As/600x800')"></div>
                 <!-- Col -->
-                <div class="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
+                <div class="w-full p-5 bg-white rounded-lg lg:w-1/2 lg:rounded-l-none">
                     <h3 class="pt-4 text-2xl text-center">Welcome Back!</h3>
                     <form action="/login" method="post" class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
                         @csrf
@@ -62,7 +62,7 @@
                         </div>
                         <div class="text-center">
                             <a class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                                href="#">
+                                href="{{ route('forgetPassword') }}">
                                 Forgot Password?
                             </a>
                         </div>
