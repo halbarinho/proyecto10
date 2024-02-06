@@ -10,6 +10,12 @@ class Estudiante extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'dni_FK',
+        'date_of_birth',
+        'history'
+    ];
+
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);

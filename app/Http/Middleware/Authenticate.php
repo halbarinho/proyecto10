@@ -1,17 +1,22 @@
-<?php
+<!-- <?php
 
-namespace App\Http\Middleware;
+// namespace App\Http\Middleware;
 
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Http\Request;
+// use Illuminate\Auth\Middleware\Authenticate as Middleware;
+// use Illuminate\Http\Request;
 
-class Auth extends Middleware
-{
-    /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     */
-    protected function redirectTo(Request $request): ?string
-    {
-        return $request->expectsJson() ? null : route('login');
-    }
-}
+// class Auth extends Middleware
+
+//     /**
+//      * Renombrada ka clase para evitar conflictos con la otra clase Auth usada por ejemplo en el logout
+//      */
+//     // class AuthMiddleware10 extends Middleware
+// {
+//     /**
+//      * Get the path the user should be redirected to when they are not authenticated.
+//      */
+//     protected function redirectTo(Request $request): ?string
+//     {
+//         return $request->expectsJson() ? null : route('login');
+//     }
+// } -->

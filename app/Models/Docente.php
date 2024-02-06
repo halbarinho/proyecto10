@@ -10,6 +10,10 @@ class Docente extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'speciality',
+        'dni_FK'
+    ];
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);

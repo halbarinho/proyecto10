@@ -53,7 +53,7 @@ user_type.on('change',  function(){
         tipo_docente.toggleClass('hidden');
         tipo_alumno.attr('class','hidden');
     }
-    else if(option_checked == 'alumno'){
+    else if(option_checked == 'estudiante'){
         tipo_alumno.toggleClass('hidden');
         tipo_docente.attr('class','hidden');
 

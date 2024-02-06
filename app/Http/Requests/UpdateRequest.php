@@ -2,16 +2,17 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\DniNieValidationRule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
+        // return false;
         return true;
     }
 
@@ -51,7 +52,7 @@ class RegisterRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                'unique:users,email',
+                'unique:users,email,' . $this->user,
             ],
             'password' => [
                 'required',
@@ -87,14 +88,6 @@ class RegisterRequest extends FormRequest
                 'string',
                 'max:50',
             ],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'title.string' => 'El titulo es requerido',
-
         ];
     }
 }

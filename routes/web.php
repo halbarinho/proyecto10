@@ -63,8 +63,16 @@ Route::get('/reset-password/{token}', [ForgetPasswordController::class, 'resetPa
 Route::post('/reset-password', [ForgetPasswordController::class, 'resetPasswordPost'])->name('password.update');
 
 
+//ESTAS RUTAS ME FUNCIONAN CON REGISTERCONTROLLER
+// Route::get('/CRUD.index', [RegisterController::class, 'show'])->name('registro.show');
+// Route::get('/registro', [RegisterController::class, 'create'])->name('registro.create');
+// Route::post('/registro', [RegisterController::class, 'register'])->name('registro.post');
 
 
+Route::resource('user', UserController::class);
+
+// Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edition');
+// Route::get('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
@@ -76,30 +84,32 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     // Route::get('/login', 'LoginController@show')->name('loginShow');
 
-    Route::get('/registro', 'RegisterController@show')->name('registro.show');
+    // Route::get('/registro', 'RegisterController@show')->name('registro.show');
 
 
-    Route::group(['middleware' => ['guest']], function () {
-        /**
-         * Register Routes
-         */
-        // Route::get('/registro', 'RegisterController@show')->name('registro.show');
-        Route::post('/registro', 'RegisterController@register')->name('registro');
+    // Route::group(['middleware' => ['guest']], function () {
+    //     /**
+    //      * Register Routes
+    //      */
+    //     // Route::get('/registro', 'RegisterController@show')->name('registro.show');
+    //     // Route::post('/registro', 'RegisterController@register')->name('registroPost');
 
-        /**
-         * Login Routes
-         */
-        // Route::get('/login', 'LoginController@show')->name('login.show');
-        Route::post('/login', 'LoginController@authenticate')->name('login');
+    //     /**
+    //      * Login Routes
+    //      */
+    //     // Route::get('/login', 'LoginController@show')->name('login.show');
 
-    });
-    //PARA PODER USARLO A LO MEJOR DEBO RENOMBRAR auth-> COMO authMiddleware para que no se dupliquen los nombres de las clases
-    Route::group(['middleware' => ['auth']], function () {
+    //     //LA UNICA DESCOMENTADA
+    //     Route::post('/login', 'LoginController@authenticate')->name('login');
 
-        /**
-         * Logout Routes
-         */
-        // Route::get('/logout', 'LogoutController@logout')->name('logout');
-        // Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-    });
+    // });
+    // //PARA PODER USARLO A LO MEJOR DEBO RENOMBRAR auth-> COMO authMiddleware para que no se dupliquen los nombres de las clases
+    // Route::group(['middleware' => ['auth']], function () {
+
+    //     /**
+    //      * Logout Routes
+    //      */
+    //     // Route::get('/logout', 'LogoutController@logout')->name('logout');
+    //     // Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    // });
 });

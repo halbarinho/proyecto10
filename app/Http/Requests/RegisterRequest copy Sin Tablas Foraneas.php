@@ -51,7 +51,6 @@ class RegisterRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                'unique:users,email',
             ],
             'password' => [
                 'required',
@@ -59,41 +58,20 @@ class RegisterRequest extends FormRequest
                 'max:50',
                 //'confirmed',
             ],
-            'password_confirmation' => [
+            'confirmation_password' => [
                 'required',
                 'min:6',
                 'max:50',
                 'same:password',
 
-            ],
-            'user_type' => [
-                'required',
-            ],
-            'speciality' => [
-                'required_if:user_type,docente',
-                'nullable', //AÑADO PARA QUE NO ME DE ERROR SI EL USER ES ESTUDIANTE
-                'string',
-                'max:50',
-            ],
-            'date_of_birth' => [
-                'required_if:user_type,estudiante',
-                'nullable',
-                'date',
-                'max:50',
-            ],
-            'history' => [
-                'required_if:user_type,estudiante',
-                'nullable',
-                'string',
-                'max:50',
-            ],
+            ]
         ];
     }
 
     public function messages(): array
     {
         return [
-            'title.string' => 'El titulo es requerido',
+            'title.required' => 'El titulo es requerido',
 
         ];
     }
