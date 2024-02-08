@@ -145,6 +145,7 @@ class UserController extends Controller
         $estudiantes = Estudiante::all();
 
 
-        return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
+        // return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
+        return redirect()->route('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
     }
 }
