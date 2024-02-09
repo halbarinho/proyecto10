@@ -3,15 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Phone;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 // The User model requires this trait
 //Añadido para usar Spatie Roles/Permisos
 // use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -73,8 +74,13 @@ class User extends Authenticatable
         return $this->hasMany(Docente::class);
     }
 
-    public function Alumno(): HasMany
+    public function Estudiante(): HasMany
     {
         return $this->hasMany(Estudiante::class);
+    }
+
+    public function Phone(): HasMany
+    {
+        return $this->hasMany(Phone::class);
     }
 }

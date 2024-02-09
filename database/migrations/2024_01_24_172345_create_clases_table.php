@@ -12,7 +12,9 @@ return new class extends Migration {
     {
         Schema::create('clases', function (Blueprint $table) {
             $table->id('class_id');
-            $table->string('name');
+            $table->string('class_name')->unique;
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('user_id')->on('docentes')->onDelete('cascade');
             $table->timestamps();
         });
     }

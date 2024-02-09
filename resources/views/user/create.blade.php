@@ -111,16 +111,32 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="data_of_birth" class="mb-3 block text-base font-medium text-[#07074D]">Fecha
+                        <label for="date_of_birth" class="mb-3 block text-base font-medium text-[#07074D]">Fecha
                             Nacimiento</label>
                         <div class="sm-5">
-                            <input type="date" name="data_of_birth" id="data_of_birth" {{-- class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" --}}
-                                value="{{ old('data_of_birth') }}">
+                            <input type="date" name="date_of_birth" id="date_of_birth" {{-- class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" --}}
+                                value="{{ old('date_of_birth') }}">
                         </div>
                     </div>
                 </div>
 
-
+                {{-- AÑADO EL CAMPO TELEFONO --}}
+                <div class="mb-3 row">
+                    <label for="phone1" class="mb-3 block text-base font-medium text-[#07074D]">Phone 1</label>
+                    <div class="sm-5">
+                        <input type="tel" name="phone_number" id="phone1"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            value="{{ old('phone1') }}" placeholder="Phone">
+                    </div>
+                </div>
+                {{-- <div class="mb-3 row">
+                    <label for="phone2" class="mb-3 block text-base font-medium text-[#07074D]">Phone 2</label>
+                    <div class="sm-5">
+                        <input type="tel" name="phone_number" id="phone2"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            value="{{ old('phone2') }}" placeholder="Phone">
+                    </div>
+                </div> --}}
 
                 {{-- modificar estilos --}}
                 <div class="mb-3 md:flex md:justify-between">

@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         Schema::create('estudiantes', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
-            $table->string('dni_FK', 9)->unique();
+            //pruebo a eliminarla
+            // $table->string('dni_FK', 9)->unique();
             $table->date('date_of_birth')->nullable();
             $table->text('history')->nullable();
             $table->timestamps();

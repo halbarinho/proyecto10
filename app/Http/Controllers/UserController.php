@@ -62,15 +62,20 @@ class UserController extends Controller
 
                 $user->Docente()->create([
                     'speciality' => $data['speciality'],
-                    'dni_FK' => $data['dni'],
+                    // 'dni_FK' => $data['dni'],
                 ]);
             } elseif ($request->user_type == 'estudiante') {
-                $user->Alumno()->create([
-                    'dni_FK' => $data['dni'],
+                $user->Estudiante()->create([
+                    // 'dni_FK' => $data['dni'],
                     'date_of_birth' => $data['date_of_birth'],
                     'history' => $data['history'],
                 ]);
             }
+
+
+            $user->Phone()->create([
+                'phone_number' => $data['phone_number'],
+            ]);
 
 
             //ESTA LINEA AUTENTIFICA AL USUARIO CREADO

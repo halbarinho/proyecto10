@@ -11,7 +11,7 @@ class Estudiante extends Model
     use HasFactory;
 
     protected $fillable = [
-        'dni_FK',
+        // 'dni_FK',
         'date_of_birth',
         'history'
     ];

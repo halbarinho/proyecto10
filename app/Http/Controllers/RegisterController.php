@@ -73,6 +73,11 @@ class RegisterController extends Controller
             }
 
 
+            $user->Phone()->create([
+                'phone_number' => $data['phone_number'],
+            ]);
+
+
             //ESTA LINEA AUTENTIFICA AL USUARIO CREADO
             // Auth::login($user);
 

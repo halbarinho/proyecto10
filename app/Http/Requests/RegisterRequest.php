@@ -87,6 +87,10 @@ class RegisterRequest extends FormRequest
                 'string',
                 'max:50',
             ],
+            'phone_number' => [
+                'string',
+                'max:20'
+            ]
         ];
     }
 
