@@ -44,6 +44,9 @@
                         <th
                             class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                             Especialidad</th>
+                        <th
+                            class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                            Clases</th>
                     </tr>
                 </thead>
 
@@ -62,6 +65,23 @@
                             {{ $docente->User->profile_photo }}
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $docente->speciality }}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            {{-- <?php var_dump($classes); ?> --}}
+
+                            @if ($classes->contains('user_id', $docente->user_id))
+                                <?php
+                                $filtered = $classes->where('user_id', $docente->user_id);
+                                ?>
+                                @foreach ($filtered as $item)
+                                    <div class="text-blue-500">Aula: {{ $item->class_name }}</div></br>
+                                @endforeach
+                            @else
+                                <div class="text-red-500"> No hay aulas asignadas</div>
+                            @endif
+
+
+
+                        </td>
                         {{-- <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><a
                             class="px-4 py-2 font-bold text-white bg-red-500 border border-red-700 rounded hover:bg-red-700"
                             href="{{ route('user.destroy', $docente->User->id) }}">Delete</a></td> --}}

@@ -138,6 +138,25 @@
                     </div>
                 </div> --}}
 
+                {{-- AÑADO LA CLASSROOM --}}
+
+                <div class="mb-3 row">
+                    <label for="class_id" class="mb-3 block text-base font-medium text-[#07074D]">Aula</label>
+                    <div class="sm-5">
+                        <select name="class_id" id="class_id" class="form-select">
+                            <option value="">Seleccione Aula</option>
+                            @if ($classes->isEmpty())
+                                <option value="">No hay aulas creadas</option>
+                            @else
+                                @foreach ($classes as $class)
+                                    <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                                @endforeach
+                            @endif
+
+                        </select>
+                    </div>
+                </div>
+
                 {{-- modificar estilos --}}
                 <div class="mb-3 md:flex md:justify-between">
                     <div class="mb-4 md:mr-2 md:mb-0">

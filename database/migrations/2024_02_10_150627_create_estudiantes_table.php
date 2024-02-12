@@ -18,7 +18,13 @@ return new class extends Migration {
             $table->text('history')->nullable();
             $table->timestamps();
             $table->primary('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->unsignedBigInteger('class_id')->nullable();
+            $table->foreign('class_id')->references('id')->on('classrooms')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

@@ -13,11 +13,17 @@ class Estudiante extends Model
     protected $fillable = [
         // 'dni_FK',
         'date_of_birth',
-        'history'
+        'history',
+        'class_id',
     ];
 
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function Classroom(): BelongsTo
+    {
+        return $this->belongsTo(Classroom::class);
     }
 }

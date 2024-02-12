@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Rules\DniNieValidationRule;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateRequest;
+use App\Models\Classroom;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,8 +24,9 @@ class UserController extends Controller
         $users = User::all();
         $docentes = Docente::all();
         $estudiantes = Estudiante::all();
+        $classes = Classroom::all();
 
-        return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
+        return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes, 'classes' => $classes]);
 
         // return view("CRUD.index");
     }
@@ -34,8 +36,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
-        return view("user.create");
+        //AÑADO LAS CLASSROOM
+        $classes = Classroom::all();
+
+        return view("user.create", ['classes' => $classes]);
     }
 
     /**
@@ -60,18 +64,35 @@ class UserController extends Controller
 
             if ($request->user_type == 'docente') {
 
-                $user->Docente()->create([
+                $docente = $user->Docente()->create([
                     'speciality' => $data['speciality'],
                     // 'dni_FK' => $data['dni'],
+
                 ]);
+
+                //actualizo la tabla CLASSROOM para asociar al DOCENTE
+                $class_id = $data['class_id'];
+
+                $classroom = Classroom::findOrFail($class_id);
+                $classroom->user_id = $docente->user_id;
+                $classroom->save();
+
+
             } elseif ($request->user_type == 'estudiante') {
                 $user->Estudiante()->create([
                     // 'dni_FK' => $data['dni'],
                     'date_of_birth' => $data['date_of_birth'],
                     'history' => $data['history'],
+
+                    //AÑADO LA CLASE
+                    'class_id' => $data['class_id'],
                 ]);
             }
 
+            // // INCORPORAR AULA
+            // $docente->Classroom()->create([
+
+            // ]);
 
             $user->Phone()->create([
                 'phone_number' => $data['phone_number'],

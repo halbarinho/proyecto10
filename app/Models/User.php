@@ -83,4 +83,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Phone::class);
     }
+
+    public function Classroom(): HasMany
+    {
+        return $this->hasMany(Classroom::class);
+    }
 }

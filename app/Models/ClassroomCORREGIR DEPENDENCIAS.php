@@ -7,21 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Docente extends Model
+class Classroom extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'speciality',
-        // 'dni_FK'
+        'class_name',
     ];
-    public function User(): BelongsTo
+
+    public function Docente(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Docente::class);
     }
 
-    public function Classroom(): HasMany
+    public function Estudiante(): HasMany
     {
-        return $this->hasMany(Classroom::class);
+        return $this->hasMany(Estudiante::class);
     }
 }

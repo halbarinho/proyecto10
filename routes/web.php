@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClassroomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -69,10 +70,19 @@ Route::post('/reset-password', [ForgetPasswordController::class, 'resetPasswordP
 // Route::post('/registro', [RegisterController::class, 'register'])->name('registro.post');
 
 
-Route::resource('user', UserController::class);
+
 
 // Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edition');
 // Route::get('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+
+
+Route::resources([
+    'user' => UserController::class,
+    'classroom' => ClassroomController::class,
+]);
+
+// Route::resource('user', UserController::class);
+// Route::resource('classroom', ClassroomController::class);
 
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
