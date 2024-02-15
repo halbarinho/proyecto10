@@ -6,7 +6,15 @@
 
 @section('content')
 
+    <div class="flex justify-between w-full">
 
+        <p class="justify-start px-4 py-2 mr-2 text-white bg-blue-500">
+            Usuarios
+        </p>
+        <button class="justify-end px-4 py-2 text-white bg-green-500">
+            <a href="{{ route('user.create') }}">Nuevo Usuario</a>
+        </button>
+    </div>
     {{-- TABLA DOCENTE --}}
     <div
         class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
@@ -67,16 +75,17 @@
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $docente->speciality }}</td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                             {{-- <?php var_dump($classes); ?> --}}
-
-                            @if ($classes->contains('user_id', $docente->user_id))
-                                <?php
-                                $filtered = $classes->where('user_id', $docente->user_id);
-                                ?>
-                                @foreach ($filtered as $item)
-                                    <div class="text-blue-500">Aula: {{ $item->class_name }}</div></br>
-                                @endforeach
-                            @else
-                                <div class="text-red-500"> No hay aulas asignadas</div>
+                            @if (isset($classes))
+                                @if ($classes->contains('user_id', $docente->user_id))
+                                    <?php
+                                    $filtered = $classes->where('user_id', $docente->user_id);
+                                    ?>
+                                    @foreach ($filtered as $item)
+                                        <div class="text-blue-500">Aula: {{ $item->class_name }}</div></br>
+                                    @endforeach
+                                @else
+                                    <div class="text-red-500"> No hay aulas asignadas</div>
+                                @endif
                             @endif
 
 

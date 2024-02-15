@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Estudiante extends Model
 {
@@ -25,5 +27,15 @@ class Estudiante extends Model
     public function Classroom(): BelongsTo
     {
         return $this->belongsTo(Classroom::class);
+    }
+
+    public function Activity(): BelongsToMany
+    {
+        return $this->belongsToMany(Activity::class, 'activities_results', 'user_id', 'id');
+    }
+
+    public function Answer(): HasMany
+    {
+        return $this->hasMany(Answer::class);
     }
 }

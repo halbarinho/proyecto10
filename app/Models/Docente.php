@@ -24,4 +24,10 @@ class Docente extends Model
     {
         return $this->hasMany(Classroom::class);
     }
+
+    public function Activity(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
+
 }

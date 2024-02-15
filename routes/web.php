@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ClassroomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -7,7 +8,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ForgetPasswordController;
-
+use App\Http\Controllers\QuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,8 @@ Route::post('/reset-password', [ForgetPasswordController::class, 'resetPasswordP
 Route::resources([
     'user' => UserController::class,
     'classroom' => ClassroomController::class,
+    'activity' => ActivityController::class,
+    'question' => QuestionController::class,
 ]);
 
 // Route::resource('user', UserController::class);

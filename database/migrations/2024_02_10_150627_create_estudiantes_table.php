@@ -11,16 +11,26 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('estudiantes', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+            //lo sustituyo al usar el metodo foreignId
+            // $table->unsignedBigInteger('user_id');
             //pruebo a eliminarla
             // $table->string('dni_FK', 9)->unique();
             $table->date('date_of_birth')->nullable();
             $table->text('history')->nullable();
             $table->timestamps();
-            $table->primary('user_id');
-            $table->foreign('user_id')->references('id')->on('users')
+
+
+            //lo sustituyo al usar el metodo foreignId
+            // $table->primary('user_id');
+            // $table->foreign('user_id')->references('id')->on('users')
+            //     ->onDelete('cascade')
+            //     ->onUpdate('cascade');
+
+            $table->foreignId('user_id')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+            $table->primary('user_id');
+
             $table->unsignedBigInteger('class_id')->nullable();
             $table->foreign('class_id')->references('id')->on('classrooms')
                 ->onDelete('cascade')

@@ -92,7 +92,8 @@ class RegisterRequest extends FormRequest
                 'max:20'
             ],
             'class_id' => [
-                'string'
+                'string',
+                'nullable'
             ]
         ];
     }

@@ -73,9 +73,13 @@ class UserController extends Controller
                 //actualizo la tabla CLASSROOM para asociar al DOCENTE
                 $class_id = $data['class_id'];
 
-                $classroom = Classroom::findOrFail($class_id);
-                $classroom->user_id = $docente->user_id;
-                $classroom->save();
+                // $classroom = Classroom::findOrFail($class_id);
+
+                if (!is_null($classroom = Classroom::find($class_id))) {
+
+                    $classroom->user_id = $docente->user_id;
+                    $classroom->save();
+                }
 
 
             } elseif ($request->user_type == 'estudiante') {
