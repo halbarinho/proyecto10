@@ -21,6 +21,7 @@ class ActivityRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'activity_name' => [
                 'required',
@@ -28,7 +29,12 @@ class ActivityRequest extends FormRequest
             ],
             'activity_description' => [
 
-            ]
+            ],
+            // 'questionsData.type' => [
+            //     'required',
+            // ]
+
+
         ];
     }
 }

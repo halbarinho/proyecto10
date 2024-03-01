@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\User;
+use App\Models\Stage;
 use App\Models\Docente;
 use App\Models\Classroom;
+use App\Models\StageLevel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ClassroomRequest;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Database\QueryException;
 
 class ClassroomController extends Controller
@@ -29,7 +33,10 @@ class ClassroomController extends Controller
     {
         //Recupero los usuarios docentes
         $docentes = Docente::all();
-        return view('classroom.create', ['docentes' => $docentes]);
+        $stages = Stage::all();
+        $levels = StageLevel::all();
+
+        return view('classroom.create', ['docentes' => $docentes, 'stages' => $stages, 'levels' => $levels]);
     }
 
     /**
@@ -39,12 +46,16 @@ class ClassroomController extends Controller
     {
         try {
 
-            $data = $request->validated();
+            // $data = $request->validated();
+            $data = $request->all();
 
             $class = Classroom::create([
                 'class_name' => $data['class_name'],
                 'user_id' => $data['user_id'],
+                'stage_id' => $data['stage_id'],
+                'level_id' => $data['level_id'],
             ]);
+
 
         } catch (QueryException $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
@@ -67,31 +78,34 @@ class ClassroomController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id)
-    {
-        $selectedClass = Classroom::findOrFail($id);
 
-        $docentes = Docente::all();
+    //LO COMENTO PARA IMPLEMENTAR EL OTRO LUEGO DEBO MODIFICARLO
 
-        //Comprobacion de si la clase tiene asignado un profesor
-        if (is_null($selectedClass->user_id)) {
-            $docenteName = "Sin asignar";
-            $docenteValue = "";
-        } else {
+    // public function edit(int $id)
+    // {
+    //     $selectedClass = Classroom::findOrFail($id);
 
-            //Paso valores de Docentes
-            $users = User::all();
+    //     $docentes = Docente::all();
 
-            $filteredUsers = $users->where('id', $selectedClass->user_id);
-            //$docenteName = $filteredUsers->all();
-            $docenteName = $filteredUsers[0]->name . ' ' . $filteredUsers[0]->last_name_1 . ' ' . $filteredUsers[0]->last_name_2;
-            $docenteValue = $filteredUsers[0]->id;
+    //     //Comprobacion de si la clase tiene asignado un profesor
+    //     if (is_null($selectedClass->user_id)) {
+    //         $docenteName = "Sin asignar";
+    //         $docenteValue = "";
+    //     } else {
+
+    //         //Paso valores de Docentes
+    //         $users = User::all();
+
+    //         $filteredUsers = $users->where('id', $selectedClass->user_id);
+    //         //$docenteName = $filteredUsers->all();
+    //         $docenteName = $filteredUsers[0]->name . ' ' . $filteredUsers[0]->last_name_1 . ' ' . $filteredUsers[0]->last_name_2;
+    //         $docenteValue = $filteredUsers[0]->id;
 
 
-        }
-        // redirect()->route('classroom.edit', ['classroom' => $selectedClass, 'docentes' => $filteredDocentes]);
-        return view('classroom.edit', ['classroom' => $selectedClass, 'docentes' => $docentes, 'docenteValue' => $docenteValue, 'docenteName' => $docenteName]);
-    }
+    //     }
+    //     // redirect()->route('classroom.edit', ['classroom' => $selectedClass, 'docentes' => $filteredDocentes]);
+    //     return view('classroom.edit', ['classroom' => $selectedClass, 'docentes' => $docentes, 'docenteValue' => $docenteValue, 'docenteName' => $docenteName]);
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -133,4 +147,30 @@ class ClassroomController extends Controller
         // return view('classroom.index', ['classes' => $classes]);
         return redirect()->route('classroom.index', ['classes' => $classes]);
     }
+
+
+    /**
+     * Devolver lista de alumnos en una clase para editar sus miembros
+     */
+
+    public function edit(int $id)
+    {
+        $selectedClass = Classroom::findOrFail($id);
+
+        //$students = DB::table('estudiantes')->where('class_id', $selectedClass);
+
+        $studentList = DB::table('users')
+            ->join('estudiantes', function (JoinClause $join) use ($selectedClass) {
+                $join->on('users.id', '=', 'estudiantes.user_id')
+                    ->where('estudiantes.class_id', '=', $selectedClass->id);
+            })
+            ->get();
+
+
+
+
+        return view('classroom.edit', ['classroom' => $selectedClass, 'studentList' => $studentList]);
+    }
 }
+
+

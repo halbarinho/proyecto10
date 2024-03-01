@@ -13,17 +13,25 @@ class Question extends Model
 
 
     protected $fillable = [
+        'question_text',
         'question_type',
-        'question_text'
+
     ];
-    public function Activity(): BelongsToMany
-    {
-        return $this->belongsToMany(Activity::class);
-    }
+    // public function Activity(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Activity::class);
+    // }
 
     public function QuestionOption(): HasMany
     {
         return $this->hasMany(QuestionOption::class);
     }
+
+    public function Activity(): BelongsToMany
+    {
+        return $this->belongsToMany(Activity::class, 'activity_questions');
+    }
+
+
 
 }

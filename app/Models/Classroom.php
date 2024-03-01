@@ -14,6 +14,8 @@ class Classroom extends Model
     protected $fillable = [
         'class_name',
         'user_id',
+        'stage_id',
+        'level_id'
     ];
 
     public function Docente(): BelongsTo
@@ -24,5 +26,15 @@ class Classroom extends Model
     public function Estudiante(): HasMany
     {
         return $this->hasMany(Estudiante::class);
+    }
+
+    public function Stage(): BelongsTo
+    {
+        return $this->belongsTo(Stage::class);
+    }
+
+    public function StageLevel(): BelongsTo
+    {
+        return $this->belongsTo(StageLevel::class);
     }
 }

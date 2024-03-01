@@ -10,16 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('classrooms', function (Blueprint $table) {
+        Schema::create('stage_levels', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('class_id');
-            $table->string('class_name')->unique();
-            $table->timestamps();
-            // $table->primary('class_id');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('user_id')->on('docentes')
+            $table->string('level_name');
+            $table->foreignId('stage_id')->references('stages')->on('id')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('classrooms');
+        Schema::dropIfExists('stage_levels');
     }
 };

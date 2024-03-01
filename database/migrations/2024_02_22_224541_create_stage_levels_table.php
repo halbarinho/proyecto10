@@ -10,11 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('stage_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('question_statement');
-            $table->enum('question_type', ['choice', 'short', 'bool']);
-
+            $table->string('level_name');
+            $table->foreignId('stage_id')->references('id')->on('stages')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('stage_levels');
     }
 };

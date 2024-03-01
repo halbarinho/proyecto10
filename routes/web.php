@@ -1,14 +1,19 @@
 <?php
 
-use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\CategoryController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StageController;
+use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\StageLevelController;
+use App\Http\Controllers\ForgetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,10 +87,18 @@ Route::resources([
     'classroom' => ClassroomController::class,
     'activity' => ActivityController::class,
     'question' => QuestionController::class,
+    'category' => CategoryController::class,
+    'post' => PostController::class,
 ]);
 
 // Route::resource('user', UserController::class);
 // Route::resource('classroom', ClassroomController::class);
+
+
+/**
+ * Ruta creada para poder gestionar la solicitud DELETE sin errores
+ */
+Route::get('post/delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
 
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
@@ -94,6 +107,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
      */
     Route::view('/welcome', 'welcome')->name('welcome');
     Route::view('/dashboard', 'dashboard')->name('dashboard');
+
+
+
+    Route::get('/stage', [StageController::class, 'index']);
+    //Ruta para obtener por axios los stagelevels
+    Route::get('/stageLevels/{stage}', [StageLevelController::class, 'showLevelForStage']);
+    Route::get('/categories', [CategoryController::class, 'showCategoriesForPost']);
+
+
+    // Route::get('/classroom/{classroom}', [ClassroomController::class, 'classroomList'])->name('classroom.list');
 
     // Route::get('/login', 'LoginController@show')->name('loginShow');
 

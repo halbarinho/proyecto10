@@ -34,7 +34,7 @@ class Activity extends Model
 
     public function Question(): BelongsToMany
     {
-        return $this->belongsToMany(Question::class, 'activity_questions', 'id', 'id');
+        return $this->belongsToMany(Question::class, 'activity_questions');
     }
 
 }

@@ -7,8 +7,8 @@
                     class="mb-10 overflow-hidden duration-300 bg-white rounded-lg dark:bg-dark-2 shadow-1 hover:shadow-3 dark:shadow-card dark:hover:shadow-3">
                     {{-- <button type="button" id="type_bool"
                         class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"> --}}
-                    <svg id="type_bool" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200"
-                        height="200" class="w-full">
+                    <svg id="type_bool" @click="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
+                        width="200" height="200" class="w-full">
                         <circle cx="50" cy="50" r="40" fill="none" stroke="#FF5733" stroke-width="4" />
                         <text x="50" y="55" font-family="Arial, sans-serif" font-size="20" text-anchor="middle"
                             fill="#FF5733">T/F</text>

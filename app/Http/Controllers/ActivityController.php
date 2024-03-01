@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Docente;
 use App\Models\Activity;
+use App\Models\Question;
 use Illuminate\Http\Request;
+use App\Models\QuestionOption;
+use App\Models\ActivityQuestion;
+
+use function Laravel\Prompts\error;
+use function PHPSTORM_META\type;
 use App\Http\Requests\ActivityRequest;
 use Illuminate\Database\QueryException;
-
 
 class ActivityController extends Controller
 {
@@ -38,28 +43,113 @@ class ActivityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ActivityRequest $request)
+    public function store(Request $request)
     {
         try {
 
+
             $loggedUser = 1;
 
-            $data = $request->validated();
+            //$data = $request->validated();
+            // $data = $request->all();
+
+
+            //Retrieving only los datos necesarios
+            //FUNCIONANDO
+            // $data = $request->safe()->only(['activity_name', 'activity_description']);
 
             $class = Activity::create([
-                'activity_name' => $data['activity_name'],
-                'activity_description' => $data['activity_description'],
+                'activity_name' => $request->input('activity_name'),
+                'activity_description' => $request->input('activity_description'),
                 'user_id' => $loggedUser,
             ]);
 
+
+            //Obtener el id de la Actividad creada
+            $classId = $class->id;
+
+            // $activityQuestions = ActivityQuestion::create([
+            //     'activity_id' => $classId,
+            //     'question_id' => 1,
+            // ]);
+
+
+            $data = $request->all();
+            $dataQuestions = $data['questionsData'];
+
+
+            foreach ($dataQuestions as $question) {
+
+                switch ($question['type']) {
+                    case 'boolForm':
+
+                        $newQuestion = Question::create([
+                            'question_type' => $question['type'],
+                            'question_text' => $question['info']['boolStatement'],
+                        ]);
+
+                        //$questionId = $newQuestion->id;
+
+                        $questionOptions = QuestionOption::create([
+                            'question_id' => $newQuestion->id,
+                            'is_right' => (bool) $question['info']['checkboxValue'],
+                            'option_text' => '',
+                        ]);
+
+                        break;
+
+                    case 'multipleForm':
+
+                        $newQuestion = Question::create([
+                            'question_type' => $question['type'],
+                            'question_text' => $question['info']['multipleStatement'],
+                        ]);
+
+
+                        $questionOptions = QuestionOption::create([
+                            'question_id' => $newQuestion->id,
+                            'is_right' => (bool) '',
+                            'option_text' => $question['info']['optionText'],
+                        ]);
+
+                        break;
+
+                    case 'shortForm':
+
+                        $newQuestion = Question::create([
+                            'question_type' => $question['type'],
+                            'question_text' => $question['info']['shortStatement'],
+                        ]);
+
+                        $questionOptions = QuestionOption::create([
+                            'question_id' => $newQuestion->id,
+                            'is_right' => (bool) '',
+                            'option_text' => $question['info']['shortText'],
+                        ]);
+
+
+                        break;
+                }
+
+
+                $activityQuestions = ActivityQuestion::create([
+                    'activity_id' => $classId,
+                    'question_id' => $newQuestion->id,
+                ]);
+            }
+
+
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+            return (['message Error' => $request]);
+            // return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
         }
 
-        $activities = Activity::all();
+        // $activities = Activity::all();
 
         // return view('classroom.index', ['classes' => $classes]);
-        return redirect()->route('activity.index', ['activities' => $activities]);
+        // return redirect()->route('activity.index', ['activities' => $activities]);
+        return (['message' => $request]);
+
     }
 
     /**
