@@ -7,6 +7,8 @@ window.Alpine = Alpine;
 Alpine.start();
 
 
+
+
 //USO DE LARAVEL ECHO
 import Echo from "laravel-echo"
 

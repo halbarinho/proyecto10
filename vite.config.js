@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+//AÑADIDO PARA PODER USAR VUE
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
     plugins: [
@@ -9,6 +11,15 @@ export default defineConfig({
                 'resources/js/app.js',
             ],
             refresh: true,
+        }),
+        //AÑADIDO PARA USAR VUE
+        vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
         }),
     ],
 });

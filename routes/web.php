@@ -22,11 +22,15 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+//ESTO LO HE COMENTADO PORQUE ME DABA ERROR PERO
+//SON DE BREEZE SI NO NO FUNCIONA
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+//HASTA AQUI
 
 require __DIR__ . '/auth.php';
 
@@ -126,8 +130,35 @@ Route::resources([
     'post' => PostController::class,
 ]);
 
-// Route::resource('user', UserController::class);
-// Route::resource('classroom', ClassroomController::class);
+
+
+//RUTAS PARA CHAT
+// Route::get('/chat', function () {
+//     return view('chat');
+// })->middleware('auth');
+
+Route::get('chat/{chat}', [ChatController::class, 'show'])->name('chat.show');
+
+Route::get('chat/with/{user}', [ChatController::class, 'chatWith'])->name('chat.with');
+
+Route::get('chat/{chat}/get_users', [ChatController::class, 'get_users'])->name('chat.get_users');
+
+Route::get('chat/{chat}/get_messages', [ChatController::class, 'get_messages'])->name('chat.get_messages');
+
+Route::post('message/send', [MessageController::class, 'send'])->name('message.send');
+
+
+Route::get('auth/user', function () {
+    if (auth()->check()) {
+        return response()->json([
+            'authUser' => auth()->user(),
+        ]);
+    }
+
+    return null;
+});
+
+
 
 
 /**
@@ -140,7 +171,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     /**
      * Home Routes
      */
-    Route::view('/welcome', 'welcome')->name('welcome');
+    Route::view('/welcome', 'welcome')->name('welcome')
+        ->middleware('hasRole:docente');
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
 
@@ -149,32 +181,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     //Ruta para obtener por axios los stagelevels
     Route::get('/stageLevels/{stage}', [StageLevelController::class, 'showLevelForStage']);
     Route::get('/categories', [CategoryController::class, 'showCategoriesForPost']);
-
-    //RUTAS PARA CHAT
-    // Route::get('/chat', function () {
-    //     return view('chat');
-    // })->middleware('auth');
-
-    Route::get('chat/{chat}', [ChatController::class, 'show'])->name('chat.show');
-
-    Route::get('chat/with/{user}', [ChatController::class, 'chatWith'])->name('chat.with');
-
-    Route::get('chat/{chat}/get_users', [ChatController::class, 'get_users'])->name('chat.get_users');
-
-    Route::get('chat/{chat}/get_messages', [ChatController::class, 'get_messages'])->name('chat.get_messages');
-
-    Route::post('message/send', [MessageController::class, 'send'])->name('message.send');
-
-
-    Route::get('auth/user', function () {
-        if (auth()->check()) {
-            return response()->json([
-                'authUser' => auth()->user(),
-            ]);
-        }
-
-        return null;
-    });
 
 
 
