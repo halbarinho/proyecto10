@@ -1,19 +1,7 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\StageController;
-use App\Http\Controllers\LogoutController;
-use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\ClassroomController;
-use App\Http\Controllers\StageLevelController;
-use App\Http\Controllers\ForgetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +17,48 @@ use App\Http\Controllers\ForgetPasswordController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__ . '/auth.php';
+
+
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StageController;
+use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\StageLevelController;
+use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
 // Route::view('/welcome', 'welcome')->name('welcome');
 
@@ -48,10 +78,15 @@ Route::get('/', function () {
 Route::resource('/gestion', UserController::class);
 
 
-Route::get('/login', [LoginController::class, 'show'])->name('loginShow');
+// Route::get('/login', [LoginController::class, 'show'])->name('loginShow');
 
+//ESTE METODO LOGOUT ES CON AUTH DE LARAVEL PROPIA
+// Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+//ESTE LOGOUT ES CON BREEZE
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
+
 
 //Ruta para recuperar/cambiar password
 Route::get('/forget-password', [ForgetPasswordController::class, 'forgetPassword'])->name('forgetPassword');
@@ -114,6 +149,34 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     //Ruta para obtener por axios los stagelevels
     Route::get('/stageLevels/{stage}', [StageLevelController::class, 'showLevelForStage']);
     Route::get('/categories', [CategoryController::class, 'showCategoriesForPost']);
+
+    //RUTAS PARA CHAT
+    // Route::get('/chat', function () {
+    //     return view('chat');
+    // })->middleware('auth');
+
+    Route::get('chat/{chat}', [ChatController::class, 'show'])->name('chat.show');
+
+    Route::get('chat/with/{user}', [ChatController::class, 'chatWith'])->name('chat.with');
+
+    Route::get('chat/{chat}/get_users', [ChatController::class, 'get_users'])->name('chat.get_users');
+
+    Route::get('chat/{chat}/get_messages', [ChatController::class, 'get_messages'])->name('chat.get_messages');
+
+    Route::post('message/send', [MessageController::class, 'send'])->name('message.send');
+
+
+    Route::get('auth/user', function () {
+        if (auth()->check()) {
+            return response()->json([
+                'authUser' => auth()->user(),
+            ]);
+        }
+
+        return null;
+    });
+
+
 
 
     // Route::get('/classroom/{classroom}', [ClassroomController::class, 'classroomList'])->name('classroom.list');

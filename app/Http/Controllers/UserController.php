@@ -81,6 +81,9 @@ class UserController extends Controller
                     $classroom->save();
                 }
 
+                //ASIGNO EL ROL
+                $user->assignRole('docente');
+
 
             } elseif ($request->user_type == 'estudiante') {
                 $user->Estudiante()->create([
@@ -91,6 +94,11 @@ class UserController extends Controller
                     //AÑADO LA CLASE
                     'class_id' => $data['class_id'],
                 ]);
+
+
+                //Asigno el rol
+                $user->assignRole('alumno');
+
             }
 
             // // INCORPORAR AULA

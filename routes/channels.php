@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -12,7 +13,14 @@ use Illuminate\Support\Facades\Broadcast;
 | used to check if an authenticated user can listen to the channel.
 |
 */
-
+//Esto es un privateChannel que return true/false
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
+});
+
+//Este broadcast es de nuestro event con la function broadcastOn
+Broadcast::channel('chat.{chat_id}', function ($user, $chat_id) {
+    if ($user->Chat->contains($chat_id)) {
+        return $user;
+    }
 });

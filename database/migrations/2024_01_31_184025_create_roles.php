@@ -12,9 +12,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        $role1 = Role::create(['name' => 'admin']);
-        $role2 = Role::create(['name' => 'docente']);
-        $role3 = Role::create(['name' => 'usuario']);
+        $roleAdmin = Role::create(['name' => 'admin']);
+        $roleDoc = Role::create(['name' => 'docente']);
+        $roleAlum = Role::create(['name' => 'alumno']);
 
         // $permission = Permission::create(['name' => 'edit articles']);
     }

@@ -1,27 +1,22 @@
-// import './bootstrap';
+import './bootstrap';
 
-// import Alpine from 'alpinejs';
+import Alpine from 'alpinejs';
 
-// window.Alpine = Alpine;
+window.Alpine = Alpine;
 
-// Alpine.start();
-
-
-/**
- * hasta aqui el original ahora añado yo
- */
-
-import { createApp }    from 'vue';
-
-import postsModalCreate from "@/components/postsModalCreate.vue";
+Alpine.start();
 
 
-// axios.defaults.headers = {
-//     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-// };
+//USO DE LARAVEL ECHO
+import Echo from "laravel-echo"
 
+window.Pusher = require('pusher-js');
 
-const app1 = createApp(postsModalCreate);
-app1.component('postsModalCreate',postsModalCreate);
-
-app1.mount("#postsModalCreate");
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    forceTLS: false,
+    disableStats: true,
+});
