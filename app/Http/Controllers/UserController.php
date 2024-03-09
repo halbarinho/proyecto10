@@ -186,4 +186,16 @@ class UserController extends Controller
         // return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
         return redirect()->route('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
     }
+
+
+    /**
+     * Metodo para obtener el userId
+     */
+    public function getUserId()
+    {
+
+        $userId = auth()->user()->id;
+
+        return response()->json($userId);
+    }
 }

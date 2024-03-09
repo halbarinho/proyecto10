@@ -10,7 +10,7 @@
         <!-- Modal header -->
         <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                Crea un nuevo Post
+                Editar el Post: {{ $post->title }}
             </h3>
             <button type="button" @click="closeModal"
                 class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white"
@@ -25,7 +25,8 @@
         <!-- Modal body -->
         <div class="p-4 space-y-4 md:p-5">
 
-            <form action="{{ route('post.update', ['post' => $post->id]) }}" method="POST" class="p-4 md:p-5">
+            <form action="{{ route('post.update', ['post' => $post->id]) }}" method="POST" enctype="multipart/form-data"
+                class="p-4 md:p-5">
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-2 gap-4 mb-4">
@@ -42,15 +43,13 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoria</label>
                         <select id="category" name="category"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option selected="">Selecciona una categoria</option>
 
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">
+                                <option value="{{ $category->id }}"
+                                    {{ $post->category->id == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
-
-
 
                         </select>
                     </div>
@@ -59,7 +58,7 @@
                             Contenido</label>
                         <textarea id="body" name="body" rows="4" value="{{ $post->body }}"
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="{{ $post->body }}"></textarea>
+                            placeholder="{{ $post->body }}">{{ $post->body }}</textarea>
                     </div>
 
 
@@ -69,7 +68,7 @@
                             Imagen</label>
 
                         @if ($post->img_url)
-                            <img class="h-auto mx-w-xs" src="/storage/{{ $post->img_url }}" alt="">
+                            <img class="h-auto w-64 mx-w-xs" src="/storage/{{ $post->img_url }}" alt="">
                         @else
                             {{ $post->id }}
                         @endif

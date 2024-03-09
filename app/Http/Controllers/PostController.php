@@ -6,8 +6,10 @@ use Exception;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -37,34 +39,109 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
+        // $validatedData = $request->validate(
+        //     [
+        //         'title' => 'required|string',
+        //         'slug' => 'nullable',
+        //         'body' => 'required|string|min:15',
+        //         'img_url' => 'nullable',
+        //         'active' => 'required',
+        //         'category_id' => 'required|integer',
+        //         'user_id' => 'required|integer',
+        //     ],
+        //     [
+        //         'required' => __('Este campo es requerido'),
+        //         'min' => __('Este campo no alcanza el mínimo'),
+
+        //     ]
+        // );
+
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'title' => 'required|string|unique:posts|min:3',
+                'slug' => 'nullable',
+                'body' => 'required|string|min:15',
+                'img_url' => 'nullable',
+                'active' => 'required',
+                'category_id' => 'required|integer',
+                'user_id' => 'required|integer',
+            ],
+            [
+                'unique' => __('El :attribute ya existe, prueba con otro.'),
+                'required' => __('El :attribute es obligatorio.'),
+                'min' => __('El :attribute no cumple la longitud mínima.'),
+            ]
+        );
+
+
+        if ($validator->fails()) {
+            // return redirect()->back()
+            //     ->withErrors($validator);
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
 
 
         try {
 
 
-            //$data = $request->validated();
-            // $data = $request->all();
+
+            if ($request->hasFile('img_url')) {
+                //almaceno
+                $img_path = Storage::putFile('public/images', $request->file('img_url'));
+                //cambio el path
+                $new_path = str_replace('public/', '', $img_path);
+            } else {
+                //AÑADO IMAGEN POR DEFECTO
+                $new_path = '\images\defaultCollege.png';
+            }
+
+            // $post = Post::create(
+            //     [
+            //         'title' => $request->input('title'),
+            //         'slug' => $request->input('slug'),
+            //         'body' => $request->input('body'),
+            //         // 'img_url' => $request->input('img_url'),
+            //         'img_url' => $path_img ?? null,
+            //         'active' => (bool) true,
+            //         // 'category_id' => $request->input('category_id'),
+            //         'category_id' => $request->input('category_id'),
+            //         'user_id' => (int) $request->input('user_id'),
+            //     ]
+            // );
 
 
-            //Retrieving only los datos necesarios
-            //FUNCIONANDO
-            // $data = $request->safe()->only(['activity_name', 'activity_description']);
-
-
-
-
-
+            /*
+            ESTE ES EL QUE ME FUNCION ANTES DE VALIDATE
             $post = Post::create(
                 [
-                    'title' => $request->input('title'),
-                    'slug' => 'slug',
-                    'body' => $request->input('body'),
+                    'title' => $request->title,
+                    'slug' => $request->slug,
+                    'body' => $request->body,
                     // 'img_url' => $request->input('img_url'),
-                    'img_url' => null,
+                    'img_url' => $new_path,
                     'active' => (bool) true,
                     // 'category_id' => $request->input('category_id'),
-                    'category_id' => 1,
-                    'user_id' => (int) 1,
+                    'category_id' => $request->category_id,
+                    'user_id' => (int) $request->user_id,
+                ]
+            );
+*/
+
+            //ESTO LO AÑADO PARA VALIDATE
+            $post = Post::create(
+                [
+                    'title' => $request->title,
+                    'slug' => $request->slug,
+                    'body' => $request->body,
+                    // 'img_url' => $request->input('img_url'),
+                    'img_url' => $new_path,
+                    'active' => (bool) true,
+                    // 'category_id' => $request->input('category_id'),
+                    'category_id' => $request->category_id,
+                    'user_id' => (int) $request->user_id,
                 ]
             );
 
@@ -135,9 +212,33 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(int $postId)
     {
-        //
+        try {
+            $selectedPost = Post::findOrFail($postId);
+
+            //Busco si existen post previo/siguiente
+            $id = $postId;
+            $nextPostId = null;
+            $prevPostId = null;
+
+            if (Post::find(++$id)) {
+                $nextPostId = $id;
+                $id = $postId;
+            }
+
+            if (Post::find(--$id)) {
+                $prevPostId = $id;
+            }
+
+            return view('posts.show', ['post' => $selectedPost, 'nextPostId' => $nextPostId, 'prevPostId' => $prevPostId]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
+
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+
+        }
     }
 
     /**
@@ -163,10 +264,26 @@ class PostController extends Controller
 
             $selectedPost = Post::findOrFail($id);
 
-            $selectedPost->update($request->all());
-            // $selectedPost->update([
-            //     'title' => 'tititli',
-            // ]);
+            if ($request->hasFile('img_url')) {
+                //almaceno
+                $img_path = Storage::putFile('public/images', $request->file('img_url'));
+                //cambio el path
+                $new_path = str_replace('public/', '', $img_path);
+            }
+            // } else {
+            //     //si no añade una nueva y el valor sigue vacio ponogo la vieja
+            //     $new_path = $selectedPost->img_url;
+            // }
+
+            $selectedPost->update([
+                'title' => $request->title,
+                'slug' => 'sluggy',
+                'body' => $request->body,
+                'img_url' => $new_path ?? null,
+                'active' => (bool) true,
+                'category_id' => $request->category,
+                'user_id' => auth()->user()->id,
+            ]);
 
             return redirect()->back()->with(['success' => 'Registro Actualizado con Exito']);
 
@@ -200,5 +317,16 @@ class PostController extends Controller
         return redirect()->route('post.index', ['posts' => $posts]);
         // return view('posts.index', ['posts' => $posts]);
 
+    }
+
+    /**
+     * Metodo para ver todos los post no acceso a edicion
+     */
+    public function showPosts()
+    {
+        //La utilizo para ver los post NO para la edicion
+        $posts = Post::all();
+
+        return view('posts.showPosts', ['posts' => $posts]);
     }
 }

@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 //ESTO LO HE COMENTADO PORQUE ME DABA ERROR PERO
@@ -35,12 +35,14 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StageController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CategoryController;
@@ -48,10 +50,9 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\StageLevelController;
+use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\ChatController;
-use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,15 +99,20 @@ Route::get('/forget-password', [ForgetPasswordController::class, 'forgetPassword
 //Ruta que gestiona el Request de recuperar/cambiar password
 Route::post('/forget-password', [ForgetPasswordController::class, 'forgetPasswordPost'])->name('forgetPasswordPost');
 
-// Route::get('/reset-password/{token}', function (string $token) {
-//     return view('auth.reset-password', ['token' => $token]);
-// })->middleware('guest')->name('password.reset');
+/**
+ * RUTA PARA GESTIONAR EL CAMBIO DEL PASSWORD
+ */
 
-Route::get('/reset-password/{token}', [ForgetPasswordController::class, 'resetPassword'])
-    // ->middleware('guest')
-    ->name('password.reset');
+// Route::get('/reset-password/{token}', [ForgetPasswordController::class, 'resetPassword'])
+//     // ->middleware('guest')
+//     ->name('password.reset');
 
-Route::post('/reset-password', [ForgetPasswordController::class, 'resetPasswordPost'])->name('password.update');
+// Route::post('/reset-password', [ForgetPasswordController::class, 'resetPasswordPost'])->name('password.update');
+
+
+/**
+ * HASTA AQUI PARA GEESTIONAR EL RESET PASSWORD POR MI LO QUITO PARA QUE FUNCIONE EL PROPIO DE BREEZE
+ */
 
 
 //ESTAS RUTAS ME FUNCIONAN CON REGISTERCONTROLLER
@@ -159,7 +165,9 @@ Route::get('auth/user', function () {
 });
 
 
-
+/**
+ * ->middleware('hasRole:docente');
+ */
 
 /**
  * Ruta creada para poder gestionar la solicitud DELETE sin errores
@@ -171,9 +179,18 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     /**
      * Home Routes
      */
-    Route::view('/welcome', 'welcome')->name('welcome')
-        ->middleware('hasRole:docente');
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
+
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::view('/welcome', 'welcome')->name('welcome');
+
+
+    Route::view('/dashboard', 'dashboard')->name('dashboard')->middleware('auth', 'hasRole:admin');
+
+    Route::view('/docente/dashboard', 'docente.dashboard')->name('docente.dashboard');
+    Route::view('/alumno/dashboard', 'alumno.dashboard')->name('alumno.dashboard');
 
 
 
@@ -182,8 +199,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/stageLevels/{stage}', [StageLevelController::class, 'showLevelForStage']);
     Route::get('/categories', [CategoryController::class, 'showCategoriesForPost']);
 
+    //Ruta creada para obtener el user_id
+    Route::get('/user_id', [UserController::class, 'getUserId']);
 
 
+    Route::get('/posts/showPosts', [PostController::class, 'showPosts'])->name('post.showPosts')
+        ->middleware('auth');
+
+    //Ruta para el Formulario Contacto
+    Route::view('/contact', 'contact.contactForm')->name('contact');
+
+    Route::post('/contactForm', [ContactFormController::class, 'store'])->name('contact.send');
+
+    Route::view('/contact/formSent', 'contact.formSent')->name('contact.formSent');
 
     // Route::get('/classroom/{classroom}', [ClassroomController::class, 'classroomList'])->name('classroom.list');
 
