@@ -1,72 +1,126 @@
-@extends('layout.templateCRUD')
+@extends('layout.template-dashboard')
 
-@section('title', 'Editar Actividad')
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-    crossorigin="anonymous"></script>
-@vite(['resources/css/app.css', 'resources/js/app.js'])
+@section('title', 'Editarar Posts')
+{{-- @vite(['resources/css/app.css']) --}}
+@vite('resources\js\app.js')
 
 @section('content')
 
-    <main>
+    <div
+        class="relative gap-16 items-center p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif] dark:bg-gray-700">
 
-        <div class="container py-4">
-            {{-- INCLUYO MENSAJES DE ERROR --}}
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @elseif (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
 
-            <h2>Registrar Nueva Clase</h2>
-            <form action="{{ route('activity.update', $activity) }}" method="post">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li class="text-sm text-red-600">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @elseif (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Editar la Actividad: {{ $activity->activity_name }}
+            </h3>
+            <button type="button" @click="closeModal"
+                class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="static-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+                <span class="sr-only">Close</span>
+            </button>
+        </div>
+        <!-- Modal body -->
+        <div class="p-4 space-y-4 md:p-5">
+
+            <form action="{{ route('activity.update', $activity) }}" method="POST" enctype="multipart/form-data"
+                class="p-4 md:p-5">
                 @csrf
-                @method('put')
-                <div class="mb-3 row">
-                    <label for="activity_name" class="mb-3 block text-base font-medium text-[#07074D]">Nombre de la
-                        Clase</label>
-                    <div class="sm-5">
-                        <input type="text" name="activity_name"
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                            value="{{ $activity->activity_name }}" placeholder="Nombre" required>
+                @method('PUT')
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <input type="hidden" name="user_id" value="{{ $activity->user_id }}">
+                    {{-- este tengo que modificarlo --}}
+                    <input type="hidden" name="id" value="{{ $activity->id }}">
+                    <div class="col-span-2">
+                        <label for="activity_name"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo Actividad</label>
+                        <input type="text" name="activity_name" id="activity_name" value="{{ $activity->activity_name }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="{{ $activity->activity_name }}" required>
+                        @error('activity_name')
+                            <div class="my-2 text-sm text-red-600">{{ $message }}</div>
+                        @enderror
                     </div>
+
+                    <div class="col-span-2">
+                        <label for="activity_description"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción
+                            Actividad</label>
+                        <textarea id="activity_description" name="activity_description" rows="4"
+                            value="{{ $activity->activity_description }}"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="{{ $activity->activity_description }}">{{ $activity->activity_description }}</textarea>
+                        @error('activity_description')
+                            <div class="my-2 text-sm text-red-600">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+
+
+
+                    {{-- <div class="col-span-2">
+
+                        <label class="block my-2 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            for="img_url">Subir
+                            Imagen</label>
+
+                        @if ($post->img_url)
+                            <img class="w-64 h-auto my-2 mx-w-xs" src="/storage/{{ $post->img_url }}" alt="">
+                        @else
+                            {{ $post->id }}
+                        @endif
+                        <input
+                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            aria-describedby="img_url_help" id="img_url" name="img_url" type="file"
+                            value="{{ $post->img_url }}">
+
+                        @error('img_url')
+                            <div class="my-2 text-sm text-red-600">{{ $message }}</div>
+                        @enderror
+                    </div> --}}
+
+
                 </div>
 
-                <div class="mb-3 row">
-                    <label for="user_id" class="mb-3 block text-base font-medium text-[#07074D]">Aula</label>
-                    <div class="sm-5">
-                        <select name="user_id" id="user_id" class="form-select">
-
-                            <option value="{{ $docenteValues[0]->user->id }}">{{ $docenteValues[0]->user->name }}</option>
-                            <option value="">Sin Asignar</option>
-                            @foreach ($docentes as $docente)
-                                <option value="{{ $docente->user_id }}">
-                                    {{ $docente->User->name }} {{ $docente->User->last_name_1 }}
-                                    {{ $docente->User->last_name_2 }}</option>
-                            @endforeach
+                <!-- Modal footer -->
+                <div class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
+                    <input type="submit"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 
 
-                        </select>
-                    </div>
+                    <a href="{{ route('activity.destroy', $activity->id) }}">
+                        <button data-modal-hide="static-modal" type="button"
+                            class="py-2.5 px-5 ms-3 text-sm font-medium text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
+                            Borrar</button>
+                    </a>
+
+                    <a href="{{ route('activity.index') }}">
+                        <button data-modal-hide="static-modal" type="button"
+                            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                            Cancelar</button>
+                    </a>
                 </div>
-
-
-                <a href="{{ url('welcome') }}"
-                    class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base
-                    font-semibold text-white outline-none">Regresar</a>
-
-
-                <input type="submit" name="submit" id="submit"
-                    class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none"
-                    value="Registrar">
             </form>
         </div>
-    </main>
+    </div>
 @endsection

@@ -8,6 +8,8 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
+    /* This PHP code snippet is a migration file using Laravel's Eloquent ORM for database schema
+    management. */
     public function up(): void
     {
         Schema::create('classrooms', function (Blueprint $table) {
@@ -16,18 +18,25 @@ return new class extends Migration {
             $table->string('class_name')->unique();
 
             $table->timestamps();
-            // $table->primary('class_id');
-            // $table->unsignedBigInteger('user_id')->nullable();
-            // $table->foreign('user_id')->references('user_id')->on('docentes')
+
+
+            // $table->foreignId('user_id')->references('user_id')->on('docentes')
+            //     ->nullable()
             //     ->onDelete('cascade')
             //     ->onUpdate('cascade');
 
-            $table->foreignId('user_id')->references('user_id')->on('docentes')
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained()
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+
+
+
             $table->foreignId('stage_id')->references('id')->on('stages')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+
             $table->foreignId('level_id')->references('id')->on('stage_levels')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');

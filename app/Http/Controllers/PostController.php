@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Requests\PostRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
@@ -38,23 +39,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
-        // $validatedData = $request->validate(
-        //     [
-        //         'title' => 'required|string',
-        //         'slug' => 'nullable',
-        //         'body' => 'required|string|min:15',
-        //         'img_url' => 'nullable',
-        //         'active' => 'required',
-        //         'category_id' => 'required|integer',
-        //         'user_id' => 'required|integer',
-        //     ],
-        //     [
-        //         'required' => __('Este campo es requerido'),
-        //         'min' => __('Este campo no alcanza el mínimo'),
-
-        //     ]
-        // );
 
 
         $validator = Validator::make(
@@ -256,9 +240,41 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        //  $data = $request->validated();
+
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                // 'title' => 'required|string|unique:posts|min:3',
+                'title' => [
+                    'required',
+                    'string',
+                    'min:3',
+                    Rule::unique('posts')->ignore($id),
+                ],
+                // 'slug' => 'nullable',
+                'body' => 'required|string|min:15',
+                'img_url' => 'nullable',
+                'active' => 'required',
+                'category_id' => 'required|integer',
+                'user_id' => 'required|integer',
+            ],
+            [
+                'unique' => __('El :attribute ya existe, prueba con otro.'),
+                'required' => __('El :attribute es obligatorio.'),
+                'min' => __('El :attribute no cumple la longitud mínima.'),
+            ]
+        );
+
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator);
+        }
+
+
 
         try {
 
@@ -269,11 +285,10 @@ class PostController extends Controller
                 $img_path = Storage::putFile('public/images', $request->file('img_url'));
                 //cambio el path
                 $new_path = str_replace('public/', '', $img_path);
+            } else {
+                //AÑADO IMAGEN POR DEFECTO
+                $new_path = '\images\defaultCollege.png';
             }
-            // } else {
-            //     //si no añade una nueva y el valor sigue vacio ponogo la vieja
-            //     $new_path = $selectedPost->img_url;
-            // }
 
             $selectedPost->update([
                 'title' => $request->title,
@@ -281,11 +296,14 @@ class PostController extends Controller
                 'body' => $request->body,
                 'img_url' => $new_path ?? null,
                 'active' => (bool) true,
-                'category_id' => $request->category,
+                'category_id' => $request->category_id,
                 'user_id' => auth()->user()->id,
             ]);
 
-            return redirect()->back()->with(['success' => 'Registro Actualizado con Exito']);
+            // return redirect()->back()->with(['success' => 'Registro Actualizado con Exito']);
+
+            return redirect()->route('post.index')->with(['success' => 'Registro Actualizado con Exito']);
+
 
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();

@@ -1,128 +1,114 @@
 <template>
-    <h2>Registrar Nueva Actividad</h2>
-    <form @submit.prevent="">
-        <div id="formInputs">
-            <div class="mb-3 row">
-                <label for="activity_name" class="mb-3 block text-base font-medium text-[#07074D]">Nombre de la
-                    Actividad</label>
-                <div class="sm-5">
-                    <input type="text"
-                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        name="activity_name" v-model="activityName" placeholder="Nombre Actividad">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="activity_description" class="mb-3 block text-base font-medium text-[#07074D]">Breve
-                    Descripción</label>
-                <div class="sm-5">
-                    <textarea name="activity_description" v-model="activityDescription" cols="50" rows="4"
-                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        placeholder="Breve Descripción"></textarea>
-                </div>
-            </div>
+    <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
+        <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+            <h1 class="text-3xl uppercase">Registrar Nueva Actividad</h1>
         </div>
 
-        <!-- SECCION INCLUIR LOS COMPONENTES DINÁMICOS -->
-        <div v-for="(item, index) in formList" :key="index">
-            <component :is="item.type" :key="index" :id="index" v-model="item.value" @update:modelValue="updateFormData">
-            </component>
-        </div>
-        <!-- FIN SECCION FORMS -->
+        <div class="w-full md:w-1/2 mx-auto">
+            <form @submit.prevent="" class="flex flex-col items-center justify-center">
 
 
-        <!-- ====== Cards Section Start -->
-        <section class=" bg-gray-2 dark:bg-dark pt-20 pb-10 lg:pt-[120px] lg:pb-20">
-            <div class="container mx-auto">
-                <div class="flex flex-wrap -mx-4">
-                    <div class="w-full px-4 md:w-1/2 xl:w-1/3">
-                        <div
-                            class="mb-10 overflow-hidden duration-300 bg-white rounded-lg dark:bg-dark-2 shadow-1 hover:shadow-3 dark:shadow-card dark:hover:shadow-3">
-                            <button @click="addForm('boolForm')">Form Bool</button>
-
-
-
-                            <!-- <svg id="type_bool" @click="addForm('bool')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
-                        width="200" height="200" class="w-full">
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#FF5733" stroke-width="4" />
-                        <text x="50" y="55" font-family="Arial, sans-serif" font-size="20" text-anchor="middle"
-                            fill="#FF5733">T/F</text>
-                    </svg> -->
-
-                            <div class="p-8 text-center sm:p-9 md:p-7 xl:p-9">
-
-                                <p class="text-base leading-relaxed text-body-color dark:text-dark-6 mb-7">
-                                    True or False
-                                </p>
-
-                            </div>
-                        </div>
+                <div class="mb-3 w-full">
+                    <label for="activity_name" class="mb-3 block text-base font-medium text-[#07074D]">Nombre de la
+                        Actividad</label>
+                    <div class="w-full">
+                        <input type="text"
+                            class="rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            name="activity_name" v-model="activityName" placeholder="Nombre Actividad">
                     </div>
-                    <div class="w-full px-4 md:w-1/2 xl:w-1/3">
-                        <div
-                            class="mb-10 overflow-hidden duration-300 bg-white rounded-lg dark:bg-dark-2 shadow-1 hover:shadow-3 dark:shadow-card dark:hover:shadow-3">
-                            <button @click="addForm('multipleForm')">Form Multiple</button>
+                </div>
+                <div class="mb-3 w-full">
+                    <label for="activity_description" class="mb-3 block text-base font-medium text-[#07074D]">Breve
+                        Descripción</label>
+                    <div class="sm-5 w-full">
+                        <textarea name="activity_description" v-model="activityDescription" cols="50" rows="4"
+                            class="rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            placeholder="Breve Descripción"></textarea>
+                    </div>
+                </div>
 
-                            <!-- <svg id="type_multiple" @click="addForm('multiple')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200"
-                        height="200" alt="image">
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#7FFF00" stroke-width="4" />
-                        <text x="50" y="55" font-family="Arial, sans-serif" font-size="20" text-anchor="middle"
-                            fill="#7FFF00">EM</text>
-                    </svg> -->
+                <!-- SECCION INCLUIR LOS COMPONENTES DINÁMICOS -->
+                <div v-for="(item, index) in formList" :key="index" class="w-full">
+                    <component :is="item.type" :key="index" :id="index" v-model="item.value"
+                        @update:modelValue="updateFormData">
+                    </component>
+                </div>
 
-                            <div class="p-8 text-center sm:p-9 md:p-7 xl:p-9">
 
-                                <p class="text-base leading-relaxed text-body-color mb-7">
-                                    Eleccion Multiple
-                                </p>
-                            </div>
+
+
+                <!-- ====== Cards Section Start -->
+                <div class="mb-3 w-full">
+                    <div class="flex flex-nowrap">
+
+                        <div class="w-full px-1 md:w-1/2 xl:w-1/3">
+                            <button
+                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                                @click="addForm('boolForm')">Verdadero/Falso</button>
+
                         </div>
 
-                    </div>
-                    <div class="w-full px-4 md:w-1/2 xl:w-1/3">
-                        <div
-                            class="mb-10 overflow-hidden duration-300 bg-white rounded-lg dark:bg-dark-2 shadow-1 hover:shadow-3 dark:shadow-card dark:hover:shadow-3">
+                        <div class="w-full px-4 md:w-1/2 xl:w-1/3 mx-auto">
 
-                            <button @click="addForm('shortForm')">Form Short</button>
+                            <button
+                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                                @click="addForm('multipleForm')">Respuesta Múltiple</button>
 
-                            <!-- <svg id="type_short" @click="addForm('short')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200"
-                        height="200" alt="image" class="w-full">
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#0074D9" stroke-width="4" />
-                        <text x="50" y="55" font-family="Arial, sans-serif" font-size="20" text-anchor="middle"
-                            fill="#0074D9">BR</text>
-                    </svg> -->
 
-                            <div class="p-8 text-center sm:p-9 md:p-7 xl:p-9">
 
-                                <p class="text-base leading-relaxed text-body-color mb-7">
-                                    Respuesta Breve
-                                </p>
+                        </div>
+                        <div class="w-full px-4 md:w-1/2 xl:w-1/3">
 
-                            </div>
+                            <button
+                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                                @click="addForm('shortForm')">Respuesta Corta</button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- ====== Cards Section End -->
+                <!-- ====== Cards Section End -->
 
 
 
-        <!-- Botones de acción -->
-        <!-- <a href="{{ url('welcome') }}"
+                <!-- FIN SECCION FORMS -->
+
+
+
+
+
+
+                <!-- Botones de acción -->
+                <!-- <a href="{{ url('welcome') }}"
             class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">Regresar</a> -->
-        <!-- <input type="submit" name="submit" id="submit"
+                <!-- <input type="submit" name="submit" id="submit"
             class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none"
             value="Registrar"> -->
-        /**
-        pruebo boton en lugar de submit */
-        <button type="submit" @click="submitForm"
-            class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">Enviar</button>
-    </form>
+
+                <!-- pruebo boton en lugar de submit  -->
+
+                <div class="container mx-auto my-2">
+                    <div class="flex flex-wrap mx-4 justify-center ">
+
+                        <div class="w-full px-4 md:w-1/2 xl:w-1/3">
+                            <button @click="goBack"
+                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Regresar</button>
+                        </div>
+
+
+                        <div class="w-full px-4 md:w-1/2 xl:w-1/3">
+                            <button type="submit" @click="submitForm"
+                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Enviar</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import axios from 'axios';
 // Importar los componentes hijos
 import multipleForm from './Forms/multipleform.vue';
@@ -135,6 +121,9 @@ const activityDescription = ref('');
 const formList = ref([]);
 let id = ref('');
 let boolStatement = ref('');
+
+//añado para el userId
+let user_id = ref('')
 
 // Función para añadir un componente al formulario
 const addForm = (formType) => {
@@ -153,6 +142,21 @@ const addForm = (formType) => {
     console.log('Lista de formularios:', formList.value);
 };
 
+//Añado para obtener el userId al cargar
+onMounted(() => {
+
+    axios.get(`/user_id`)
+        .then(function (response) {
+            user_id.value = response.data;
+            console.log(user_id.value)
+        })
+        .catch((er) => {
+            console.log(er)
+        });
+
+});
+
+
 
 const handleSubmit = () => {
 
@@ -163,6 +167,7 @@ const handleSubmit = () => {
 
         axios.post('/activity/', {
             activity_name: activityName.value, activity_description: activityDescription.value,
+            user_id: user_id.value,
             questionsData: formList.value.length > 0 ? formList.value.map(item => ({ type: item.type, info: item.info })) : null
         }, {
             headers: { 'Content-Type': 'application/json' }
@@ -220,6 +225,12 @@ const updateFormData = (index, newValue) => {
 //     };
 //     console.log('Formulario actualizado:', formData);
 // });
+
+//Metodo para regresar atras
+const goBack = () => {
+    window.history.back();
+}
+
 </script>
 
 <style scoped></style>

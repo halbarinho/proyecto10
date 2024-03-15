@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\Classroom;
 use App\Models\Estudiante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class EstudianteController extends Controller
 {
@@ -12,7 +16,12 @@ class EstudianteController extends Controller
      */
     public function index()
     {
-        //
+        $estudiantes = Estudiante::all();
+
+        //inicializo la variable $estudiantesList
+        $estudiantesList = [];
+
+        return view('estudiante.index', ['estudiantes' => $estudiantes, 'estudiantesList' => $estudiantesList]);
     }
 
     /**
@@ -62,4 +71,166 @@ class EstudianteController extends Controller
     {
         //
     }
+
+
+    //Este funciona recibiendo un int
+    public function discardClassroom(int $estudianteId)
+    {
+
+        try {
+
+            $selectedStudent = Estudiante::findOrFail($estudianteId);
+
+
+
+            $selectedStudent->update([
+                'class_id' => null,
+            ]);
+
+            return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+        }
+
+    }
+
+
+    public function discardClassroomStudentList(Request $request)
+    {
+
+        try {
+
+            $estudiantesList = $request->estudiantesList;
+
+            if (isset($estudiantesList) && is_array($estudiantesList) && count($estudiantesList) > 0) {
+                foreach ($estudiantesList as $estudiante) {
+
+                    $selectedStudent = Estudiante::findOrFail($estudiante);
+
+
+                    $selectedStudent->update([
+                        'class_id' => null,
+                    ]);
+
+                    return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+
+                }
+            } else {
+                return redirect()->back()->withErrors(['error' => 'No se han pasado elementos en el array'])->withInput();
+            }
+
+
+
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+        }
+
+    }
+
+
+
+    public function addStudents(int $classroomId)
+    {
+
+        try {
+            $selectedClass = Classroom::findOrFail($classroomId);
+            $users = Estudiante::all();
+            // $selectedUsers = $users->diff(Estudiante::whereIn('class_id', ['$classroomId'])->get());
+
+
+            // $selectedUsers = Estudiante::where('class_id', '<>', $classroomId)->get();
+
+
+
+            // $selectedUsers = DB::table('estudiantes')
+            //     ->where([
+            //         ['class_id', '=', $classroomId],
+            //     ])
+            //     ->get();
+
+            //ESTO FUNCIONA LO ANTERIOR NO Y NO LO ENTIENDO POR QUE?
+            $selectedUsers = $users->filter(function ($user) use ($classroomId) {
+                return $user->class_id != $classroomId;
+            });
+
+            $estudiantesList = [];
+
+            return view('estudiante.addStudents', ['estudiantes' => $selectedUsers, 'estudiantesList' => $estudiantesList, 'classroom' => $classroomId]);
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+        }
+    }
+
+
+    public function addStudentToClass(int $estudiante, int $classroom)
+    {
+
+        try {
+
+            $selectedStudent = Estudiante::findOrFail($estudiante);
+
+
+
+            $selectedStudent->update([
+                'class_id' => $classroom,
+            ]);
+
+            return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+        }
+
+    }
+
+
+    public function addStudentsToClass(Request $request)
+    {
+
+        try {
+
+            $estudiantesList = $request->estudiantesList;
+            $classroom = $request->classroom;
+
+            if (isset($estudiantesList) && is_array($estudiantesList) && count($estudiantesList) > 0) {
+                foreach ($estudiantesList as $estudiante) {
+
+                    $selectedStudent = Estudiante::findOrFail($estudiante);
+
+
+                    $selectedStudent->update([
+                        'class_id' => $classroom,
+                    ]);
+
+                }
+                return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+            } else {
+                return redirect()->back()->withErrors(['error' => 'No se han pasado elementos en el array'])->withInput();
+            }
+
+
+
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+        }
+
+    }
+
+
 }

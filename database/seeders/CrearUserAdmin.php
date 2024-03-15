@@ -33,7 +33,7 @@ class CrearUserAdmin extends Seeder
         // ]);
 
         $userAdmin = User::create([
-            'dni' => '25197092B',
+            'dni' => '44132287W',
             'name' => 'admin',
             'last_name_1' => 'admin',
             'last_name_2' => 'admin',

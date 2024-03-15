@@ -9,4 +9,10 @@ class ActivitiesResult extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'activity_id',
+        'estudiante_id',
+    ];
+
+
 }

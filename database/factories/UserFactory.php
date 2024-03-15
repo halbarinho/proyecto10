@@ -11,6 +11,24 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+
+
+
+    /**
+     * Funcion para generar dni valido
+     */
+    public function obtenerDni()
+    {
+
+        $numero = rand(10000000, 99999999);
+        $letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        $posicion = $numero % 23;
+        $letra = $letras[$posicion];
+
+        return $numero . $letra;
+    }
+
+
     /**
      * The current password being used by the factory.
      */
@@ -24,7 +42,12 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'dni' => $dni = $this->obtenerDni(),
             'name' => fake()->name(),
+            'last_name_1' => fake()->lastName(),
+            'last_name_2' => fake()->lastName(),
+            'gender' => fake()->randomElement(['male', 'female', 'other']),
+            // 'user_type' => fake()->randomElement(['docente', 'estudiante']),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -37,7 +60,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

@@ -31,9 +31,15 @@ return new class extends Migration {
                 ->onUpdate('cascade');
             $table->primary('user_id');
 
-            $table->unsignedBigInteger('class_id')->nullable();
-            $table->foreign('class_id')->references('id')->on('classrooms')
-                ->onDelete('cascade')
+            // $table->unsignedBigInteger('class_id')->nullable();
+            // $table->foreign('class_id')->references('id')->on('classrooms')
+            //     ->nullOnDelete()
+            //     ->onUpdate('cascade');
+
+            $table->foreignId('class_id')
+                ->nullable()
+                ->constrained(table: 'classrooms', indexName: 'id')
+                ->nullOnDelete()
                 ->onUpdate('cascade');
         });
     }

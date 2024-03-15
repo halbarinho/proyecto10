@@ -49,6 +49,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\StageLevelController;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\ForgetPasswordController;
@@ -126,15 +127,36 @@ Route::post('/forget-password', [ForgetPasswordController::class, 'forgetPasswor
 // Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edition');
 // Route::get('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
+/**
+ * ESTA RUTAS RESOURCE FUNCIONAN
+ */
 
-Route::resources([
-    'user' => UserController::class,
-    'classroom' => ClassroomController::class,
-    'activity' => ActivityController::class,
-    'question' => QuestionController::class,
-    'category' => CategoryController::class,
-    'post' => PostController::class,
-]);
+// Route::resources([
+//     'user' => UserController::class,
+//     'classroom' => ClassroomController::class,
+//     'activity' => ActivityController::class,
+//     'question' => QuestionController::class,
+//     'category' => CategoryController::class,
+//     'post' => PostController::class,
+// ]);
+
+/**
+ *HASTA AQUI ESTA RUTAS RESOURCE FUNCIONAN
+ */
+
+/**
+ * LAS PRUEBO CON MIDDLEWARE
+ */
+Route::middleware(['auth'])->group(function () {
+    Route::resources([
+        'user' => UserController::class,
+        'classroom' => ClassroomController::class,
+        'activity' => ActivityController::class,
+        'question' => QuestionController::class,
+        'category' => CategoryController::class,
+        'post' => PostController::class,
+    ]);
+});
 
 
 
@@ -190,6 +212,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard')->middleware('auth', 'hasRole:admin');
 
     Route::view('/docente/dashboard', 'docente.dashboard')->name('docente.dashboard');
+    Route::get('/docente/showClassrooms', [ClassroomController::class, 'showClassrooms'])->name('docente.showClassrooms');
+
     Route::view('/alumno/dashboard', 'alumno.dashboard')->name('alumno.dashboard');
 
 
@@ -213,6 +237,41 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     Route::view('/contact/formSent', 'contact.formSent')->name('contact.formSent');
 
+
+    //Esta funcionaba con un unico estudiante
+    Route::get('/estudiante/{estudiante}/discardClassroom', [EstudianteController::class, 'discardClassroom'])->name('estudiante.discardClassroom');
+
+
+    Route::get('/estudiante/discardClassroom/{estudiantesList}', [EstudianteController::class, 'discardClassroomStudentList'])
+        ->name('estudiantes.discardClassroom');
+
+    Route::post('/estudiante/discardClassroom', [EstudianteController::class, 'discardClassroomStudentList'])
+        ->name('estudiantes.discardClassroom.post');
+
+
+    Route::get('/classroom/{classroom}/addestudiantes', [EstudianteController::class, 'addStudents'])
+        ->name('studentsList.index');
+
+    //ruta para ver los estudiantes que no pertenecen a una determinada clase y añadirlos
+    Route::view('/addStudents', 'estudiante.addStudents');
+
+    Route::put('/estudiantes/addStudentsToClass', [EstudianteController::class, 'addStudentsToClass'])
+        ->name('estudiante.addStudentsToClass');
+
+    Route::get('/estudiantes/addStudentToClass/{estudiante}/{classroom}', [EstudianteController::class, 'addStudentToClass'])
+        ->name('estudiante.addStudentToClass');
+
+
+    //RUTA PARA MOSTRAR LAS ACTIVIDADES QUE PERTENECEN AL USUARIO
+    Route::get('/activities/{user}/show', [ActivityController::class, 'showUserActivities'])
+        ->name('activity.showUserActivities');
+
+    //Ruta para eliminar las actividades seleccionadas con el checkbox
+    Route::post('/activity/deleteActivities', [ActivityController::class, 'deleteActivities'])->name('activity.deleteActivities');
+
+
+    //Ruta para enviar las acitvidades a las clases seleccionadas
+    Route::post('activity/sendActivity/{activityId}', [ActivityController::class, 'sendActivity'])->name('activity.sendActivity');
     // Route::get('/classroom/{classroom}', [ClassroomController::class, 'classroomList'])->name('classroom.list');
 
     // Route::get('/login', 'LoginController@show')->name('loginShow');

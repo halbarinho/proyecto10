@@ -20,12 +20,12 @@ class Classroom extends Model
 
     public function Docente(): BelongsTo
     {
-        return $this->belongsTo(Docente::class);
+        return $this->belongsTo(Docente::class, 'user_id');
     }
 
     public function Estudiante(): HasMany
     {
-        return $this->hasMany(Estudiante::class);
+        return $this->hasMany(Estudiante::class, 'class_id', 'id');
     }
 
     public function Stage(): BelongsTo

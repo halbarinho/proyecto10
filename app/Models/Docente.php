@@ -17,7 +17,7 @@ class Docente extends Model
     ];
     public function User(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function Classroom(): HasMany

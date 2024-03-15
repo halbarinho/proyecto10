@@ -1,14 +1,14 @@
 <template>
     <div :id="id">
-        <div class="mb-3 row">
+        <div class="mb-3 w-full">
             <label :for="inputId" class="mb-3 block text-base font-medium text-[#07074D]">Enunciado True/False</label>
-            <div class="sm-5">
+            <div class="w-full">
                 <input :id="inputId" type="text" @input="updateBoolStatement" v-model="boolStatement">
             </div>
             <!-- <p>{{ boolStatement }}</p> -->
         </div>
-        <div class="mb-3 row">
-            <div class="sm-5">
+        <div class="mb-3 w-full">
+            <div class="w-full">
                 <input :id="checkboxId" name="bool_checkbox" type="checkbox" @change="updateCheckbox"
                     v-model="checkboxValue" />
                 <label :for="checkboxId"></label>

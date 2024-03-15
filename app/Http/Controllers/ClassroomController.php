@@ -153,11 +153,29 @@ class ClassroomController extends Controller
      * Devolver lista de alumnos en una clase para editar sus miembros
      */
 
-    public function edit(int $id)
-    {
-        $selectedClass = Classroom::findOrFail($id);
+    // public function edit(int $id)
+    // {
+    //     $selectedClass = Classroom::findOrFail($id);
 
-        //$students = DB::table('estudiantes')->where('class_id', $selectedClass);
+    //     //$students = DB::table('estudiantes')->where('class_id', $selectedClass);
+
+    //     $studentList = DB::table('users')
+    //         ->join('estudiantes', function (JoinClause $join) use ($selectedClass) {
+    //             $join->on('users.id', '=', 'estudiantes.user_id')
+    //                 ->where('estudiantes.class_id', '=', $selectedClass->id);
+    //         })
+    //         ->get();
+
+
+
+
+    //     return view('classroom.edit', ['classroom' => $selectedClass, 'studentList' => $studentList]);
+    // }
+
+    public function edit(Classroom $classroom)
+    {
+
+        $selectedClass = Classroom::findOrFail($classroom->id);
 
         $studentList = DB::table('users')
             ->join('estudiantes', function (JoinClause $join) use ($selectedClass) {
@@ -167,9 +185,17 @@ class ClassroomController extends Controller
             ->get();
 
 
-
-
         return view('classroom.edit', ['classroom' => $selectedClass, 'studentList' => $studentList]);
+    }
+
+    /**
+     * Metodo para mostrar todos las clases a los profesores
+     */
+    public function showClassrooms()
+    {
+        $classes = Classroom::all();
+
+        return view('docente.showClassrooms', ['classes' => $classes]);
     }
 }
 

@@ -24,7 +24,7 @@ class Activity extends Model
 
     public function Docente(): BelongsTo
     {
-        return $this->belongsTo(Docente::class);
+        return $this->belongsTo(Docente::class, 'user_id', 'user_id');
     }
 
     public function Estudiante(): BelongsToMany
