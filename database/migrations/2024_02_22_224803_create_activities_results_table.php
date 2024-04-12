@@ -18,6 +18,16 @@ return new class extends Migration {
 
             $table->primary(['activity_id', 'estudiante_id']);
 
+            $table->foreignId('class_id')
+                ->nullable()
+                ->references('id')->on('classrooms')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->enum('status', ['pending', 'completed'])->default('pending');
+
+            $table->enum('evaluated', ['pending', 'completed'])->default('pending');
+
             $table->timestamps();
         });
     }

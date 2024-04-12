@@ -18,9 +18,12 @@ return new class extends Migration {
             $table->foreignId('question_id')->references('id')->on('questions')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+            $table->foreignId('activity_id')->references('id')->on('activities')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->primary(['student_id', 'question_id']);
-            $table->text('answer_text')->nullable;
-            $table->boolean('answer_bool')->nullable;
+            $table->text('answer_text')->nullable();
+            $table->boolean('answer_bool')->nullable();
             $table->timestamps();
         });
     }

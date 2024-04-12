@@ -8,6 +8,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\PostRequest;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -19,11 +21,26 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
-        $posts = Post::all();
-        // $categories = json_encode(Category::all()->toArray());
 
-        return view('posts.index', ['posts' => $posts]);
+        // $posts = Post::all();
+
+
+        // return view('posts.index', ['posts' => $posts]);
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            // Si el usuario tiene el rol de administrador, redirigir a una ruta específica
+            return redirect()->route('admin.posts.index');
+        } elseif ($user->hasRole('docente')) {
+            // Si el usuario tiene el rol de docente, redirigir a otra ruta específica
+            $posts = Post::all();
+            return view('docente.postsShow', ['posts' => $posts]);
+        } else {
+            // Si el usuario tiene otro tipo de rol o no tiene rol, mostrar los posts en la ruta por defecto
+            $posts = Post::all();
+            Log::info($posts);
+            return view('posts.index', ['posts' => $posts]);
+        }
     }
 
     /**
@@ -133,11 +150,11 @@ class PostController extends Controller
 
 
         } catch (QueryException $e) {
-            return(['message Error' => $request]);
+            return (['message Error' => $request]);
             // return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
         }
 
-        return(['message' => $request]);
+        return (['message' => $request]);
 
 
 
@@ -206,12 +223,16 @@ class PostController extends Controller
             $nextPostId = null;
             $prevPostId = null;
 
+
+            // Log::info('nextid:', [++$id]);
+
             if (Post::find(++$id)) {
+
                 $nextPostId = $id;
                 $id = $postId;
             }
 
-            if (Post::find(--$id)) {
+            if (Post::find($id--)) {
                 $prevPostId = $id;
             }
 

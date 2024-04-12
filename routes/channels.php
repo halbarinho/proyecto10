@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -23,4 +24,10 @@ Broadcast::channel('chat.{chat_id}', function ($user, $chat_id) {
     if ($user->Chat->contains($chat_id)) {
         return $user;
     }
+});
+
+//Canal que creo para las notificaciones
+Broadcast::channel('notification.{userId}', function (User $user, $userId) {
+    // Log::info('user: ', $user);
+    return $user->id == $userId;
 });

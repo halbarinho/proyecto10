@@ -16,7 +16,7 @@ class CrearUserAdmin extends Seeder
     public function run(): void
     {
         //
-        $password = "adminPassword";
+        $password = "123456789";
 
         // DB::table('users')->insert([
 

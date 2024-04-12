@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "watch": "vite build --watch"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
@@ -20,6 +21,7 @@
         "vue": "^3.4.21"
     },
     "dependencies": {
+        "swiper": "^11.0.7",
         "vee-validate": "^4.12.5"
     }
 }

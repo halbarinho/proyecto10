@@ -37,4 +37,9 @@ class Activity extends Model
         return $this->belongsToMany(Question::class, 'activity_questions');
     }
 
+    public function ActivitiesResult(): HasMany
+    {
+        return $this->hasMany(ActivitiesResult::class);
+    }
+
 }

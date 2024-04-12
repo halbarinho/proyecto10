@@ -11,11 +11,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('alertas', function (Blueprint $table) {
-            $table->id('alert_id');
+            $table->id();
             $table->boolean('active')->default(true);
+            $table->foreignId('estudiante_id')->nullable()->references('user_id')->on('estudiantes');
+            $table->foreignId('class_id')->nullable()->references('id')->on('classrooms')
+                ->onDelete('set null');
+            $table->string('content', 500);
             $table->timestamp('creation_date');
             $table->timestamp('reception_date')->useCurrent();
-            $table->string('content', 500);
             $table->timestamps();
         });
     }

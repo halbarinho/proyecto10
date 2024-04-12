@@ -1024,7 +1024,11 @@
             </div>
         </div>
     </div> --}}
-    <header class="fixed z-40 block w-full h-16 bg-gray-500 border-b-2">
+
+
+
+
+    {{-- <header class="fixed z-40 block w-full h-16 bg-gray-500 border-b-2">
         <a href="" class="flex items-center p-2">
             <img width="64" height="64" src="https://img.icons8.com/glyph-neue/64/darth-vader.png"
                 alt="darth-vader" />
@@ -1061,7 +1065,14 @@
                 @endauth
             </div>
         @endif
-    </header>
+    </header> --}}
+
+
+    <x-header></x-header>
+
+
+
+
     <div class="max-w-3xl p-4 pt-32 mx-auto">
 
 

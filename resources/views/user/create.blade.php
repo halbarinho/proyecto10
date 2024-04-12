@@ -1,4 +1,4 @@
-@extends('layout.templateCRUD')
+@extends('layout.template-adminDashboard')
 
 @section('title', 'Registrar Nuevo Usuario')
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
@@ -8,14 +8,14 @@
 
 @section('content')
 
-    <main>
+    <div class="ml-14 mr-4 mt-14">
         <div class="container py-4">
             {{-- INCLUYO MENSAJES DE ERROR --}}
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li class="text-sm text-red-600">{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -189,5 +189,5 @@
                     value="Registrar">
             </form>
         </div>
-    </main>
+    </div>
 @endsection

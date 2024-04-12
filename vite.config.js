@@ -9,6 +9,8 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/vueJs/questionaireSlider.js',
+                'resources/js/vueJs/notificationMenu.js',
             ],
             refresh: true,
         }),

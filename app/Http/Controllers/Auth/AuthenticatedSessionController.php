@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -35,13 +37,14 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         if ($user->hasRole('admin'))
-            return redirect()->route('dashboard');
+            return redirect()->route('admin.dashboard');
         elseif ($user->hasRole('docente'))
             return redirect()->route('docente.dashboard');
         elseif ($user->hasRole('alumno'))
-            return redirect()->route('welcome');
+            return redirect()->route('estudiante.dashboard');
         else
             return redirect()->intended(RouteServiceProvider::HOME);
+
 
     }
 

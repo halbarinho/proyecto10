@@ -24,7 +24,7 @@ class Question extends Model
 
     public function QuestionOption(): HasMany
     {
-        return $this->hasMany(QuestionOption::class);
+        return $this->hasMany(QuestionOption::class, 'question_id', 'id');
     }
 
     public function Activity(): BelongsToMany
@@ -32,6 +32,10 @@ class Question extends Model
         return $this->belongsToMany(Activity::class, 'activity_questions');
     }
 
+    public function Answer(): HasMany
+    {
+        return $this->hasMany(Answer::class, 'question_id', 'id');
+    }
 
 
 }

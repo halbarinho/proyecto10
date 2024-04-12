@@ -1,73 +1,198 @@
-@extends('layout.templateCRUD')
+@extends('layout.template-adminDashboard')
 
-@section('title', 'Posts')
-@vite('/resources/css/app.css')
-
-@section('content')
-
-
+@section('css')
+    {{-- Datatables --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.tailwindcss.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" />
 
 @endsection
 
+@section('js')
 
-@extends('layout.templateCRUD')
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
 
-@section('title', 'Actividad')
+    {{-- Datatables --}}
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#activitiesTable').DataTable({
+                "order": [
+                    [1, "asc"]
+                ],
+                columnDefs: [{
+                    targets: [0, 3],
+                    sortable: false,
+                    searchable: false
+                }],
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay datos",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                    "infoFiltered": "(Filtro de _MAX_ total registros)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "No se encontraron coincidencias",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": Activar orden de columna ascendente",
+                        "sortDescending": ": Activar orden de columna desendente"
+                    }
+                }
+            });
+        });
+    </script>
+
+@endsection
+
+@section('title', 'Categorías')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @vite('resources/js/modal-delete.js')
 
 @section('content')
 
-    <div
-        class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+    <div class="grid grid-cols-1 ml-4 mr-4 mt-14">
 
-        @if ($categories->isEmpty())
-            <h3>No hay registros de Actividades</h3>
-            <a href="{{ route('category.create') }}">
-                <button id="createActivity"
-                    class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700">Crear Nueva
-                    Categoria</button>
-            </a>
-        @else
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th
-                            class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                            Id</th>
-                        <th
-                            class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                            Category Name</th>
-                        <th
-                            class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                            Description</th>
 
-                    </tr>
-                </thead>
+        <div class="container py-4 mx-auto">
+            {{-- INCLUYO MENSAJES DE ERROR --}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li class="text-sm text-red-600">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @elseif (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-                @foreach ($categories as $category)
-                    <tr>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $category->id }}</td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $category->name }}</td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $category->description }}</td>
 
-                        <td><a class="px-4 py-2 font-bold text-white bg-green-500 border border-green-700 rounded hover:bg-green-700"
-                                href="{{ route('category.edit', $category->id) }}">Editar</a></td>
-                        {{-- PRUEBO CON EL MODAL --}}
-                        <td>
-                            <!-- This button is used to open the dialog -->
-                            <button id="delete-btn"
-                                class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700"
-                                onclick="showDialog()">
-                                Eliminar
-                            </button>
-                        </td>
-                        {{-- @include('classroom.modal.delete-modal') --}}
-                    </tr>
-                @endforeach
-            </table>
 
-        @endif
+
+            <section class="p-3 antialiased bg-gray-50 dark:bg-gray-900 sm:p-5">
+                <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
+                    <div
+                        class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+                        <h1 class="text-3xl uppercase">Categorías</h1>
+                    </div>
+                    <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+                        <div
+                            class="flex flex-col items-center justify-end p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+                            <div class="w-full">
+
+
+                                @if ($categories->isEmpty())
+                                    <h3>No hay registros de Categorías</h3>
+                                    <a href="{{ route('category.create') }}">
+                                        <button id="createActivity"
+                                            class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700">Crear
+                                            Nueva
+                                            Categoria</button>
+                                    </a>
+                                @else
+                                    <div
+                                        class="flex flex-col items-stretch flex-shrink-0 w-full space-y-2 md:justify-end md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
+                                        <a class="" href="{{ route('category.create') }}">
+                                            <button type="button" id="createProductModalButton"
+                                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                                                Añadir Categoría
+                                            </button>
+                                        </a>
+                                    </div>
+
+
+                                    <div class="mx-3 mb-5">
+                                        <span class="">{{ count($categories) }} categorías</span>
+                                        <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black ">
+                                        @include('activity.modal.deleteMultiple-modal')
+                                        <form action="{{ route('activity.deleteActivities') }}"
+                                            onsubmit="handleSubmit(event)" method="POST" id="form">
+                                            @csrf
+
+                                            <div
+                                                class="flex flex-col items-stretch justify-end flex-shrink-0 w-full mb-4 space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
+
+                                                <button
+                                                    class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                                                    type="submit" id="submitBtn"
+                                                    onclick="showDeleteMultipleModal();event.preventDefault();">Eliminar
+                                                    Seleccionadas
+                                                    {{-- <input type="submit" value="Eliminar"> --}}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="mx-3 mb-5 data-table-container">
+                                        <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
+                                            <div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
+                                                <table id="activitiesTable" class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th
+                                                                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                                Id</th>
+                                                            <th
+                                                                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                                Category Name</th>
+                                                            <th
+                                                                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                                                Description</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    @foreach ($categories as $category)
+                                                        <tr>
+                                                            <td
+                                                                class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                                {{ $category->id }}</td>
+                                                            <td
+                                                                class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                                {{ $category->name }}</td>
+                                                            <td
+                                                                class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                                {{ $category->description }}</td>
+
+                                                            <td class="text-right"><a
+                                                                    class="px-4 py-2 font-bold text-white bg-green-500 border border-green-700 rounded hover:bg-green-700"
+                                                                    href="{{ route('category.edit', $category->id) }}">Editar</a>
+                                                                {{-- PRUEBO CON EL MODAL --}}
+
+                                                                <!-- This button is used to open the dialog -->
+                                                                <button id="delete-btn"
+                                                                    class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700"
+                                                                    onclick="showDialog()">
+                                                                    Eliminar
+                                                                </button>
+                                                            </td>
+                                                            @include('category.modal.delete-modal')
+                                                        </tr>
+                                                    @endforeach
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
     <script>
         function showDialog() {

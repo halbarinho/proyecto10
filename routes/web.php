@@ -1,46 +1,20 @@
 <?php
-
-use App\Models\Category;
-use Illuminate\Support\Facades\Route;
-
-/*
+/**
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-
-//ESTO LO HE COMENTADO PORQUE ME DABA ERROR PERO
-//SON DE BREEZE SI NO NO FUNCIONA
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-//HASTA AQUI
-
-require __DIR__ . '/auth.php';
-
-
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PostController;
-
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StageController;
+use App\Http\Controllers\AlertaController;
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
@@ -51,47 +25,54 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\StageLevelController;
+use App\Http\Controllers\UserSearchController;
 use App\Http\Controllers\ContactFormController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\TrackingSheetController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\ActivityQuestionController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-// Route::view('/welcome', 'welcome')->name('welcome');
+//ESTO LO HE COMENTADO PORQUE ME DABA ERROR PERO
+//SON DE BREEZE SI NO NO FUNCIONA
+//Rutas de autenticacion y perfil
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+//HASTA AQUI
 
-
-// Route::view('/login', 'login')->name('login');
-// Route::view('/registro', 'registro')->name('registro');
-// Route::view('/privada', 'privada')->middleware('auth')->name('privada');
+require __DIR__ . '/auth.php';
 
 
-// Route::post('/login', [LoginController::class, 'login']);
-// Route::post('/registro', [RegisterController::class, 'register']);
-// Route::post('/inicia-sesion', [LoginController::class, 'login'])->name('iniciar-sesion');
+/**
+ * RUTAS PUBLICAS
+ */
 
-// Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
 
-//Ruta para CRUD
-Route::resource('/gestion', UserController::class);
+Route::get('/', function () {
 
 
-// Route::get('/login', [LoginController::class, 'show'])->name('loginShow');
 
-//ESTE METODO LOGOUT ES CON AUTH DE LARAVEL PROPIA
-// Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+    if (Auth::check()) {
 
-//ESTE LOGOUT ES CON BREEZE
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->name('logout');
+        if (Auth::user()->hasRole('docente')) {
+            return redirect()->route('docente.dashboard');
+        } elseif (Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->route('estudiante.dashboard');
+        }
+
+    }
+    return view('welcome');
+
+})->name('welcome');
 
 
 //Ruta para recuperar/cambiar password
@@ -100,52 +81,64 @@ Route::get('/forget-password', [ForgetPasswordController::class, 'forgetPassword
 //Ruta que gestiona el Request de recuperar/cambiar password
 Route::post('/forget-password', [ForgetPasswordController::class, 'forgetPasswordPost'])->name('forgetPasswordPost');
 
+
+//ESTE LOGOUT ES CON BREEZE
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
+
 /**
- * RUTA PARA GESTIONAR EL CAMBIO DEL PASSWORD
+ *Ruta para el Formulario Contacto
  */
+Route::view('/contact', 'contact.contactForm')->name('contact');
 
-// Route::get('/reset-password/{token}', [ForgetPasswordController::class, 'resetPassword'])
-//     // ->middleware('guest')
-//     ->name('password.reset');
+Route::post('/contactForm', [ContactFormController::class, 'store'])->name('contact.send');
 
-// Route::post('/reset-password', [ForgetPasswordController::class, 'resetPasswordPost'])->name('password.update');
+Route::view('/contact/formSent', 'contact.formSent')->name('contact.formSent');
+//FIN RUTAS FORMULARIO CONTACTO//
 
+//FIN RUTAS PUBLICAS//
 
 /**
- * HASTA AQUI PARA GEESTIONAR EL RESET PASSWORD POR MI LO QUITO PARA QUE FUNCIONE EL PROPIO DE BREEZE
+ * RUTAS ADMINISTRADOR
  */
+Route::middleware(['auth', 'hasRole:admin'])->group(function () {
+    // Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/activities', [AdminController::class, 'activityIndex'])->name('admin.activities');
+    Route::get('/admin/activity/{activity}/edit', [AdminController::class, 'editActivity'])->name('admin.editActivity');
+    Route::put('/admin/activity/{activity}', [AdminController::class, 'updateActivity'])->name('admin.updateActivity');
+    Route::get('/admin/posts', [AdminController::class, 'postIndex'])->name('admin.posts');
+    Route::get('/admin/classroom', [AdminController::class, 'classroomIndex'])->name('admin.classroom');
+    Route::get('/admin/alertas', [AdminController::class, 'alertasIndex'])->name('admin.alertas');
+    Route::get('/admin/alerta/{alerta}/edit', [AdminController::class, 'editAlerta'])->name('admin.editAlerta');
+    Route::put('/admin/alerta/{alerta}', [AdminController::class, 'updateAlerta'])->name('admin.updateAlerta');
+    Route::get('/admin/notifications', [AdminController::class, 'notificationIndex'])->name('admin.notifications');
+    Route::get('/admin/notification/{notification}/edit', [AdminController::class, 'editNotification'])->name('admin.editNotification');
+    Route::put('/admin/notification/{notification}', [AdminController::class, 'updateNotification'])->name('admin.updateNotification');
+    Route::delete('/admin/notification/delete/{id}', [AdminController::class, 'destroyNotification'])->name('admin.notificationDestroy');
+    Route::post('/admin/notification/deleteNotifications', [AdminController::class, 'deleteNotifications'])->name('admin.deleteNotifications');
+});
 
 
-//ESTAS RUTAS ME FUNCIONAN CON REGISTERCONTROLLER
-// Route::get('/CRUD.index', [RegisterController::class, 'show'])->name('registro.show');
-// Route::get('/registro', [RegisterController::class, 'create'])->name('registro.create');
-// Route::post('/registro', [RegisterController::class, 'register'])->name('registro.post');
-
-
-
-
-// Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edition');
-// Route::get('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+//FIN RUTAS ADMINISTRADOR//
 
 /**
- * ESTA RUTAS RESOURCE FUNCIONAN
+ * RUTAS DOCENTE
  */
+Route::middleware(['auth', 'hasRole:docente'])->group(function () {
 
-// Route::resources([
-//     'user' => UserController::class,
-//     'classroom' => ClassroomController::class,
-//     'activity' => ActivityController::class,
-//     'question' => QuestionController::class,
-//     'category' => CategoryController::class,
-//     'post' => PostController::class,
-// ]);
+    Route::view('/docente/dashboard', 'docente.dashboard')->name('docente.dashboard');
+    Route::get('/docente/showClassrooms', [ClassroomController::class, 'showClassrooms'])->name('docente.showClassrooms');
 
-/**
- *HASTA AQUI ESTA RUTAS RESOURCE FUNCIONAN
- */
+    Route::get('/docente/posts', [PostController::class, 'index'])->name('docente.posts.index');
+
+    Route::get('/posts/showPosts', [PostController::class, 'showPosts'])->name('post.showPosts');
+
+});
+//FIN RUTAS DOCENTE//
 
 /**
- * LAS PRUEBO CON MIDDLEWARE
+ * RUTAS RESOURCES CON MIDDLEWARE
  */
 Route::middleware(['auth'])->group(function () {
     Route::resources([
@@ -155,66 +148,58 @@ Route::middleware(['auth'])->group(function () {
         'question' => QuestionController::class,
         'category' => CategoryController::class,
         'post' => PostController::class,
+        'alerta' => AlertaController::class,
     ]);
-});
 
 
-
-//RUTAS PARA CHAT
-// Route::get('/chat', function () {
-//     return view('chat');
-// })->middleware('auth');
-
-Route::get('chat/{chat}', [ChatController::class, 'show'])->name('chat.show');
-
-Route::get('chat/with/{user}', [ChatController::class, 'chatWith'])->name('chat.with');
-
-Route::get('chat/{chat}/get_users', [ChatController::class, 'get_users'])->name('chat.get_users');
-
-Route::get('chat/{chat}/get_messages', [ChatController::class, 'get_messages'])->name('chat.get_messages');
-
-Route::post('message/send', [MessageController::class, 'send'])->name('message.send');
-
-
-Route::get('auth/user', function () {
-    if (auth()->check()) {
-        return response()->json([
-            'authUser' => auth()->user(),
-        ]);
-    }
-
-    return null;
-});
-
-
-/**
- * ->middleware('hasRole:docente');
- */
-
-/**
- * Ruta creada para poder gestionar la solicitud DELETE sin errores
- */
-Route::get('post/delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
-
-
-Route::group(['namespace' => 'App\Http\Controllers'], function () {
     /**
-     * Home Routes
+     * Ruta creada para poder gestionar la solicitud DELETE sin errores
      */
+    Route::get('post/delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
 
-    Route::get('/', function () {
-        return view('welcome');
+});
+
+
+
+/**
+ * RUTAS PARA CHAT
+ */
+Route::middleware(['auth'])->group(function () {
+    Route::get('chat/{chat}', [ChatController::class, 'show'])->name('chat.show');
+
+    Route::get('chat/with/{user}', [ChatController::class, 'chatWith'])->name('chat.with');
+
+    Route::get('chat/{chat}/get_users', [ChatController::class, 'get_users'])->name('chat.get_users');
+
+    Route::get('chat/{chat}/get_messages', [ChatController::class, 'get_messages'])->name('chat.get_messages');
+
+    Route::post('message/send', [MessageController::class, 'send'])->name('message.send');
+
+    Route::get('auth/user', function () {
+        if (auth()->check()) {
+            return response()->json([
+                'authUser' => auth()->user(),
+            ]);
+        }
+
+        return null;
     });
 
-    Route::view('/welcome', 'welcome')->name('welcome');
+    //AÑado index chat yo
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+
+    //Ruta para el campo busqueda
+    Route::get('/search/users', [UserSearchController::class, 'search']);
+});
+
+//FIN RUTAS PARA CHAT//
 
 
-    Route::view('/dashboard', 'dashboard')->name('dashboard')->middleware('auth', 'hasRole:admin');
+Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth']], function () {
 
-    Route::view('/docente/dashboard', 'docente.dashboard')->name('docente.dashboard');
-    Route::get('/docente/showClassrooms', [ClassroomController::class, 'showClassrooms'])->name('docente.showClassrooms');
 
-    Route::view('/alumno/dashboard', 'alumno.dashboard')->name('alumno.dashboard');
+
+    Route::view('/alumno/dashboard', 'estudiante.dashboard')->name('estudiante.dashboard');
 
 
 
@@ -225,18 +210,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     //Ruta creada para obtener el user_id
     Route::get('/user_id', [UserController::class, 'getUserId']);
-
-
-    Route::get('/posts/showPosts', [PostController::class, 'showPosts'])->name('post.showPosts')
-        ->middleware('auth');
-
-    //Ruta para el Formulario Contacto
-    Route::view('/contact', 'contact.contactForm')->name('contact');
-
-    Route::post('/contactForm', [ContactFormController::class, 'store'])->name('contact.send');
-
-    Route::view('/contact/formSent', 'contact.formSent')->name('contact.formSent');
-
 
     //Esta funcionaba con un unico estudiante
     Route::get('/estudiante/{estudiante}/discardClassroom', [EstudianteController::class, 'discardClassroom'])->name('estudiante.discardClassroom');
@@ -270,38 +243,44 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::post('/activity/deleteActivities', [ActivityController::class, 'deleteActivities'])->name('activity.deleteActivities');
 
 
-    //Ruta para enviar las acitvidades a las clases seleccionadas
+    //Ruta para enviar las actividades a las clases seleccionadas
     Route::post('activity/sendActivity/{activityId}', [ActivityController::class, 'sendActivity'])->name('activity.sendActivity');
     // Route::get('/classroom/{classroom}', [ClassroomController::class, 'classroomList'])->name('classroom.list');
 
-    // Route::get('/login', 'LoginController@show')->name('loginShow');
+    //Ruta para obtener las notificaciones
+    Route::get('notification/getNotifications', [NotificationController::class, 'getNotifications'])->name('notification.getNotifications');
 
-    // Route::get('/registro', 'RegisterController@show')->name('registro.show');
+    Route::post('/notification/markAsRead/{notificationId}', [NotificationController::class, 'markAsRead'])->name('notification.markAsRead');
+
+    //Ruta para enviar notificacion desde axios
+    Route::post('/send/notification', [NotificationController::class, 'sendNotification'])->name('notification.send');
 
 
-    // Route::group(['middleware' => ['guest']], function () {
-    //     /**
-    //      * Register Routes
-    //      */
-    //     // Route::get('/registro', 'RegisterController@show')->name('registro.show');
-    //     // Route::post('/registro', 'RegisterController@register')->name('registroPost');
+    //Ruta para obtener las notificaciones de chat del user
+    Route::get('/notification/{chat_id}/getChatNotifications', [NotificationController::class, 'getChatNotifications'])->name('notificaton.getChatNotifications');
 
-    //     /**
-    //      * Login Routes
-    //      */
-    //     // Route::get('/login', 'LoginController@show')->name('login.show');
+    Route::get('/estudiante/{student_id}/activity/{activity_id}', [ActivityQuestionController::class, 'makeActivity'])->name('activityQuestion.makeActivity');
 
-    //     //LA UNICA DESCOMENTADA
-    //     Route::post('/login', 'LoginController@authenticate')->name('login');
+    //Ruta enviar actividad rellenada por el estudiante
+    Route::post('/activity/sendAnswer', [AnswerController::class, 'store'])->name('activity.sendAnswer');
 
-    // });
-    // //PARA PODER USARLO A LO MEJOR DEBO RENOMBRAR auth-> COMO authMiddleware para que no se dupliquen los nombres de las clases
-    // Route::group(['middleware' => ['auth']], function () {
+    //Rutas alertas
+    Route::get('/alerta', [AlertaController::class, 'index'])->name('alerta.index');
 
-    //     /**
-    //      * Logout Routes
-    //      */
-    //     // Route::get('/logout', 'LogoutController@logout')->name('logout');
-    //     // Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-    // });
+    /**
+     * Ruta creada para poder gestionar la solicitud DELETE sin errores
+     */
+    Route::get('alerta/delete/{id}', [AlertaController::class, 'destroy'])->name('alerta.delete');
+
+
+    Route::post('/alerta/deleteAlertas', [AlertaController::class, 'deleteAlertas'])->name('alerta.deleteAlertas');
+
+    //Ruta para que el docente evalue las actividades sale todos los estudiantes
+    Route::get('/activity/evaluate/{activity_id}', [ActivityController::class, 'evaluateIndex'])->name('activity.evaluateIndex');
+
+    //Ruta evaluacion cada actividad por estudiante
+    Route::get('/activity/{activity_id}/evaluate/{student_id}', [ActivityController::class, 'evaluateActivity'])->name('activity.evaluateActivity');
+
+    //Ruta para almacenar trackingSheets
+    Route::post('/trackingSheet/store', [TrackingSheetController::class, 'sendTrackingSheet'])->name('trackingSheet.send');
 });

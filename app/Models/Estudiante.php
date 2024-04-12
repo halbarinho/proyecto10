@@ -46,4 +46,5 @@ class Estudiante extends Model
     {
         return $this->hasMany(Answer::class);
     }
+
 }

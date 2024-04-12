@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Phone;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -21,7 +22,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     // The User model requires this trait
-//Añadido para usar Spatie Roles/Permisos
+
+    //Añadido para usar Spatie Roles/Permisos
     use HasRoles;
 
     /**
@@ -77,7 +79,7 @@ class User extends Authenticatable
 
     public function Estudiante(): HasMany
     {
-        return $this->hasMany(Estudiante::class);
+        return $this->hasMany(Estudiante::class, 'user_id', 'id');
     }
 
     public function Phone(): HasMany
@@ -104,4 +106,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class);
     }
+
+    //Relacion con notificacion
+    public function Notification(): HasMany
+    {
+        return $this->hasMany(Notification::class, 'id', 'user_id');
+    }
+
 }

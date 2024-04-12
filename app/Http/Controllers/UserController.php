@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Models\Docente;
+use App\Models\Classroom;
 use App\Models\Estudiante;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Rules\DniNieValidationRule;
-use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateRequest;
-use App\Models\Classroom;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,7 +27,10 @@ class UserController extends Controller
         $estudiantes = Estudiante::all();
         $classes = Classroom::all();
 
-        return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes, 'classes' => $classes]);
+        //Paso notifications
+        $notifications = Notification::all();
+
+        return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes, 'classes' => $classes, 'notifications' => $notifications]);
 
         // return view("CRUD.index");
     }
@@ -39,7 +43,10 @@ class UserController extends Controller
         //AÑADO LAS CLASSROOM
         $classes = Classroom::all();
 
-        return view("user.create", ['classes' => $classes]);
+        //Paso notifications
+        $notifications = Notification::all();
+
+        return view("user.create", ['classes' => $classes, 'notifications' => $notifications]);
     }
 
     /**
@@ -124,7 +131,10 @@ class UserController extends Controller
         $estudiantes = Estudiante::all();
         $users = User::all();
 
-        return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
+        //Paso notifications
+        $notifications = Notification::all();
+
+        return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes, 'notifications' => $notifications]);
     }
 
     /**
@@ -142,7 +152,11 @@ class UserController extends Controller
     {
         //
         $userSelected = User::findOrFail($id);
-        return view('user.edit', ['user' => $userSelected]);
+
+        //Paso notifications
+        $notifications = Notification::all();
+
+        return view('user.edit', ['user' => $userSelected, 'notifications' => $notifications]);
 
 
     }
@@ -160,7 +174,9 @@ class UserController extends Controller
 
             $userSelected->update($request->all());
 
-            return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+
+            // return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+            return redirect()->route('user.index');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {

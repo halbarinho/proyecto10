@@ -10,9 +10,12 @@ use App\Models\Classroom;
 use App\Models\StageLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ClassroomRequest;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 
 class ClassroomController extends Controller
 {
@@ -193,8 +196,15 @@ class ClassroomController extends Controller
      */
     public function showClassrooms()
     {
-        $classes = Classroom::all();
+        // $classes = Classroom::all();
 
+
+        $classes = Classroom::whereHas('docente', function (Builder $query) {
+            $user = Auth::user()->id;
+            Log::info($user);
+            $query->where('user_id', 'like', $user);
+
+        })->get();
         return view('docente.showClassrooms', ['classes' => $classes]);
     }
 }

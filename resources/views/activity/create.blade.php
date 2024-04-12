@@ -12,16 +12,17 @@
     <main>
         <div class="container py-4 mx-auto">
             {{-- INCLUYO MENSAJES DE ERROR --}}
+
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li class="text-red-600 text-sm">{{ $error }}</li>
+                            <li class="text-sm text-red-600">{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @elseif (session('success'))
-                <div class="alert alert-success">
+                <div class="">
                     {{ session('success') }}
                 </div>
             @endif

@@ -1,110 +1,131 @@
 <template>
-    <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
-        <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
-            <h1 class="text-3xl uppercase">Registrar Nueva Actividad</h1>
-        </div>
 
-        <div class="w-full md:w-1/2 mx-auto">
-            <form @submit.prevent="" class="flex flex-col items-center justify-center">
+    <ul v-if="errors.length > 0">
+        <li v-for="(error, index)  in errors" :key="index">{{ error }}</li>
+    </ul>
+
+    <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+        <h1 class="text-3xl uppercase">Registrar Nueva Actividad</h1>
+    </div>
+
+    <div class="bg-[#ecf2f7] flex items-center justify-center min-h-screen font-nunito text-slate-600 my-1">
+        <form @submit.prevent="" class="w-full ">
+
+            <section class="max-w-[968px] w-full mx-4 mx-auto">
+                <h1 class="mx-2 my-10 text-2xl font-semibold text-center sm:text-3xl">Datos de la Actividad: {{ id +
+        1 }}
+                </h1>
 
 
-                <div class="mb-3 w-full">
-                    <label for="activity_name" class="mb-3 block text-base font-medium text-[#07074D]">Nombre de la
-                        Actividad</label>
-                    <div class="w-full">
+                <ul
+                    class="flex flex-col items-start justify-center w-full gap-3 p-8 mb-10 bg-white rounded-lg sm:flex-wrap">
+
+                    <li
+                        class="bg-[#f4faff] py-4 px-4 rounded-md min-w-[240px] self-stretch flex items-start justify-center flex-col">
+
+
+                        <label for="activity_name" class="mb-3 block text-base font-medium text-[#07074D]">Nombre de
+                            la
+                            Actividad</label>
+
                         <input type="text"
-                            class="rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                             name="activity_name" v-model="activityName" placeholder="Nombre Actividad">
-                    </div>
-                </div>
-                <div class="mb-3 w-full">
-                    <label for="activity_description" class="mb-3 block text-base font-medium text-[#07074D]">Breve
-                        Descripción</label>
-                    <div class="sm-5 w-full">
+
+
+                    </li>
+
+
+                    <li
+                        class="bg-[#f4faff] py-4 px-4 rounded-md min-w-[240px] self-stretch flex items-start justify-center flex-col">
+
+                        <label for="activity_description" class="mb-3 block text-base font-medium text-[#07074D]">Breve
+                            Descripción</label>
+
                         <textarea name="activity_description" v-model="activityDescription" cols="50" rows="4"
-                            class="rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                             placeholder="Breve Descripción"></textarea>
+
+
+                    </li>
+                    <!-- SECCION INCLUIR LOS COMPONENTES DINÁMICOS -->
+                    <div v-for="(item, index) in formList" :key="index" class="w-full">
+                        <component :is="item.type" :key="index" :id="index" v-model="item.value"
+                            @update:modelValue="updateFormData">
+                        </component>
                     </div>
-                </div>
-
-                <!-- SECCION INCLUIR LOS COMPONENTES DINÁMICOS -->
-                <div v-for="(item, index) in formList" :key="index" class="w-full">
-                    <component :is="item.type" :key="index" :id="index" v-model="item.value"
-                        @update:modelValue="updateFormData">
-                    </component>
-                </div>
 
 
 
 
-                <!-- ====== Cards Section Start -->
-                <div class="mb-3 w-full">
-                    <div class="flex flex-nowrap">
+                    <!-- ====== Cards Section Start -->
 
-                        <div class="w-full px-1 md:w-1/2 xl:w-1/3">
+                    <div class="flex justify-between w-full mb-3 flex-nowrap">
+
+                        <div class="w-full px-1 md:w-1/2 xl:w-1/3 ">
                             <button
-                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                                class="flex items-center justify-center px-4 py-2 mx-auto text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                                 @click="addForm('boolForm')">Verdadero/Falso</button>
 
                         </div>
 
-                        <div class="w-full px-4 md:w-1/2 xl:w-1/3 mx-auto">
+                        <div class="w-full px-4 mx-auto md:w-1/2 xl:w-1/3">
 
                             <button
-                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                                class="flex items-center justify-center px-4 py-2 mx-auto text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                                 @click="addForm('multipleForm')">Respuesta Múltiple</button>
-
-
 
                         </div>
                         <div class="w-full px-4 md:w-1/2 xl:w-1/3">
 
                             <button
-                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                                class="flex items-center justify-center px-4 py-2 mx-auto text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                                 @click="addForm('shortForm')">Respuesta Corta</button>
                         </div>
                     </div>
-                </div>
-                <!-- ====== Cards Section End -->
+
+                    <!-- ====== Cards Section End -->
 
 
 
-                <!-- FIN SECCION FORMS -->
+                    <!-- FIN SECCION FORMS -->
 
 
 
 
 
 
-                <!-- Botones de acción -->
-                <!-- <a href="{{ url('welcome') }}"
+                    <!-- Botones de acción -->
+                    <!-- <a href="{{ url('welcome') }}"
             class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">Regresar</a> -->
-                <!-- <input type="submit" name="submit" id="submit"
+                    <!-- <input type="submit" name="submit" id="submit"
             class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none"
             value="Registrar"> -->
 
-                <!-- pruebo boton en lugar de submit  -->
+                    <!-- pruebo boton en lugar de submit  -->
 
-                <div class="container mx-auto my-2">
-                    <div class="flex flex-wrap mx-4 justify-center ">
+                    <div class="container mx-auto my-2">
+                        <div class="flex flex-wrap justify-center mx-4 ">
 
-                        <div class="w-full px-4 md:w-1/2 xl:w-1/3">
-                            <button @click="goBack"
-                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Regresar</button>
+                            <div class="w-full px-4 md:w-1/2 xl:w-1/3">
+                                <button @click="goBack"
+                                    class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Regresar</button>
+                            </div>
+
+
+                            <div class="w-full px-4 md:w-1/2 xl:w-1/3">
+                                <button type="submit" @click="submitForm"
+                                    class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Enviar</button>
+                            </div>
+
+
                         </div>
-
-
-                        <div class="w-full px-4 md:w-1/2 xl:w-1/3">
-                            <button type="submit" @click="submitForm"
-                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Enviar</button>
-                        </div>
-
-
                     </div>
-                </div>
-            </form>
-        </div>
+                </ul>
+            </section>
+        </form>
     </div>
+
 </template>
 
 <script setup>
@@ -121,6 +142,9 @@ const activityDescription = ref('');
 const formList = ref([]);
 let id = ref('');
 let boolStatement = ref('');
+
+//manejar erroe
+const errors = ref([]);
 
 //añado para el userId
 let user_id = ref('')
@@ -161,6 +185,9 @@ onMounted(() => {
 const handleSubmit = () => {
 
 
+    //inicio errors
+    errors.value = [];
+
     try {
         //funciona pasando tipo objeto sin el objeto compo
         // axios.post('/activity/', { activity_name: formData.activityName, activity_description: formData.activityDescription }, {
@@ -173,9 +200,24 @@ const handleSubmit = () => {
             headers: { 'Content-Type': 'application/json' }
         })
             .then(function (response) {
-                console.log(response);
-                window.location.href = '/activity/create';
-            }).catch(function (error) {
+                //anterior modificar
+                // console.log(response);
+                // window.location.href = '/activity';
+                console.log(response.status);
+                window.location.href = '/activity';
+            }).catch(function (e) {
+
+
+                if (e.response.data.hasOwnProperty('errors')) {
+                    const serverErrors = e.response.data.errors;
+
+                    for (let error in serverErrors) {
+                        if (serverErrors.hasOwnProperty(error)) {
+                            errors.value.push(serverErrors[error][0]);
+                        }
+                    }
+                }
+
                 console.log(error);
             })
 
