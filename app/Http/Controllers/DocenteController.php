@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Docente;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class DocenteController extends Controller
@@ -12,7 +13,12 @@ class DocenteController extends Controller
      */
     public function index()
     {
-        //
+        $docentes = Docente::all();
+
+        //Paso notifications
+        $notifications = Notification::all();
+
+        return view('docente.index', ['docentes' => $docentes, 'notifications' => $notifications]);
     }
 
     /**

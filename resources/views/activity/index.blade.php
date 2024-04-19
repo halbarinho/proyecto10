@@ -22,7 +22,7 @@
                     [3, "desc"]
                 ],
                 columnDefs: [{
-                    targets: [0, 5, 6, 7],
+                    targets: [0, 5, 6, 7, 8],
                     sortable: false,
                     searchable: false
                 }],
@@ -49,6 +49,9 @@
                         "sortAscending": ": Activar orden de columna ascendente",
                         "sortDescending": ": Activar orden de columna desendente"
                     }
+                },
+                layout: {
+                    topStart: null
                 }
             });
         });
@@ -220,7 +223,7 @@
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
@@ -233,23 +236,35 @@
                                                                             <td class="max-w-9 max-h-9">
                                                                                 <a href="{{ route('activity.evaluateIndex', ['activity_id' => $activity->id]) }}"
                                                                                     class="w-9 h-9">
-                                                                                    <svg viewBox="0 0 24 24" class="w-9 h-9"
+                                                                                    <svg class="w-9 h-9"
                                                                                         xmlns="http://www.w3.org/2000/svg"
-                                                                                        fill="none" stroke="currentColor"
-                                                                                        stroke-width="2"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round">
+                                                                                        width="16" height="16"
+                                                                                        fill="currentColor"
+                                                                                        class="bi bi-check2-square"
+                                                                                        viewBox="0 0 16 16">
                                                                                         <path
-                                                                                            d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                2 0 0 0 2-2v-7" />
+                                                                                            d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
                                                                                         <path
-                                                                                            d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                                                                            d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
                                                                                     </svg>
+
 
                                                                                 </a>
                                                                             </td>
                                                                         @else
-                                                                            <td></td>
+                                                                            <td>
+                                                                                <svg class="w-9 h-9 text-gray-200"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    width="16" height="16"
+                                                                                    fill="currentColor"
+                                                                                    class="bi bi-check2-square"
+                                                                                    viewBox="0 0 16 16">
+                                                                                    <path
+                                                                                        d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+                                                                                    <path
+                                                                                        d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                                                                                </svg>
+                                                                            </td>
                                                                         @endif
 
                                                                         {{-- Enviar --}}

@@ -18,6 +18,9 @@
 
     {{-- fin añadidos template --}}
 
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+
     <!-- Styles -->
     {{-- @vite('resources/css/app.css', 'resources/js/refreshSelectUserType.js', 'resources/js/userDropdownMenu.js') --}}
     @vite(['resources/css/app.css'])
@@ -91,12 +94,13 @@
 
     <!-- navbar -->
     <div class="fixed z-10 flex items-center justify-between w-full bg-blue-800 shadow-md h-14 shadow-black/5">
-        <div class="flex items-center justify-start pl-3 bg-blue-800 border-none md:justify-center w-14 md:w-64 h-14">
+        <div
+            class="flex items-center justify-start pl-3 border-none bg-yellowPersonal md:justify-center w-14 md:w-64 h-14">
             <img class="mr-2 overflow-hidden rounded-md w-7 h-7 md:w-10 md:h-10"
                 src="https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg" />
             <span class="hidden md:block">ADMIN</span>
         </div>
-        <div class="flex items-center justify-end bg-blue-800 h-14 header-right">
+        <div class="flex items-center justify-end bg-yellowPersonal h-14 header-right">
             {{-- <div class="flex items-center w-full max-w-xl p-2 mr-4 bg-white border border-gray-200 rounded shadow-sm">
                 {{-- <button class="outline-none focus:outline-none">
                     {{-- <svg class="w-5 h-5 text-gray-600 cursor-pointer" fill="none" stroke-linecap="round"
@@ -163,20 +167,26 @@
                     </a>
                 </li>
                 <li class="mb-1 group">
-                    <a href="{{ route('user.index') }}"
+                    {{-- <a href="" --}}
+                    <span id="usersBtn"
                         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
                         <i class='mr-3 text-lg bx bx-user'></i>
                         <span class="hidden text-sm md:inline">Usuarios</span>
-                        <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-                    </a>
-                    <ul class="pl-7 mt-2 hidden group-[.selected]:block">
+                        <i id="arrow" class="ml-auto ri-arrow-right-s-line "></i>
+                    </span>
+                    {{-- </a> --}}
+                    <ul id="userSubMenu" class="pl-7 mt-2 hidden group-[.selected]:block">
                         <li class="mb-4">
-                            <a href=""
-                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+                            <a href="{{ route('user.listUsers') }}"
+                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Todos</a>
                         </li>
                         <li class="mb-4">
-                            <a href=""
-                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
+                            <a href="{{ route('admin.docentesIndex') }}"
+                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Docentes</a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="{{ route('admin.estudiantesIndex') }}"
+                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Estudiantes</a>
                         </li>
                     </ul>
                 </li>
@@ -210,21 +220,23 @@
                 </li>
 
                 {{-- <span class="pl-2 font-bold text-gray-400">BLOG</span> --}}
-                <li class="mb-1 group">
-                    <a href="{{ route('admin.posts') }}"
+                <li id="postsBtn" class="mb-1 group">
+                    {{-- <a href="{{ route('admin.posts') }}" --}}
+                    <span
                         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
                         <i class='mr-3 text-lg bx bxl-blogger'></i>
                         <span class="hidden text-sm md:inline">Post</span>
-                        <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-                    </a>
-                    <ul class="pl-7 mt-2 hidden group-[.selected]:block">
+                        <i id="postsArrow" class="ml-auto ri-arrow-right-s-line"></i>
+                    </span>
+                    {{-- </a> --}}
+                    <ul id="postsSubMenu" class="pl-7 mt-2 hidden group-[.selected]:block">
                         <li class="mb-4">
-                            <a href=""
-                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+                            <a href="{{ route('admin.posts') }}"
+                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Posts</a>
                         </li>
                         <li class="mb-4">
-                            <a href=""
-                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Categories</a>
+                            <a href="{{ route('category.index') }}"
+                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Categorias</a>
                         </li>
                     </ul>
                 </li>
@@ -278,6 +290,29 @@
 
 
     <script>
+        //button usuarios
+
+        $('#usersBtn').on('click', function() {
+            $('#userSubMenu').toggle('slow');
+
+            $("#arrow").toggleClass("rotate-90");
+        })
+
+
+        //button Posts
+
+        $('#postsBtn').on('click', function() {
+            $('#postsSubMenu').toggle('slow');
+
+            $("#postsArrow").toggleClass("rotate-90");
+        })
+
+        // $('#usersBtn').hover(function() {
+        //     $('#userSubMenu').toggle('slow');
+        // })
+
+        //fin button usuarios
+
         // start: Sidebar
         const sidebarToggle = document.querySelector('.sidebar-toggle')
         const sidebarOverlay = document.querySelector('.sidebar-overlay')

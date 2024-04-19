@@ -131,7 +131,7 @@
                                     <button class="flex flex-row items-center p-2 hover:bg-gray-100 rounded-xl">
                                         <div class="flex items-center justify-center w-8 h-8 bg-indigo-200 rounded-full">
                                         </div>
-                                        <div class="ml-2 text-sm font-semibold">Sin Chats Activos/div>
+                                        <div class="ml-2 text-sm font-semibold">Sin Chats Activos</div>
                                     </button>
                                 @else
                                     @foreach ($otherUsers as $user)

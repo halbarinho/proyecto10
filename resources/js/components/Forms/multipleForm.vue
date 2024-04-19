@@ -1,8 +1,8 @@
 <template>
     <div :id="id" class="bg-[#ecf2f7] flex items-center justify-center min-h-screen font-nunito text-slate-600 my-1">
         <section class="max-w-[968px] w-full mx-4">
-            <h1 class="mx-2 my-10 text-2xl font-semibold text-center sm:text-3xl">Respuesta de Opcion Múltiple N.{{ id +
-        1 }}
+            <h1 class="mx-2 my-6 text-2xl font-semibold text-center sm:text-3xl">Respuesta de Opcion Múltiple N.{{ id +
+                1 }}
             </h1>
 
 
@@ -21,7 +21,7 @@
                         @input="updateMultipleStatement" placeholder="Enunciado de la pregunta múltiple">
                 </li>
 
-                <li v-for="(option, index) in  4 " :key="index"
+                <li v-for="(option, index) in 4 " :key="index"
                     class="bg-[#f4faff] py-4 px-4 rounded-md min-w-full self-stretch flex items-start justify-center flex-col mb-4 sm:mb-0">
 
                     <div class="flex items-center justify-start w-full gap-4 ">

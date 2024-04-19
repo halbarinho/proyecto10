@@ -48,6 +48,9 @@
                         "sortAscending": ": Activar orden de columna ascendente",
                         "sortDescending": ": Activar orden de columna desendente"
                     }
+                },
+                layout: {
+                    topStart: null
                 }
             });
         });

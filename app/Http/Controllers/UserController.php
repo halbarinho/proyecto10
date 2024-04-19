@@ -10,9 +10,12 @@ use App\Models\Estudiante;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Rules\DniNieValidationRule;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\UpdateRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -22,17 +25,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        $docentes = Docente::all();
-        $estudiantes = Estudiante::all();
-        $classes = Classroom::all();
+        // $users = User::all();
+        // $docentes = Docente::all();
+        // $estudiantes = Estudiante::all();
+        // // $classes = Classroom::all();
 
-        //Paso notifications
-        $notifications = Notification::all();
+        // //Paso notifications
+        // $notifications = Notification::all();
 
-        return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes, 'classes' => $classes, 'notifications' => $notifications]);
+        // return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes, 'notifications' => $notifications]);
 
-        // return view("CRUD.index");
     }
 
     /**
@@ -166,17 +168,60 @@ class UserController extends Controller
      */
     public function update(UpdateRequest $request, string $id)
     {
-        //
+        Log::info('aqui');
         $data = $request->validated();
-
+        Log::info('aca');
         try {
             $userSelected = User::findOrFail($id);
 
-            $userSelected->update($request->all());
+            // $userSelected->update($request->all());
+
+            if (!empty($data['password'])) {
+                $userSelected->update([
+                    'name' => $data['name'],
+                    'dni' => $data['dni'],
+                    'last_name_1' => $data['last_name_1'],
+                    'last_name_2' => $data['last_name_2'],
+                    'gender' => $data['gender'],
+                    'email' => $data['email'],
+                    'password' => ($data['password']), //No Hashea la nueva contraseña porque ya se realiza
+                ]);
+
+            } else {
+                // Si la contraseña no se proporciona o está vacía, mantiene la contraseña existente
+                $userSelected->update([
+                    'name' => $data['name'],
+                    'dni' => $data['dni'],
+                    'last_name_1' => $data['last_name_1'],
+                    'last_name_2' => $data['last_name_2'],
+                    'gender' => $data['gender'],
+                    'email' => $data['email'],
+                ]);
+            }
+
+            if ($userSelected->user_type == 'docente') {
+                Log::info($userSelected);
+                $docenteSelected = $userSelected->docente;
+                Log::info($docenteSelected);
+                Log::info($data['speciality']);
+                $userSelected->Docente()->update([
+                    'speciality' => $data['speciality'],
+                ]);
+                Log::info($data['speciality']);
+            } elseif ($userSelected->user_type == 'estudiante') {
+
+                // $estudianteSelected = Estudiante::findOrFail($userSelected->id);
+                $estudianteSelected = $userSelected->Estudiante;
+                Log::info('estudiante', [$data['date_of_birth']]);
+                $estudianteSelected->update([
+                    'history' => $data['history'],
+                    'date_of_birth' => $data['date_of_birth'],
+                ]);
+            }
 
 
-            // return redirect()->back()->with('success', 'Registro Actualizado con Exito');
-            return redirect()->route('user.index');
+            return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+            // return redirect()->route('user.index');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
@@ -200,7 +245,7 @@ class UserController extends Controller
 
 
         // return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
-        return redirect()->route('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
+        return redirect()->route('user.listUsers', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
     }
 
 
@@ -214,4 +259,96 @@ class UserController extends Controller
 
         return response()->json($userId);
     }
+
+    public function profileIndex()
+    {
+
+        try {
+
+
+            $userId = Auth::user()->id;
+
+            $selectedUser = User::findOrFail($userId);
+
+            return view('user.profileIndex', ['user' => $selectedUser]);
+
+        } catch (QueryException $e) {
+
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br> Failed to update post. Please try again."])->withInput();
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br>"])->withInput();
+        }
+    }
+
+
+
+    public function updateProfilePhoto(Request $request, string $id)
+    {
+        Log::info('aqui');
+        // $data = $request->validated();
+        try {
+            $userSelected = User::findOrFail($id);
+            Log::info($userSelected);
+
+
+            if ($request->hasFile('profile_photo_path')) {
+
+                if ($userSelected->profile_photo_path) {
+                    Storage::delete($userSelected->profile_photo_path);
+                }
+                //almaceno
+                $img_path = Storage::putFile('public/images/profiles', $request->file('profile_photo_path'));
+                //cambio el path
+                $new_path = str_replace('public/', '', $img_path);
+
+                $userSelected->update([
+                    'profile_photo_path' => $new_path,
+                ]);
+
+            } else {
+                //AÑADO IMAGEN POR DEFECTO
+                // $new_path = '\images\defaultCollege.png';
+            }
+
+
+
+            // if ($request->hasFile('profile_photo_path')) {
+            //     // Eliminar la foto de perfil anterior si existe
+            //     if ($userSelected->profile_photo_path) {
+            //         Storage::delete($userSelected->profile_photo_path);
+            //     }
+
+            //     // Guardar la nueva foto de perfil
+            //     $userSelected->profile_photo_path = $request->file('profile_photo_path')->store('profile-photos');
+            // }
+
+            // Guardar los cambios en el usuario
+            // $userSelected->save();
+
+
+            return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+            // return redirect()->route('user.index');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+        }
+    }
+
+
+    public function listUsers()
+    {
+        $users = User::all();
+        $docentes = Docente::all();
+        $estudiantes = Estudiante::all();
+
+
+        //Paso notifications
+        $notifications = Notification::all();
+
+        return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes, 'notifications' => $notifications]);
+
+    }
+
 }

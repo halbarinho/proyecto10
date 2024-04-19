@@ -1,8 +1,31 @@
 @extends('layout.template-dashboard')
 
+@section('js')
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $('#search').on('input', function() {
+                let searchText = $(this).val().toLowerCase();
+
+                $('table tbody tr').each(function() {
+                    let studentName = $(this).find('td:nth-child(2)').text().toLowerCase();
+                    // let className = $(this).find('td:nth-child(3)').text().toLowerCase();
+                    // if (studentName.includes(searchText) || className.includes(searchText)) {
+                    if (studentName.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+    </script>
+
+@endsection
+
 @section('title', 'Listado Alumnos')
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-    crossorigin="anonymous"></script>
+
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 @section('content')
@@ -36,7 +59,7 @@
                             <div class="w-full md:w-1/2">
                                 {{-- form para busqueda --}}
                                 <form class="flex items-center">
-                                    <label for="simple-search" class="sr-only">Search</label>
+                                    <label for="search" class="sr-only">Búsqueda</label>
                                     <div class="relative w-full">
                                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
@@ -46,26 +69,26 @@
                                                     clip-rule="evenodd" />
                                             </svg>
                                         </div>
-                                        <input type="text" id="simple-search"
+                                        <input type="text" id="search"
                                             class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="Search" required="">
+                                            placeholder="Búsqueda" required="">
                                     </div>
                                 </form>
                             </div>
-                            <div
+                            {{-- <div
                                 class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
                                 <button type="button" id="createProductModalButton"
                                     class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                                     Añadir Alumn@
                                 </button>
 
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="mx-3 mb-5">
                             <span class="">{{ count($estudiantes) }} alumn@s</span>
                             <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black ">
                         </div>
-                        <div class="overflow-x-auto mx-2">
+                        <div class="mx-2 overflow-x-auto">
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead
                                     class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -80,7 +103,7 @@
 
                                     @if ($estudiantes->isEmpty())
                                         <tr class="col-span-3 text-center">
-                                            <td class="text-red-600">No hay registros de Aulas</td>
+                                            <td class="text-red-600">No hay registro de Alumnos</td>
                                         </tr>
                                         <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-gray-300">
                                     @else
@@ -88,18 +111,18 @@
                                             @csrf
                                             @method('PUT')
                                             <div
-                                                class="mb-4 flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
+                                                class="flex flex-col items-stretch justify-end flex-shrink-0 w-full mb-4 space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
                                                 <button
                                                     class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                                                     type="button" id="submit">
-                                                    <input type="submit" value="Enviar">
+                                                    <input type="submit" value="Añadir Alumn@s">
                                                 </button>
                                             </div>
                                             <input type="hidden" name="classroom" value="{{ $classroom }}">
                                             @foreach ($estudiantes as $student)
                                                 <tr class="border-b dark:border-gray-700 ">
                                                     {{-- <td
-                                                    class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                                    class="px-4 py-3 font-medium text-center text-gray-900 whitespace-nowrap dark:text-white">
                                                 </td> --}}
                                                     <td><input type="checkbox" name="estudiantesList[]"
                                                             value="{{ $student->user_id }}"></td>

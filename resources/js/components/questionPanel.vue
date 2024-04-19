@@ -1,7 +1,7 @@
 <template>
 
     <ul v-if="errors.length > 0">
-        <li v-for="(error, index)  in errors" :key="index">{{ error }}</li>
+        <li class="text-sm text-red-600" v-for="(error, index)  in errors" :key="index">{{ error }}</li>
     </ul>
 
     <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
@@ -12,8 +12,8 @@
         <form @submit.prevent="" class="w-full ">
 
             <section class="max-w-[968px] w-full mx-4 mx-auto">
-                <h1 class="mx-2 my-10 text-2xl font-semibold text-center sm:text-3xl">Datos de la Actividad: {{ id +
-        1 }}
+                <h1 class="mx-2 my-5 text-2xl font-semibold text-center sm:text-3xl">Datos de la Actividad: {{ id +
+                    1 }}
                 </h1>
 
 
@@ -104,22 +104,22 @@
 
                     <!-- pruebo boton en lugar de submit  -->
 
-                    <div class="container mx-auto my-2">
-                        <div class="flex flex-wrap justify-center mx-4 ">
+                    <div class="container mx-auto my-2 flex flex-wrap justify-center">
+                        <!-- <div class="justify-center mx-4 "> -->
 
-                            <div class="w-full px-4 md:w-1/2 xl:w-1/3">
-                                <button @click="goBack"
-                                    class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Regresar</button>
-                            </div>
-
-
-                            <div class="w-full px-4 md:w-1/2 xl:w-1/3">
-                                <button type="submit" @click="submitForm"
-                                    class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Enviar</button>
-                            </div>
-
-
+                        <div class="flex justify-center md:justify-end w-full  md:w-1/2 my-2 md:my-0">
+                            <button @click="goBack"
+                                class="px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-lg hover:bg-red-900 focus:ring-4 focus:ring-red-300 focus:outline-none">Cancelar</button>
                         </div>
+
+
+                        <div class="flex justify-center md:justify-start w-full  md:w-1/2 my-2 md:my-0">
+                            <button type="submit" @click="submitForm"
+                                class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none">Enviar</button>
+                        </div>
+
+
+                        <!-- </div> -->
                     </div>
                 </ul>
             </section>

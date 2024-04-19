@@ -60,7 +60,7 @@
                                 class="inline-block align-middle text-blueLightPersonal hover:text-blueDarkPersonal">Muro
                                 Información</span></a>
                     </li>
-                    <li class="relative flex flex-col px-4 align-middle"><a href=""
+                    <li class="relative flex flex-col px-4 align-middle"><a href="{{ route('docente.showClassrooms') }}"
                             class="py-1 text-sm font-bold leading-4 tracking-tight uppercase "><span
                                 class="inline-block align-middle text-blueLightPersonal hover:text-blueDarkPersonal">Aulas</span></a>
                     </li>

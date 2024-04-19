@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Stage;
 use App\Models\Docente;
 use App\Models\Classroom;
+use App\Models\Estudiante;
 use App\Models\StageLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -180,13 +181,19 @@ class ClassroomController extends Controller
 
         $selectedClass = Classroom::findOrFail($classroom->id);
 
-        $studentList = DB::table('users')
-            ->join('estudiantes', function (JoinClause $join) use ($selectedClass) {
-                $join->on('users.id', '=', 'estudiantes.user_id')
-                    ->where('estudiantes.class_id', '=', $selectedClass->id);
-            })
+        // $studentList = DB::table('users')
+        //     ->join('estudiantes', function (JoinClause $join) use ($selectedClass) {
+        //         $join->on('users.id', '=', 'estudiantes.user_id')
+        //             ->where('estudiantes.class_id', '=', $selectedClass->id);
+        //     })
+        //     ->get();
+
+
+        $studentList = Estudiante::with('TrackingSheet')
+            ->where('class_id', $selectedClass->id)
             ->get();
 
+        Log::info($studentList);
 
         return view('classroom.edit', ['classroom' => $selectedClass, 'studentList' => $studentList]);
     }

@@ -8,11 +8,11 @@
 
 @section('content')
 
-    <div class="ml-14 mr-4 mt-14">
+    <div class="mr-4 ml-14 mt-14">
         <div class="container py-4">
             {{-- INCLUYO MENSAJES DE ERROR --}}
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li class="text-sm text-red-600">{{ $error }}</li>

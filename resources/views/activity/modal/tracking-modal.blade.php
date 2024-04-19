@@ -24,7 +24,7 @@
                 <!-- Modal body -->
                 <div class="p-4 space-y-4 md:p-5">
 
-                    <form action="{{ route('trackingSheet.send') }}" method="POST">
+                    <form id="trackingForm" action="{{ route('trackingSheet.send') }}" method="POST">
                         @csrf
                         @method('POST')
                         <input type="hidden" name="user_id" value="{{ $studentId }}">
@@ -47,7 +47,7 @@
                             {{-- <input type="submit"
                                 class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 value="Añadir Hoja"> --}}
-                            <button type="submit" onclick="submit()"
+                            <button type="submit" form="trackingForm" onclick="submit()"
                                 class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg class="w-5 h-5 me-1 -ms-1" fill="currentColor" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">

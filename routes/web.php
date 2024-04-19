@@ -4,6 +4,7 @@
 | Web Routes
 |--------------------------------------------------------------------------
 */
+
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,7 @@ use App\Http\Controllers\StageController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
@@ -30,6 +32,7 @@ use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TrackingSheetController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\ActivitiesResultController;
 use App\Http\Controllers\ActivityQuestionController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -117,6 +120,12 @@ Route::middleware(['auth', 'hasRole:admin'])->group(function () {
     Route::put('/admin/notification/{notification}', [AdminController::class, 'updateNotification'])->name('admin.updateNotification');
     Route::delete('/admin/notification/delete/{id}', [AdminController::class, 'destroyNotification'])->name('admin.notificationDestroy');
     Route::post('/admin/notification/deleteNotifications', [AdminController::class, 'deleteNotifications'])->name('admin.deleteNotifications');
+
+    Route::get('/admin/users', [UserController::class, 'listUsers'])->name('user.listUsers');
+
+    Route::get('/admin/users/estudiantes', [EstudianteController::class, 'index'])->name('admin.estudiantesIndex');
+    Route::get('/admin/users/docentes', [DocenteController::class, 'index'])->name('admin.docentesIndex');
+
 });
 
 
@@ -283,4 +292,34 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth']], 
 
     //Ruta para almacenar trackingSheets
     Route::post('/trackingSheet/store', [TrackingSheetController::class, 'sendTrackingSheet'])->name('trackingSheet.send');
+
+    //Ruta para ver trackingSheets
+    Route::get('/trackingSheet/student/{studentId}', [TrackingSheetController::class, 'show'])->name('trackingSheet.show');
+
+    //Ruta para ver/editar trackingSheets
+    Route::get('/trackingSheet/{trackingSheet}/edit', [TrackingSheetController::class, 'edit'])->name('trackingSheet.edit');
+
+    //Ruta para ver/editar trackingSheets
+    Route::delete('/trackingSheet/{trackingSheet}', [TrackingSheetController::class, 'destroy'])->name('trackingSheet.destroy');
+
+    //Ruta para actualizar trackingSheet
+    Route::put('/trackingSheet/update', [TrackingSheetController::class, 'update'])->name('trackingSheet.update');
+
+    //Ruta para eliminar las ActivitiesResult
+    Route::delete('/activitiesResult/{selectedActivityId}/{selectedStudentId}', [ActivitiesResultController::class, 'destroy'])->name('activitiesResult.destroy');
+
+    //Ruta para eliminar las actividadesResult seleccionadas con el checkbox
+    Route::post('/activity/deleteActivitiesResult', [ActivitiesResultController::class, 'deleteActivities'])->name('activitiesResult.deleteActivities');
+
+    Route::put('/estudiante/statusUpdate', [EstudianteController::class, 'statusUpdate'])->name('estudiante.statusUpdate');
+
+
+    //Ruta para editar el perfil del usuario
+    Route::get('/userProfile/', [UserController::class, 'profileIndex'])->name('user.userProfile');
+
+    //Ruta para que el usuario actualice su imagen de perfil
+    Route::put('/userProfile/{user}/updateProfilePhoto', [UserController::class, 'updateProfilePhoto'])->name('user.updateProfilePhoto');
+
+
+
 });

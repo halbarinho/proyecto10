@@ -17,7 +17,7 @@ return new class extends Migration {
             // $table->string('dni_FK', 9)->unique();
             $table->date('date_of_birth')->nullable();
             $table->text('history')->nullable();
-            $table->timestamps();
+
 
 
             //lo sustituyo al usar el metodo foreignId
@@ -41,6 +41,10 @@ return new class extends Migration {
                 ->constrained(table: 'classrooms', indexName: 'id')
                 ->nullOnDelete()
                 ->onUpdate('cascade');
+
+
+            $table->enum('status', ['safe', 'caution', 'warning'])->default('safe');
+            $table->timestamps();
         });
     }
 

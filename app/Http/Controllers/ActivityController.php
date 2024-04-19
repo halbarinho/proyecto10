@@ -582,9 +582,9 @@ class ActivityController extends Controller
 
             if ($studentAnswers) {
                 Log::info('studentAnswers', [$studentAnswers]);
-
+                $status = ['Sin Seguimiento' => 'safe', 'Precacución' => 'caution', 'Atención Prioritaria' => 'warning'];
                 // return view('activity.evaluateActivity', ['questionaire' => $questionaire, 'studentAnswers' => $studentAnswers]);
-                return view('activity.evaluateActivity', ['questionaire' => $studentAnswers, 'studentId' => $studentId, 'activityId' => $activityId]);
+                return view('activity.evaluateActivity', ['questionaire' => $studentAnswers, 'studentId' => $studentId, 'activityId' => $activityId, 'status' => $status]);
             } else {
                 return redirect()->back()->withErrors(['error' => "Error, no se encontraron coincidencias."])->withInput();
 

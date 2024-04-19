@@ -57,6 +57,55 @@
         });
     </script>
 
+    <script>
+        let selectedActivityId;
+        let selectedStudentId;
+
+        function showDialog(id, studentId) {
+
+            selectedActivityId = id;
+            selectedStudentId = studentId;
+
+            let dialog = document.getElementById('dialog');
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog() {
+
+            let dialog = document.getElementById('dialog');
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+        function deleteActivity() {
+
+            // console.log('aqui');
+
+            fetch(`/activitiesResult/${selectedActivityId}/${selectedStudentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    // if (!response.ok) {
+                    //     throw new Error('Network response was not ok');
+                    // }
+                    // Recarga la página
+                    location.reload(); // O cualquier otra acción necesaria
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar la actividad:', error);
+                });
+        }
+    </script>
+
 @endsection
 
 @section('title', 'Listado Actividades')
@@ -89,7 +138,7 @@
                 <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
                     <div
                         class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
-                        <h1 class="text-3xl uppercase">Actividades</h1>
+                        <h1 class="text-3xl uppercase">Actividades para Evaluar</h1>
                     </div>
                     <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                         <div
@@ -98,12 +147,17 @@
 
                                 @if ($activities->isEmpty())
                                     <div class="flex justify-between w-full mx-auto">
-                                        <h3 class="text-red-600">No hay registros de Actividades</h3>
+                                        <h3 class="text-red-600">No hay registros de Actividades para evaluar</h3>
                                         <a href="{{ route('activity.create') }}">
                                             <button id="createActivity"
                                                 class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700">Crear
                                                 Nueva
                                                 Actividad</button>
+                                        </a>
+                                        <a href="{{ route('activity.index') }}">
+                                            <button id="createActivity"
+                                                class="px-5 py-2 text-white cursor-pointerpx-4 text-sm font-medium bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none">Indice
+                                                Actividades</button>
                                         </a>
                                     </div>
                                 @else
@@ -122,7 +176,7 @@
                                         <span class="">{{ count($activities) }} actividades</span>
                                         <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black ">
                                         @include('activity.modal.deleteMultiple-modal')
-                                        <form action="{{ route('activity.deleteActivities') }}"
+                                        <form action="{{ route('activitiesResult.deleteActivities') }}"
                                             onsubmit="handleSubmit(event);event.preventDefault();" method="POST"
                                             id="form">
                                             @csrf
@@ -200,7 +254,7 @@
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
@@ -220,7 +274,7 @@
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
@@ -235,7 +289,7 @@
                                                                             <button type="button"
                                                                                 id="delete-{{ $activity->id }}"
                                                                                 class="w-9 h-9"
-                                                                                onclick="showDialog(); event.preventDefault();">
+                                                                                onclick="showDialog({{ $activity->activity_id }}, {{ $activity->estudiante_id }}); event.preventDefault();">
                                                                                 <svg version="1.1" width="36"
                                                                                     height="36" viewBox="0 0 36 36"
                                                                                     preserveAspectRatio="xMidYMid meet"
@@ -282,6 +336,7 @@
                                         @endforeach --}}
 
                                     </div>
+                                    @include('activity.modal.deleteActivityEvaluated-modal')
                                 @endif
                             </div>
                         </div>
@@ -292,111 +347,5 @@
 
         </div>
     </main>
-    <script>
-        function showDialog(id) {
 
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
-
-        function hideDialog(id) {
-
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deleteActivity(id) {
-
-
-            fetch(`/activity/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                })
-                .then(response => {
-                    // if (!response.ok) {
-                    //     throw new Error('Network response was not ok');
-                    // }
-                    // Recarga la página
-                    location.reload(); // O cualquier otra acción necesaria
-                })
-                .catch(error => {
-                    console.error('Ha habido un error al intentar eliminar la actividad:', error);
-                });
-        }
-
-        function showSendDialog(id) {
-
-
-
-            let dialog = document.getElementById('sendDialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
-
-        function hideSendDialog(id) {
-
-            let dialog = document.getElementById('sendDialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-
-        function handleSubmit(event) {
-
-            // event.preventDefault();
-
-            let selectedActivities = document.querySelectorAll('input[name="activitiesList[]"]:checked');
-
-            let selectedIds = Array.from(selectedActivities).map(selectedActivities => selectedActivities.value);
-
-            console.log(selectedIds);
-
-            // let formData = new FormData(form);
-            // let activitiesList = formData.getAll('activitiesList[]');
-            // console.log('de vedad', activitiesList);
-            // event.preventDefault();
-
-            if (selectedIds.length < 1) {
-                location.reload();
-            } else {
-                showDeleteMultipleModal();
-            }
-
-        }
-
-
-        function showDeleteMultipleModal() {
-            let deleteMultipleModal = document.getElementById('deleteMultipleModal');
-            deleteMultipleModal.classList.remove('hidden');
-            setTimeout(() => {
-                deleteMultipleModal.classList.remove('opacity-0');
-            }, 20);
-        }
-
-        function hideDeleteMultipleModal() {
-            let deleteMultipleModal = document.getElementById('deleteMultipleModal');
-            deleteMultipleModal.classList.add('opacity-0');
-            setTimeout(() => {
-                deleteMultipleModal.classList.add('hidden');
-            }, 500);
-        }
-
-        function submitDeleteMultipleForm() {
-            let form = document.getElementById('form');
-            form.submit();
-        }
-    </script>
 @endsection

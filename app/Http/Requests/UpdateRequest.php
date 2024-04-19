@@ -55,21 +55,21 @@ class UpdateRequest extends FormRequest
                 'unique:users,email,' . $this->user,
             ],
             'password' => [
-                'required',
+                'nullable',
                 'min:6',
                 'max:50',
                 //'confirmed',
             ],
             'password_confirmation' => [
-                'required',
+                'nullable',
                 'min:6',
                 'max:50',
                 'same:password',
 
             ],
-            'user_type' => [
-                'required',
-            ],
+            // 'user_type' => [
+            //     'required',
+            // ],
             'speciality' => [
                 'required_if:user_type,docente',
                 'nullable', //AÑADO PARA QUE NO ME DE ERROR SI EL USER ES ESTUDIANTE
@@ -88,6 +88,13 @@ class UpdateRequest extends FormRequest
                 'string',
                 'max:50',
             ],
+            'profile_photo_path' => [
+                'image',
+                'nullable',
+                'mimes:jpeg,png',
+                'max:1024',
+                // 'dimensions:min_width=200,min_height=200,max_width=800,max_height=800'
+            ]
         ];
     }
 }

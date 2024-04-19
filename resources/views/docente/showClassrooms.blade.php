@@ -100,12 +100,12 @@
                 <div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li class="text-sm text-red-600">{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @elseif (session('success'))
-                <div class="alert alert-success">
+                <div class="text-sm text-red-600">
                     {{ session('success') }}
                 </div>
             @endif

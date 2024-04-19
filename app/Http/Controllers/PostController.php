@@ -219,22 +219,15 @@ class PostController extends Controller
             $selectedPost = Post::findOrFail($postId);
 
             //Busco si existen post previo/siguiente
-            $id = $postId;
             $nextPostId = null;
             $prevPostId = null;
 
+            // Buscar el ID del post siguiente
+            $nextPostId = Post::where('id', '>', $postId)->min('id');
 
-            // Log::info('nextid:', [++$id]);
+            // Buscar el ID del post anterior
+            $prevPostId = Post::where('id', '<', $postId)->max('id');
 
-            if (Post::find(++$id)) {
-
-                $nextPostId = $id;
-                $id = $postId;
-            }
-
-            if (Post::find($id--)) {
-                $prevPostId = $id;
-            }
 
             return view('posts.show', ['post' => $selectedPost, 'nextPostId' => $nextPostId, 'prevPostId' => $prevPostId]);
         } catch (Exception $e) {

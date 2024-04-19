@@ -40,7 +40,7 @@ class User extends Authenticatable
         'email',
         'password',
         'user_type',
-        // 'profile_photo_path',
+        'profile_photo_path',
     ];
 
     /**
@@ -72,14 +72,14 @@ class User extends Authenticatable
         // $this->attributes['password'] = Hash::make($value);
     }
 
-    public function Docente(): HasMany
+    public function Docente(): HasOne
     {
-        return $this->hasMany(Docente::class);
+        return $this->hasOne(Docente::class);
     }
 
-    public function Estudiante(): HasMany
+    public function Estudiante(): HasOne
     {
-        return $this->hasMany(Estudiante::class, 'user_id', 'id');
+        return $this->hasOne(Estudiante::class, 'user_id', 'id');
     }
 
     public function Phone(): HasMany

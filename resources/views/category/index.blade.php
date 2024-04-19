@@ -48,6 +48,9 @@
                         "sortAscending": ": Activar orden de columna ascendente",
                         "sortDescending": ": Activar orden de columna desendente"
                     }
+                },
+                layout: {
+                    topStart: null
                 }
             });
         });
@@ -96,7 +99,7 @@
 
 
                                 @if ($categories->isEmpty())
-                                    <h3>No hay registros de Categorías</h3>
+                                    <h3 class="text-sm text-red-600">No hay registros de Categorías</h3>
                                     <a href="{{ route('category.create') }}">
                                         <button id="createActivity"
                                             class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700">Crear
@@ -107,15 +110,16 @@
                                     <div
                                         class="flex flex-col items-stretch flex-shrink-0 w-full space-y-2 md:justify-end md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
                                         <a class="" href="{{ route('category.create') }}">
-                                            <button type="button" id="createProductModalButton"
+                                            <button type="button" id="createActivity"
                                                 class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                                                 Añadir Categoría
                                             </button>
                                         </a>
                                     </div>
 
+                                    {{-- ELIMINAR MULTIPLES CATEGORIAS A LA VEZ --}}
 
-                                    <div class="mx-3 mb-5">
+                                    {{-- <div class="mx-3 mb-5">
                                         <span class="">{{ count($categories) }} categorías</span>
                                         <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black ">
                                         @include('activity.modal.deleteMultiple-modal')
@@ -132,10 +136,13 @@
                                                     onclick="showDeleteMultipleModal();event.preventDefault();">Eliminar
                                                     Seleccionadas
                                                     {{-- <input type="submit" value="Eliminar"> --}}
-                                                </button>
-                                            </div>
-                                        </form>
+                                    {{-- </button>
                                     </div>
+                                    </form>
+                            </div> --}}
+                                    {{-- FIN ELIMINAR MULTIPLES CATEGORIAS A LA VEZ --}}
+
+
                                     <div class="mx-3 mb-5 data-table-container">
                                         <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
                                             <div class="inline-block min-w-full overflow-hidden rounded-lg shadow">

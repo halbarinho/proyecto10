@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivitiesResult;
+use Exception;
 use Illuminate\Http\Request;
+use App\Models\ActivitiesResult;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\QueryException;
 
 class ActivitiesResultController extends Controller
 {
@@ -58,8 +61,67 @@ class ActivitiesResultController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ActivitiesResult $activitiesResult)
+    public function destroy(int $activityResultId, int $studentId)
     {
-        //
+
+        Log::info('activityResult', [$activityResultId, $studentId]);
+
+        try {
+            Log::info('joo');
+            // $selectedActivity = ActivitiesResult::findOrFail($activityResultId, $studentId);
+
+            $selectedActivity = ActivitiesResult::where('activity_id', $activityResultId)
+                ->where('estudiante_id', $studentId)
+                ->firstOrFail();
+
+
+
+            Log::info('slected', [$selectedActivity]);
+
+            $selectedActivity->delete();
+
+            return redirect()->back();
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+        }
+
+
+    }
+    /**
+     * Funcion que permite eliminar las multiples activitiesResult
+     * seleccionadas con los check
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function deleteActivities(Request $request)
+    {
+        try {
+
+            Log::info($request);
+
+            if (!isset($request->activitiesList)) {
+                throw new Exception('El elemento "activitiesList" no está definido.');
+            }
+
+            $activities = $request->activitiesList;
+
+            foreach ($activities as $activityId) {
+                Log::info('Valor', [$activityId]);
+                $activity = ActivitiesResult::findOrFail($activityId);
+                $activity->delete();
+            }
+
+            return redirect()->back()->with('success', 'Registros Actualizados con Exito');
+
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " Failed to update post. Please try again."])->withInput();
+        }
     }
 }

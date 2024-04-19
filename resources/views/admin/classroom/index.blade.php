@@ -48,6 +48,9 @@
                         "sortAscending": ": Activar orden de columna ascendente",
                         "sortDescending": ": Activar orden de columna desendente"
                     }
+                },
+                layout: {
+                    topStart: null
                 }
             });
         });
@@ -122,7 +125,7 @@
                                             {{ $class->class_name }}</td>
                                         <td class="px-6 py-4 leading-4 whitespace-no-wrap border-b border-gray-200">
                                             {{ $class->Docente->User->name }} {{ $class->Docente->User->last_name_1 }}</td>
-                                        <td>ICONO ALUMNOS</td>
+                                        <td>{{ count($class->estudiante) }}</td>
                                         <td class="leading-4 text-right">
                                             <a class="px-4 py-2 font-bold text-white bg-green-500 border border-green-700 rounded hover:bg-green-700"
                                                 href="{{ route('classroom.edit', $class->id) }}">Editar</a>

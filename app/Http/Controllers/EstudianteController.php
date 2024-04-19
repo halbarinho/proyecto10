@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Classroom;
 use App\Models\Estudiante;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 
 class EstudianteController extends Controller
@@ -19,9 +21,12 @@ class EstudianteController extends Controller
         $estudiantes = Estudiante::all();
 
         //inicializo la variable $estudiantesList
-        $estudiantesList = [];
+        // $estudiantesList = [];
 
-        return view('estudiante.index', ['estudiantes' => $estudiantes, 'estudiantesList' => $estudiantesList]);
+        //Paso notifications
+        $notifications = Notification::all();
+
+        return view('estudiante.index', ['estudiantes' => $estudiantes, 'notifications' => $notifications]);
     }
 
     /**
@@ -232,5 +237,39 @@ class EstudianteController extends Controller
 
     }
 
+
+    public function statusUpdate(Request $request)
+    {
+
+        try {
+
+            Log::info('Bueno hasta aqui');
+
+            $data = $request->all();
+
+            Log::info($data);
+
+            $selectedUser = Estudiante::findOrFail($data['estudianteId']);
+
+            // $status = $request->input('status');
+
+            Log::info($selectedUser);
+
+            $selectedUser->update([
+                'status' => $request->input('status'),
+            ]);
+
+            Log::info('bis', [$selectedUser]);
+
+            return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+        }
+
+    }
 
 }

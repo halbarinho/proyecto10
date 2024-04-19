@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Post;
 use App\Models\Alerta;
 use App\Models\Docente;
+use App\Models\Message;
 use App\Models\Activity;
 use App\Models\Classroom;
 use App\Models\Estudiante;
@@ -39,6 +40,15 @@ class AdminController extends Controller
         $alertas = Alerta::all();
         $actividades = Activity::all();
 
+        //Añado las aulas
+        $classrooms = Classroom::all();
+
+        //Latest messages
+        $latestMessages = Message::latest()->take(10)->get();
+        $latestAlerts = Alerta::latest()->take(6)->get();
+        $latestPosts = Post::latest()->take(6)->get();
+
+
         // Obtener las últimas actividades subidas
         $actividadesRecientes = Activity::latest()->take(4)->get();
         Log::info($actividadesRecientes);
@@ -51,6 +61,10 @@ class AdminController extends Controller
             'alertas' => $alertas,
             'actividades' => $actividades,
             'actividadesRecientes' => $actividadesRecientes,
+            'classrooms' => $classrooms,
+            'latestMessages' => $latestMessages,
+            'latestAlerts' => $latestAlerts,
+            'latestPosts' => $latestPosts,
         ]);
     }
 

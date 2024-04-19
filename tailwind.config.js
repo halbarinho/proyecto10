@@ -21,6 +21,7 @@ export default {
                 'orangePersonal': '#f39c12',
                 'greenPersonal': '#18b596',
                 'greenPistache': '#88bf48',
+                'blueLighterPersonal': '#19c3e3',
                 'blueLightPersonal': '#00b3e3',
                 'blueDarkPersonal': '#037dbf',
                 'grayPersonal': '#34485e',
@@ -29,6 +30,8 @@ export default {
                 'brownPersonal':'#685723',
                 'blackGray':'#343434',
                 'softGray':'#c5c3c2',
+                'btnGreen':'#2ebc98',
+
               },
         },
 

@@ -3,7 +3,7 @@
 @section('js')
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('form').submit(function(event) {
 
@@ -67,7 +67,7 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 
     <script>
         function showTrackingSheet() {
@@ -89,7 +89,30 @@
         }
 
         function submit() {
-            $('form').submit();
+            $('#trackingForm').submit();
+            // $('#trackingForm').submit();
+        }
+
+        function addEstudianteStatus() {
+            let dialog = document.getElementById('statusDialog');
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hidestatusDialog() {
+
+            let dialog = document.getElementById('statusDialog');
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+        function submitStatusForm() {
+            console.log('aqui llegamos');
+            $('#statusForm').submit();
         }
     </script>
 
@@ -113,11 +136,12 @@
                 </div>
             @endif
             @include('activity.modal.tracking-modal')
+            @include('activity.modal.changeEstudiantesStatus-modal')
             {{-- <form action="{{ route('activity.sendAnswer') }}" method="POST">
                 @csrf
                 <input type="hidden" name="activity_id" value="{{ $activity->id }}"> --}}
             @foreach ($questionaire as $answer)
-                {{ Log::info($answer) }}
+                {{-- {{ Log::info($answer) }} --}}
                 @switch($answer->Question->question_type)
                     @case('boolForm')
                         <div class="bg-[#ecf2f7] flex items-center justify-center min-h-screen font-nunito text-slate-600">
@@ -236,17 +260,22 @@
             @endforeach
 
 
+            <div class="flex justify-center md:justify-end mr-4 mt-4">
+                <!-- Botón para enviar con estado pending -->
+                <button type="button" id="showTrackingSheet" onclick="showTrackingSheet(); event.preventDefault();"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Adjuntar
+                    Historial</button>
 
-            <!-- Botón para enviar con estado pending -->
-            <button type="button" id="showTrackingSheet" onclick="showTrackingSheet(); event.preventDefault();"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Adjuntar
-                Historial</button>
+                <!-- Botón para añadir seguimiento al usuario -->
+                <button type="button" onclick="addEstudianteStatus(); event.preventDefault();"
+                    class="py-2.5 px-5 ms-3 text-sm font-medium text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700"
+                    value="">Cambiar Seguimiento</button>
 
-            <!-- Botón para enviar con estado completed -->
-            <button
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                type="submit" name="status" value="completed">Cerrar</button>
-
+                <!-- Botón para enviar con estado completed -->
+                <button onclick="window.history.back();"
+                    class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                    type="submit" name="status" value="completed">Cerrar</button>
+            </div>
             {{-- </form> --}}
     </main>
 

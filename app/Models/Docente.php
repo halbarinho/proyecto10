@@ -22,7 +22,7 @@ class Docente extends Model
 
     public function Classroom(): HasMany
     {
-        return $this->hasMany(Classroom::class);
+        return $this->hasMany(Classroom::class, 'user_id', 'user_id');
     }
 
     public function Activity(): HasMany

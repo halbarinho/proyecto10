@@ -25,6 +25,7 @@ class Estudiante extends Model
         'date_of_birth',
         'history',
         'class_id',
+        'status',
     ];
 
     public function User(): BelongsTo
@@ -45,6 +46,11 @@ class Estudiante extends Model
     public function Answer(): HasMany
     {
         return $this->hasMany(Answer::class);
+    }
+
+    public function TrackingSheet(): HasMany
+    {
+        return $this->hasMany(TrackingSheet::class, 'student_id', 'user_id');
     }
 
 }

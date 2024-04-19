@@ -12,46 +12,53 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
 
-    {{-- Datatables --}}
-    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#classTable').DataTable({
-                "order": [
-                    [3, "desc"]
-                ],
-                columnDefs: [{
-                    targets: [1],
-                    sortable: false,
-                    searchable: false
-                }],
-                language: {
-                    "decimal": "",
-                    "emptyTable": "No hay datos",
-                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                    "infoEmpty": "Mostrando 0 a 0 de 0 registros",
-                    "infoFiltered": "(Filtro de _MAX_ total registros)",
-                    "infoPostFix": "",
-                    "thousands": ",",
-                    "lengthMenu": "Mostrar _MENU_ registros",
-                    "loadingRecords": "Cargando...",
-                    "processing": "Procesando...",
-                    "search": "Buscar:",
-                    "zeroRecords": "No se encontraron coincidencias",
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Ultimo",
-                        "next": "Próximo",
-                        "previous": "Anterior"
+    @if ($studentList->isNotEmpty())
+        {{ Log::info('aqui', [$studentList]) }}
+        {{-- Datatables --}}
+        <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#classTable').DataTable({
+                    "order": [
+                        [0, "desc"]
+                    ],
+                    columnDefs: [{
+                        targets: [1],
+                        sortable: false,
+                        searchable: false
+                    }],
+                    language: {
+                        "decimal": "",
+                        "emptyTable": "No hay datos",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                        "infoFiltered": "(Filtro de _MAX_ total registros)",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "No se encontraron coincidencias",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Próximo",
+                            "previous": "Anterior"
+                        },
+                        "aria": {
+                            "sortAscending": ": Activar orden de columna ascendente",
+                            "sortDescending": ": Activar orden de columna desendente"
+                        }
                     },
-                    "aria": {
-                        "sortAscending": ": Activar orden de columna ascendente",
-                        "sortDescending": ": Activar orden de columna desendente"
+                    layout: {
+                        topStart: null
                     }
-                }
+                });
             });
-        });
-    </script>
+        </script>
+    @endif
 
 @endsection
 
@@ -114,6 +121,7 @@
                                             <tr>
                                                 {{-- <th class="px-4 py-4">Estado</th> --}}
                                                 <th class="px-4 py-3">Alumno</th>
+                                                {{-- <th></th> --}}
                                                 <th class="px-4 py-3 text-right">Opciones</th>
                                             </tr>
                                         </thead>
@@ -121,7 +129,8 @@
 
                                             @if ($studentList->isEmpty())
                                                 <tr class="col-span-3 text-center">
-                                                    <td class="text-red-600">No hay registros de Aulas</td>
+                                                    <td class="text-red-600">No hay registro de Alumnos para este Aula</td>
+                                                    <td></td>
                                                 </tr>
                                                 <hr
                                                     class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-gray-300">
@@ -132,12 +141,42 @@
                                                     class="px-4 py-3 font-medium text-center text-gray-900 whitespace-nowrap dark:text-white">
                                                 </td> --}}
                                                         <td class="px-4 py-3 max-w-[12rem] truncate">
-                                                            {{ $student->name }} {{ $student->last_name_1 }}
-                                                            {{ $student->last_name_2 }}
+                                                            {{ $student->user->name }} {{ $student->user->last_name_1 }}
+                                                            {{ $student->user->last_name_2 }}
                                                         </td>
+                                                        {{--
+                                                        <td class="px-4 py-3 max-w-[12rem]">
+
+                                                        </td> --}}
+
                                                         <td class="flex items-center justify-end px-4 py-3">
-                                                            <a
-                                                                href="{{ route('estudiante.discardClassroom', ['estudiante' => $student->id]) }}">
+
+
+                                                            @if ($student->TrackingSheet->isEmpty())
+                                                            @else
+                                                                <a
+                                                                    href="{{ route('trackingSheet.show', ['studentId' => $student->user_id]) }}">
+                                                                    <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 32 32">
+                                                                        <g id="_15_notification-text"
+                                                                            data-name="15 notification-text">
+                                                                            <rect x="8" y="10" width="15.75"
+                                                                                height="2" />
+                                                                            <rect x="8" y="15" width="15.75"
+                                                                                height="2" />
+                                                                            <rect x="8" y="20" width="8"
+                                                                                height="2" />
+                                                                            <path
+                                                                                d="M29,6a3,3,0,0,0-5.22-2H7A3,3,0,0,0,4,7V25a3,3,0,0,0,3,3H25a3,3,0,0,0,3-3V8.22A3,3,0,0,0,29,6ZM26,5a1,1,0,1,1-1,1A1,1,0,0,1,26,5Zm0,20a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V7A1,1,0,0,1,7,6H23a3,3,0,0,0,3,3Z" />
+                                                                        </g>
+                                                                    </svg>
+                                                                </a>
+                                                            @endif
+
+
+
+                                                            <a {{-- href="{{ route('estudiante.discardClassroom', ['estudiante' => $student->id]) }}"> --}}
+                                                                href="{{ route('estudiante.discardClassroom', ['estudiante' => $student->user_id]) }}">
                                                                 <svg class="w-7 h-7">
                                                                     <?xml version="1.0" ?><svg viewBox="0 0 32 32"
                                                                         xmlns="http://www.w3.org/2000/svg">

@@ -166,7 +166,7 @@
             </div>
             <div class="w-full p-8 lg:w-1/3 xl:w-1/3 md:w-1/2">
                 <div>
-                    <a href="{{ route('post.index') }}">
+                    <a href="{{ route('user.userProfile') }}">
                         <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/student.png') }}"
                             alt="photo">
                     </a>

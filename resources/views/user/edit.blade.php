@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="email" class="mb-3 block text-base font-medium text-[#07074D]">email</label>
+                <label for="email" class="mb-3 block text-base font-medium text-[#07074D]">Email</label>
                 <div class="sm-5">
                     <input type="email" name="email" id="email"
                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -104,7 +104,9 @@
                     </select>
                 </div>
             </div>
-            <div class="mb-3 row">
+
+            @if ($user->user_type == 'docente')
+                {{-- <div class="mb-3 row">
                 <label for="user_type" class="mb-3 block text-base font-medium text-[#07074D]">Tipo Usuario</label>
                 <div class="sm-5">
                     <select name="user_type" id="user_type" class="form-select" required>
@@ -113,50 +115,50 @@
                         <option value="estudiante">Estudiante</option>
                     </select>
                 </div>
-            </div>
+            </div> --}}
 
-            {{-- CAMPOS FORM VARIABLES SEGUN TIPO USUARIO --}}
-            {{-- DOCENTE --}}
-            <div id="campo_docente" class="hidden">
-                <div class="mb-3 row">
-                    <label for="speciality" class="mb-3 block text-base font-medium text-[#07074D]">Especialidad</label>
-                    <div class="sm-5">
-                        <input type="text" name="speciality" id="speciality"
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                            value="">
-                        @if ($errors->has('speciality'))
-                            <div class="text-xs text-redPersonal">{{ $errors->first('speciality') }}</div>
-                        @endif
+                {{-- CAMPOS FORM VARIABLES SEGUN TIPO USUARIO --}}
+                {{-- DOCENTE --}}
+                <div id="campo_docente" class="">
+                    <div class="mb-3 row">
+                        <label for="speciality" class="mb-3 block text-base font-medium text-[#07074D]">Especialidad</label>
+                        <div class="sm-5">
+                            <input type="text" name="speciality" id="speciality"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                value="{{ $user->docente->speciality }}">
+                            @if ($errors->has('speciality'))
+                                <div class="text-xs text-redPersonal">{{ $errors->first('speciality') }}</div>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            {{-- ALUMNO --}}
-            <div id="campo_alumno" class="hidden">
-                <div class="mb-3 row">
-                    <label for="history" class="mb-3 block text-base font-medium text-[#07074D]">Historial</label>
-                    <div class="sm-5">
-                        <input type="text" name="history" id="history"
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                            value="">
-                        @if ($errors->has('history'))
-                            <div class="text-xs text-redPersonal">{{ $errors->first('history') }}</div>
-                        @endif
+            @else
+                {{-- ALUMNO --}}
+                <div id="campo_alumno" class="">
+                    <div class="mb-3 row">
+                        <label for="history" class="mb-3 block text-base font-medium text-[#07074D]">Historial</label>
+                        <div class="sm-5">
+                            <input type="text" name="history" id="history"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                value="{{ $user->Estudiante->history }}">
+                            @if ($errors->has('history'))
+                                <div class="text-xs text-redPersonal">{{ $errors->first('history') }}</div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="date_of_birth" class="mb-3 block text-base font-medium text-[#07074D]">Fecha
+                            Nacimiento</label>
+                        <div class="sm-5">
+                            <input type="date" name="date_of_birth" id="date_of_birth" {{-- class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" --}}
+                                value="{{ $user->Estudiante->date_of_birth }}">
+                            @if ($errors->has('date_of_birth'))
+                                <div class="text-xs text-redPersonal">{{ $errors->first('date_of_birth') }}</div>
+                            @endif
+                        </div>
                     </div>
                 </div>
-                <div class="mb-3 row">
-                    <label for="data_of_birth" class="mb-3 block text-base font-medium text-[#07074D]">Fecha
-                        Nacimiento</label>
-                    <div class="sm-5">
-                        <input type="date" name="data_of_birth" id="data_of_birth" {{-- class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" --}}
-                            value="">
-                        @if ($errors->has('data_of_birth'))
-                            <div class="text-xs text-redPersonal">{{ $errors->first('data_of_birth') }}</div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-
+            @endif
 
 
             {{-- modificar estilos --}}
@@ -187,7 +189,7 @@
                 </div>
             </div>
 
-            <a href="{{ route('user.index') }}"
+            <a href="{{ route('user.listUsers') }}"
                 class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base
                     font-semibold text-white outline-none">Regresar</a>
 
