@@ -1,10 +1,12 @@
 <template>
 
     <ul v-if="errors.length > 0">
-        <li class="text-sm text-red-600" v-for="(error, index)  in errors" :key="index">{{ error }}</li>
+        <!-- <li class="text-sm text-red-600" v-for="(error, index)  in errors" :key="index">{{ error }}</li> -->
+        <li class="text-sm text-red-600" v-for="(error, index)  in errors" :key="index">
+            {{ error }}</li>
     </ul>
 
-    <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+    <div class="flex flex-col items-center justify-between p-4 my-2 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
         <h1 class="text-3xl uppercase">Registrar Nueva Actividad</h1>
     </div>
 
@@ -30,7 +32,8 @@
 
                         <input type="text"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                            name="activity_name" v-model="activityName" placeholder="Nombre Actividad">
+                            name="activity_name" v-model="activityName" placeholder="Nombre Actividad" required
+                            minlength="3" maxlength="30">
 
 
                     </li>
@@ -44,14 +47,14 @@
 
                         <textarea name="activity_description" v-model="activityDescription" cols="50" rows="4"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                            placeholder="Breve Descripción"></textarea>
+                            placeholder="Breve Descripción" required minlength="15"></textarea>
 
 
                     </li>
                     <!-- SECCION INCLUIR LOS COMPONENTES DINÁMICOS -->
                     <div v-for="(item, index) in formList" :key="index" class="w-full">
                         <component :is="item.type" :key="index" :id="index" v-model="item.value"
-                            @update:modelValue="updateFormData">
+                            @update:modelValue="updateFormData" @remove="removeComponent(index)">
                         </component>
                     </div>
 
@@ -104,16 +107,16 @@
 
                     <!-- pruebo boton en lugar de submit  -->
 
-                    <div class="container mx-auto my-2 flex flex-wrap justify-center">
+                    <div class="container flex flex-wrap justify-center mx-auto my-2">
                         <!-- <div class="justify-center mx-4 "> -->
 
-                        <div class="flex justify-center md:justify-end w-full  md:w-1/2 my-2 md:my-0">
+                        <div class="flex justify-center w-full my-2 md:justify-end md:w-1/2 md:my-0">
                             <button @click="goBack"
                                 class="px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-lg hover:bg-red-900 focus:ring-4 focus:ring-red-300 focus:outline-none">Cancelar</button>
                         </div>
 
 
-                        <div class="flex justify-center md:justify-start w-full  md:w-1/2 my-2 md:my-0">
+                        <div class="flex justify-center w-full my-2 md:justify-start md:w-1/2 md:my-0">
                             <button type="submit" @click="submitForm"
                                 class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none">Enviar</button>
                         </div>
@@ -151,6 +154,13 @@ let user_id = ref('')
 
 // Función para añadir un componente al formulario
 const addForm = (formType) => {
+
+    // Verificar maximo 40 elementos en el array
+    if (formList.value.length >= 25) {
+        errors.value.push('No se pueden agregar más de 25 elementos.');
+        return;
+    }
+
     switch (formType) {
         case 'boolForm':
             formList.value.push({ type: 'boolForm', id: formList.value.length, info: { boolStatement: '', checkboxValue: false } });
@@ -165,6 +175,12 @@ const addForm = (formType) => {
 
     console.log('Lista de formularios:', formList.value);
 };
+
+//Eliminar elemento del array
+const removeComponent = (index) => {
+
+    formList.value.splice(index, 1);
+}
 
 //Añado para obtener el userId al cargar
 onMounted(() => {
@@ -210,15 +226,24 @@ const handleSubmit = () => {
 
                 if (e.response.data.hasOwnProperty('errors')) {
                     const serverErrors = e.response.data.errors;
+                    console.log(serverErrors);
+                    // for (let error in serverErrors) {
+                    //     if (serverErrors.hasOwnProperty(error)) {
+                    //         errors.value.push(serverErrors[error][0]);
+                    //     }
+                    // }
+
+                    // SOLO AÑADO AL ARRAY DE ERRORES LOS QUE DESEO PARA QUE NO SE DUPLIQUEN
 
                     for (let error in serverErrors) {
-                        if (serverErrors.hasOwnProperty(error)) {
+                        console.log('aqui: ', error);
+                        if (serverErrors[error][0] == 'El titulo de la actividad ya existe.' || error === 'questionsData') {
                             errors.value.push(serverErrors[error][0]);
                         }
                     }
                 }
 
-                console.log(error);
+
             })
 
 

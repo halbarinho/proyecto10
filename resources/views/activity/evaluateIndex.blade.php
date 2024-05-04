@@ -22,7 +22,7 @@
                     [3, "desc"]
                 ],
                 columnDefs: [{
-                    targets: [0, 4, 5, 6, ],
+                    targets: [0, 5, 6, ],
                     sortable: false,
                     searchable: false
                 }],
@@ -156,7 +156,7 @@
                                         </a>
                                         <a href="{{ route('activity.index') }}">
                                             <button id="createActivity"
-                                                class="px-5 py-2 text-white cursor-pointerpx-4 text-sm font-medium bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none">Indice
+                                                class="px-5 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg cursor-pointerpx-4 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none">Indice
                                                 Actividades</button>
                                         </a>
                                     </div>
@@ -165,7 +165,7 @@
                                         class="flex flex-col items-stretch flex-shrink-0 w-full space-y-2 md:justify-end md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
                                         <a class="" href="{{ route('activity.create') }}">
                                             <button type="button" id="createProductModalButton"
-                                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                                                class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal">
                                                 Añadir Actividad
                                             </button>
                                         </a>
@@ -206,9 +206,10 @@
                                                                     <th class="">Clase</th>
                                                                     <th class="">Estudiante</th>
                                                                     <th class="">Estado</th>
+                                                                    <th class="">Evaluada</th>
                                                                     <th class="text-right "></th>
                                                                     <th class="text-right "></th>
-                                                                    <th class="text-right "></th>
+                                                                    {{-- <th class="text-right "></th> --}}
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -244,8 +245,20 @@
                                                                             </td>
                                                                         @endif
 
+                                                                        @if ($activity->evaluated == 'pending')
+                                                                            <td class="text-right">
+                                                                                <span
+                                                                                    class=" px-2 py-0.5 ml-auto text-xs text-center font-medium tracking-wide text-green-600 bg-green-200 rounded-full">Pendiente</span>
+                                                                            </td>
+                                                                        @else
+                                                                            <td class="text-right">
+                                                                                <span
+                                                                                    class=" px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-600 bg-red-200 rounded-full text-center">Evaluada</span>
+                                                                            </td>
+                                                                        @endif
+
                                                                         {{-- Editar --}}
-                                                                        <td class="max-w-9 max-h-9">
+                                                                        {{-- <td class="max-w-9 max-h-9">
                                                                             <a href="" class="w-9 h-9">
                                                                                 <svg viewBox="0 0 24 24" class="w-9 h-9"
                                                                                     xmlns="http://www.w3.org/2000/svg"
@@ -254,32 +267,48 @@
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
 
                                                                             </a>
-                                                                        </td>
+                                                                        </td> --}}
 
                                                                         {{-- Corregir --}}
 
                                                                         <td class="max-w-9 max-h-9">
-                                                                            <a href="{{ route('activity.evaluateActivity', ['student_id' => $activity->estudiante_id, 'activity_id' => $activity->activity_id]) }}"
-                                                                                class="w-9 h-9">
-                                                                                <svg viewBox="0 0 24 24" class="w-9 h-9"
+                                                                            @if ($activity->status == 'pending')
+                                                                                <svg viewBox="0 0 24 24"
+                                                                                    class="text-gray-200 w-9 h-9"
                                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                                     fill="none" stroke="currentColor"
                                                                                     stroke-width="2" stroke-linecap="round"
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
+                                                                            @else
+                                                                                <a href="{{ route('activity.evaluateActivity', ['student_id' => $activity->estudiante_id, 'activity_id' => $activity->activity_id]) }}"
+                                                                                    class="w-9 h-9">
+                                                                                    <svg viewBox="0 0 24 24" class="w-9 h-9"
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        fill="none" stroke="currentColor"
+                                                                                        stroke-width="2"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round">
+                                                                                        <path
+                                                                                            d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            2 0 0 0 2-2v-7" />
+                                                                                        <path
+                                                                                            d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                                                                    </svg>
 
-                                                                            </a>
+                                                                                </a>
+                                                                            @endif
                                                                         </td>
 
 

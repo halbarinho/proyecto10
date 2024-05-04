@@ -174,7 +174,7 @@ axios.get(`/chat/${chat_id}/get_users`)
           if(e.message.user.id!==authUser.id){
           appendMessage(
             e.message.user.name,
-                PERSON_IMG,
+                e.message.user.profile_photo_path,
                 leftContainer,
                 leftSubcontainer,
                 leftColor,
@@ -294,7 +294,7 @@ chatForm.addEventListener("submit", event => {
 
     appendMessage(
         data.user.name,
-        PERSON_IMG,
+        data.user.profile_photo_path,
         rightContainer,
         rightSubcontainer,
         rightColor,
@@ -317,19 +317,26 @@ chatForm.addEventListener("submit", event => {
 
 function appendMessage(name, img, sideContainer,sideSubcontainer,sideColor, text,date) {
 
+    let profileImage;
 
+    if(img){
+        profileImage = `<img src="/storage/${img}" alt="Foto de perfil"
+        class="flex items-center justify-center flex-shrink-0 w-10 h-10">`;
+        }else{
+            let firstLetter = name.substr(0,1).toUpperCase();
+        profileImage=`<div
+        class="flex items-center justify-center flex-shrink-0 w-10 h-10 bg-indigo-500 rounded-full">
+        ${firstLetter}
+        </div>`;
+        }
 
-
-// console.log(text);
+console.log(profileImage);
   const mssgHTML = `
 
 <div class="p-3 rounded-lg ${sideContainer}">
 
 <div class="flex items-center ${sideSubcontainer}">
-<div
-class="flex items-center justify-center flex-shrink-0 w-10 h-10 bg-indigo-500 rounded-full">
-A
-</div>
+${profileImage}
 <div class="relative px-4 py-2 ml-3 text-sm bg-white shadow rounded-xl">
 <div>${text}</div>
 </div>
@@ -368,7 +375,7 @@ function appendOldMessages(messages){
         sideColor = (msg.user_id == authUser.id)?rightColor:leftColor;
 
         appendMessage(msg.user.name,
-            PERSON_IMG,
+            msg.user.profile_photo_path,
             sideContainer,
             sideSubcontainer,
             sideColor,

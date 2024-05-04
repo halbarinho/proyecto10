@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('alertas', function (Blueprint $table) {
             $table->id();
-            $table->boolean('active')->default(true);
+            $table->boolean('active')->default(false);
             $table->foreignId('estudiante_id')->nullable()->references('user_id')->on('estudiantes');
             $table->foreignId('class_id')->nullable()->references('id')->on('classrooms')
                 ->onDelete('set null');

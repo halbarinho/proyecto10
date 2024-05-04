@@ -38,9 +38,9 @@ class ContactFormController extends Controller
                 'mensaje' => 'required|string|min:15',
             ],
             [
-                'required' => __('Este campo es requerido'),
-                'mail.email' => __('El email debe ser válido'),
-                'min' => __('Este campo no alcanza el mínimo'),
+                'required' => __('Este campo es obligatorio.'),
+                'mail.email' => __('El email debe ser válido.'),
+                'min' => __('Este campo no alcanza la longitud mínima-'),
 
             ]
         );

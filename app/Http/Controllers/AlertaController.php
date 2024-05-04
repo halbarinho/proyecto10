@@ -25,11 +25,18 @@ class AlertaController extends Controller
 
         $classes = User::findOrFail(auth()->user()->id)->Classroom;
 
+        // obtener el id de la clase anonima
+        $anonymousClass = Classroom::where('class_name', 'anonymous')->first();
+
+        // añadir a las clases del usuario autenticado la anonima
+        $classes->push($anonymousClass);
+        // Log::info($classes);
+
         $classesIds = $classes->pluck('id');
 
         $alertas = Alerta::whereIn('class_id', $classesIds)->get();
 
-        Log::info('Alertas: ', [$alertas]);
+        // Log::info('Alertas: ', [$alertas]);
 
 
         return view('alerta.index', ['alertas' => $alertas]);
@@ -60,11 +67,11 @@ class AlertaController extends Controller
 
             ],
             [
-                'content.required' => __('El contenido es obligatorio.'),
+                'content.required' => __('El contenido no puede estar vacío.'),
                 'required' => __('El :attribute es obligatorio.'),
                 'string' => __('El :attribute debe ser una cadena.'),
-                'min' => __('El :attribute no cumple la longitud mínima.'),
-                'max' => __('El :attribute no cumple la longitud máxima.'),
+                'min' => __('El contenido no cumple la longitud mínima.'),
+                'max' => __('El contenido no cumple la longitud máxima.'),
             ]
         );
 
@@ -79,15 +86,22 @@ class AlertaController extends Controller
 
         try {
 
-            //Obtener la clase
+
             $estudiante = Estudiante::findOrFail(auth()->user()->id);
 
+            //Obtener la clase
             $class = $estudiante->classroom;
+
 
             //obtener tutor para enviar notificacion
             $tutor = $class->docente;
 
+
+            // obtener el id de la clase anonima
+            $anonymousClass = Classroom::where('class_name', 'anonymous')->first();
+
             $estudiante_id = null;
+            $class_id = $anonymousClass->id ?? null;
 
             $identificado = $request->input('identificado');
 
@@ -95,19 +109,20 @@ class AlertaController extends Controller
             if ($identificado === 'false') {
 
                 $estudiante_id = auth()->user()->id;
+                $class_id = $class->id;
             }
 
 
 
 
             $alerta = Alerta::create([
-                'class_id' => $class->id,
+                'class_id' => $class_id,
                 'content' => $request->input('content'),
                 'estudiante_id' => $estudiante_id,
             ]);
 
             $notificationAlerta = Notification::create([
-                'message' => 'Alerta: ' . $alerta->id . 'en la Aula: ' . $class->id,
+                'message' => 'Alerta: ' . $alerta->id . ' en la Aula: ' . $class->id,
                 'type' => 'alerta',
                 'user_id' => $tutor->user_id,
                 'target_id' => $alerta->id,
@@ -117,7 +132,7 @@ class AlertaController extends Controller
             //Enviar evento al tutor
             broadcast(new NotificationSend($notificationAlerta->type, $notificationAlerta->user_id, $notificationAlerta->message))->toOthers();
 
-            return redirect()->back()->with('success', 'Mensaje Enviado con Exito');
+            return redirect()->back()->with('success', 'Alerta Enviada con Exito');
 
         } catch (QueryException $e) {
 
@@ -140,7 +155,35 @@ class AlertaController extends Controller
 
             $alerta = Alerta::findOrFail($alertaId);
 
-            return view('alerta.show', ['alerta' => $alerta]);
+            //Añado status para el seguimiento estudiante
+            $status = ['Sin Seguimiento' => 'safe', 'Precacución' => 'caution', 'Atención Prioritaria' => 'warning'];
+
+
+
+
+            //Marco como leida la notificacion si la hubiera
+            $notification = Notification::where([
+                'user_id' => auth()->user()->id,
+                'type' => 'alerta',
+                'target_id' => $alerta->id,
+            ])->get();
+
+            if ($notification) {
+
+                Notification::where([
+                    'user_id' => auth()->user()->id,
+                    'type' => 'alerta',
+                    'target_id' => $alerta->id,
+                ])->update(['read' => true]);
+
+            }
+
+
+
+
+
+
+            return view('alerta.show', ['alerta' => $alerta, 'status' => $status]);
 
         } catch (QueryException $e) {
 
@@ -242,7 +285,7 @@ class AlertaController extends Controller
             Log::info($request);
 
 
-            if (!isset ($request->alertasList)) {
+            if (!isset($request->alertasList)) {
                 throw new Exception('No se han seleccionado alertas.');
             }
 

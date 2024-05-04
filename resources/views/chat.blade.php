@@ -103,14 +103,26 @@
                                     </path>
                                 </svg>
                             </div>
-                            <div class="ml-2 text-2xl font-bold">Chat {{ $chat->id }}</div>
+                            <div class="ml-2 text-xl font-bold">Chat con {{ $userB->name }}
+                                {{ strtoupper(substr($userB->last_name_1, 0, 1)) }}
+                            </div>
                         </div>
 
                         <div
                             class="flex flex-col items-center w-full px-4 py-6 mt-4 bg-indigo-100 border border-gray-200 rounded-lg">
                             <div class="w-20 h-20 overflow-hidden border rounded-full">
-                                <img src="https://avatars3.githubusercontent.com/u/2763884?s=128" alt="Avatar"
-                                    class="w-full h-full" />
+                                {{ Log::info($userB) }}
+                                {{-- <img src="https://avatars3.githubusercontent.com/u/2763884?s=128" alt="Avatar"
+                                    class="w-full h-full" /> --}}
+                                @if ($userB->profile_photo_path)
+                                    <img src="/storage/{{ $userB->profile_photo_path }}" alt="Foto de perfil"
+                                        class="w-full h-full rounded-full">
+                                @else
+                                    <div
+                                        class="flex items-center justify-center w-full h-full text-gray-600 bg-gray-200 rounded-full">
+                                        {{ strtoupper(substr($userB->name, 0, 1)) }}
+                                    </div>
+                                @endif
                             </div>
                             <div id="chatWith" class="mt-2 text-sm font-semibold">Desconocido</div>
                             <div id="chatWithLastName" class="text-xs text-gray-500">Desconocido</div>
@@ -126,7 +138,13 @@
                         <div class="flex flex-col mt-8">
                             <div class="flex flex-row items-center justify-between text-xs">
                                 <span class="font-bold">Chats Activos</span>
-                                <span class="flex items-center justify-center w-4 h-4 bg-gray-300 rounded-full">4</span>
+                                <span class="flex items-center justify-center w-4 h-4 bg-gray-300 rounded-full">
+                                    @if ($otherUsers->count() > 0)
+                                        {{ $otherUsers->count() }}
+                                    @else
+                                        0
+                                    @endif
+                                </span>
                             </div>
                             <div class="flex flex-col h-48 mt-4 -mx-2 space-y-1 overflow-y-auto">
                                 @if ($otherUsers->isEmpty())

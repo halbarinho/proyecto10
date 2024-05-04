@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Query\Builder;
 
 
@@ -31,13 +32,19 @@ class ChatController extends Controller
 
         // });
 
+        Log::info('chat', [$chat->user]);
 
+        //Obtener el otro usuario del chat
+        $userAuth = User::findOrFail(Auth::user()->id);
+        $userB = $chat->user->firstWhere('id', '!=', $userAuth->id);
+
+        Log::info('b', [$userB]);
         $otherUsers = self::obtenerOtherUsers();
-
 
         return view('chat', [
             'chat' => $chat,
             'otherUsers' => $otherUsers,
+            'userB' => $userB,
         ]);
     }
 

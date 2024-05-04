@@ -159,7 +159,7 @@ const setUrlImgValue = (event) => {
 
 <template>
     <button type="button" @click="openModal"
-        class="block text-white bg-blue-500 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Añadir
+        class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal">Añadir
         Post</button>
 
     <!-- Main modal -->
@@ -193,8 +193,8 @@ const setUrlImgValue = (event) => {
                     <!-- MUESTRO ERRORES RECIBIDOS EN LA VALIDACION DEL BACKEND -->
                     <div v-if="formErrors">
                         <ul>
-                            <li class="text-red-600 text-sm" v-for="(error, field) in formErrors" :key="field">{{
-        error[0] }}</li>
+                            <li class="text-sm text-red-600" v-for="(error, field) in formErrors" :key="field">{{
+                                error[0] }}</li>
                         </ul>
                     </div>
 
@@ -216,7 +216,7 @@ const setUrlImgValue = (event) => {
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoria</label>
                                 <select id="category" name="category" v-model="category" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    <option selected="">Selecciona una categoria</option>
+                                    <option value="" disabled selected>Selecciona una categoria</option>
 
                                     <option v-for="category in categories" :key="category.id" :value="category.id">
                                         {{ category.name }}

@@ -19,10 +19,10 @@
         $(document).ready(function() {
             $('#activitiesTable').DataTable({
                 "order": [
-                    [3, "desc"]
+                    [4, "desc"]
                 ],
                 columnDefs: [{
-                    targets: [0, 5, ],
+                    targets: [3, ],
                     sortable: false,
                     searchable: false
                 }],
@@ -107,20 +107,20 @@
                                 @else
                                     <div
                                         class="flex flex-col items-stretch flex-shrink-0 w-full space-y-2 md:justify-end md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-                                        <a class="" href="{{ route('activity.create') }}">
+                                        {{-- <a class="" href="{{ route('activity.create') }}">
                                             <button type="button" id="createProductModalButton"
                                                 class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                                                 Añadir Actividad
                                             </button>
-                                        </a>
+                                        </a> --}}
                                     </div>
 
 
                                     <div class="mx-3 mb-5">
                                         <span class="">{{ count($activities) }} actividades</span>
                                         <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black ">
-                                        @include('activity.modal.deleteMultiple-modal')
-                                        <form action="{{ route('activity.deleteActivities') }}"
+                                        {{-- @include('activity.modal.deleteMultiple-modal') --}}
+                                        {{-- <form action="{{ route('activity.deleteActivities') }}"
                                             onsubmit="handleSubmit(event)" method="POST" id="form">
                                             @csrf
 
@@ -133,32 +133,32 @@
                                                     onclick="showDeleteMultipleModal();event.preventDefault();">Eliminar
                                                     Seleccionadas
                                                     {{-- <input type="submit" value="Eliminar"> --}}
-                                                </button>
-                                            </div>
+                                        {{-- </button>
+                                            </div> --}}
 
 
-                                            <div class="mx-3 mb-5 data-table-container">
-                                                <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
-                                                    <div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
-                                                        <table id="activitiesTable"
-                                                            class="min-w-full text-sm leading-normal text-left text-gray-500 table-auto dark:text-gray-400">
-                                                            <thead
-                                                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                                                <tr>
-                                                                    <th class=""></th>
-                                                                    <th class="">Id</th>
-                                                                    <th class="">Título</th>
-                                                                    <th class="">Descripción</th>
-                                                                    <th class="">Creador</th>
-                                                                    <th class="text-right "></th>
-                                                                    <th></th>
-                                                                    {{-- <th class="text-right "></th>
+                                        <div class="mx-3 mb-5 data-table-container">
+                                            <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
+                                                <div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
+                                                    <table id="activitiesTable"
+                                                        class="min-w-full text-sm leading-normal text-left text-gray-500 table-auto dark:text-gray-400">
+                                                        <thead
+                                                            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                            <tr>
+                                                                {{-- <th class=""></th>
+                                                                <th class="">Id</th> --}}
+                                                                <th class="">Título</th>
+                                                                <th class="">Descripción</th>
+                                                                <th class="">Creador</th>
+                                                                <th class="text-right "></th>
+                                                                <th></th>
+                                                                {{-- <th class="text-right "></th>
                                                                     <th class="text-right "></th> --}}
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
 
-                                                                {{-- @if ($activities->isEmpty())
+                                                            {{-- @if ($activities->isEmpty())
                                                             <tr class="col-span-3 text-center">
                                                                 <td>
                                                                     <h3 class="text-red-600">No hay registros de Actividades
@@ -183,86 +183,85 @@
                                                                         onclick="showDeleteMultipleModal();event.preventDefault();">Eliminar
                                                                         Seleccionadas
                                                                         {{-- <input type="submit" value="Eliminar"> --}}
-                                                                {{-- </button>
+                                                            {{-- </button>
                                                          </div> --}}
 
 
-                                                                {{-- <input type="hidden" name="classroom" value="{{ $classroom }}"> --}}
-                                                                @foreach ($activities as $item)
-                                                                    <tr class="border-b dark:border-gray-700 ">
+                                                            {{-- <input type="hidden" name="classroom" value="{{ $classroom }}"> --}}
+                                                            @foreach ($activities as $item)
+                                                                <tr class="border-b dark:border-gray-700 ">
 
-                                                                        <td><input type="checkbox" name="activitiesList[]"
-                                                                                value="{{ $item->activity->id }}">
-                                                                        </td>
-                                                                        <td class=" max-w-[12rem] truncate">
-                                                                            {{ $item->activity->id }}
-                                                                        </td>
-                                                                        <td class=" max-w-[12rem] truncate">
+                                                                    {{-- <td><input type="checkbox" name="activitiesList[]"
+                                                                            value="{{ $item->activity->id }}">
+                                                                    </td>
+                                                                    <td class=" max-w-[12rem] truncate">
+                                                                        {{ $item->activity->id }}
+                                                                    </td> --}}
+                                                                    <td class=" max-w-[12rem] truncate">
 
-                                                                            {{ $item->activity->activity_name }}
-                                                                        </td>
-                                                                        <td class=" truncate max-w-[6rem] text-ellipsis">
+                                                                        {{ $item->activity->activity_name }}
+                                                                    </td>
+                                                                    <td class=" truncate max-w-[6rem] text-ellipsis">
 
-                                                                            {{ $item->activity->activity_description }}
-                                                                        </td>
-                                                                        <td class=" max-w-[12rem] truncate">
+                                                                        {{ $item->activity->activity_description }}
+                                                                    </td>
+                                                                    <td class=" max-w-[12rem] truncate">
 
-                                                                            {{ $item->activity->docente->user->name }}
-                                                                        </td>
+                                                                        {{ $item->activity->docente->user->name }}
+                                                                    </td>
 
-                                                                        {{-- Editar --}}
-                                                                        {{-- {{ Log::info('status', [$item]) }} --}}
-                                                                        @if ($item->status == 'pending')
-                                                                            <td class="max-w-9 max-h-9">
-                                                                                <a href="{{ route('activityQuestion.makeActivity', [Auth::user()->id, $item->activity->id]) }}"
-                                                                                    class="col-span-1 w-9 h-9">
-                                                                                    <svg viewBox="0 0 24 24"
-                                                                                        class="ml-auto w-9 h-9"
-                                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                                        fill="none" stroke="currentColor"
-                                                                                        stroke-width="2"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round">
-                                                                                        <path
-                                                                                            d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                2 0 0 0 2-2v-7" />
-                                                                                        <path
-                                                                                            d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                                                                    </svg>
-                                                                                </a>
-                                                                            </td>
-                                                                            <td class="text-right">
-                                                                                <span
-                                                                                    class=" px-2 py-0.5 ml-auto text-xs text-center font-medium tracking-wide text-green-600 bg-green-200 rounded-full">Pendiente</span>
-                                                                            </td>
-                                                                        @else
-                                                                            <td class=" max-w-9 max-h-9">
-
+                                                                    {{-- Editar --}}
+                                                                    {{-- {{ Log::info('status', [$item]) }} --}}
+                                                                    @if ($item->status == 'pending')
+                                                                        <td class="max-w-9 max-h-9">
+                                                                            <a href="{{ route('activityQuestion.makeActivity', [Auth::user()->id, $item->activity->id]) }}"
+                                                                                class="col-span-1 w-9 h-9">
                                                                                 <svg viewBox="0 0 24 24"
-                                                                                    class="col-span-1 ml-auto text-gray-300 w-9 h-9"
+                                                                                    class="ml-auto w-9 h-9"
                                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                                     fill="none" stroke="currentColor"
                                                                                     stroke-width="2" stroke-linecap="round"
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span
+                                                                                class=" px-2 py-0.5 ml-auto text-xs text-center font-medium tracking-wide text-green-600 bg-green-200 rounded-full">Pendiente</span>
+                                                                        </td>
+                                                                    @else
+                                                                        <td class=" max-w-9 max-h-9">
 
-                                                                            </td>
-                                                                            <td class="text-right">
-                                                                                <span
-                                                                                    class=" px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-600 bg-red-200 rounded-full text-center">Completada</span>
-                                                                            </td>
-                                                                        @endif
+                                                                            <svg viewBox="0 0 24 24"
+                                                                                class="col-span-1 ml-auto text-gray-300 w-9 h-9"
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                fill="none" stroke="currentColor"
+                                                                                stroke-width="2" stroke-linecap="round"
+                                                                                stroke-linejoin="round">
+                                                                                <path
+                                                                                    d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            2 0 0 0 2-2v-7" />
+                                                                                <path
+                                                                                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                                                            </svg>
+
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span
+                                                                                class=" px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-600 bg-red-200 rounded-full text-center">Completada</span>
+                                                                        </td>
+                                                                    @endif
 
 
-                                                                        {{-- Enviar --}}
-                                                                        {{-- <td class="max-w-9 max-h-9">
+                                                                    {{-- Enviar --}}
+                                                                    {{-- <td class="max-w-9 max-h-9">
                                                                             {{-- <a href="" class="" ">Enviar</a> --}}
-                                                                        {{-- <button type="button"
+                                                                    {{-- <button type="button"
                                                                                 id="send-{{ $activity->id }}"
                                                                                 class="w-9 h-9"
                                                                                 onclick="showSendDialog({{ $activity->id }}); event.preventDefault();">
@@ -286,9 +285,9 @@
                                                                             </button>
                                                                         </td> --}}
 
-                                                                        {{-- Eliminar --}}
-                                                                        {{-- <td class="max-w-9 max-h-9"> --}}
-                                                                        {{-- <button type="button"
+                                                                    {{-- Eliminar --}}
+                                                                    {{-- <td class="max-w-9 max-h-9"> --}}
+                                                                    {{-- <button type="button"
                                                                                 id="delete-{{ $activity->id }}"
                                                                                 class="w-9 h-9"
                                                                                 onclick="showDialog({{ $activity->id }}); event.preventDefault();">
@@ -322,23 +321,23 @@
                                                                                         height="36" fill-opacity="0" />
                                                                                 </svg>
                                                                             </button> --}}
-                                                                        {{-- </td> --}}
-                                                                    </tr>
-                                                                @endforeach
+                                                                    {{-- </td> --}}
+                                                                </tr>
+                                                            @endforeach
 
-                                                                {{-- </form> --}}
-                                                                {{-- {{ Log::info($classrooms) }} --}}
-                                                                {{-- @foreach ($activities as $activity)
+                                                            {{-- </form> --}}
+                                                            {{-- {{ Log::info($classrooms) }} --}}
+                                                            {{-- @foreach ($activities as $activity)
                                                                     @include('activity.modal.delete-modal')
                                                                     @include('activity.modal.send-modal')
                                                                 @endforeach --}}
 
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
+                                        {{-- </form> --}}
                                     </div>
                                 @endif
                             </div>

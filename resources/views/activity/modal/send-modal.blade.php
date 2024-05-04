@@ -12,19 +12,21 @@
                 </p>
             </div>
         </div>
-        <div class="flex justify-end gap-4 mt-5">
-            <form action="{{ route('activity.sendActivity', $activity->id) }}" method="POST">
-                @csrf
-                @method('POST')
-                <select name="classroom" id="classroom" class="form-select">
-                    @foreach ($classrooms as $class)
-                        <option value="{{ $class->id }}">{{ $class->class_name }}</option>
-                    @endforeach
-                </select>
-                <input type="submit" value="Enviar"
-                    class="px-4 py-2 font-bold text-white bg-red-500 border border-red-700 rounded hover:bg-red-700">
-            </form>
-            <button class="px-6 py-2 text-black bg-gray-100 border border-gray-300 rounded hover:bg-gray-200"
+        <div class="flex flex-wrap justify-center gap-4 mt-5">
+            <div class="justify-center w-full">
+                <form action="{{ route('activity.sendActivity', $activity->id) }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <select name="classroom" id="classroom" class=" form-select">
+                        @foreach ($classrooms as $class)
+                            <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                        @endforeach
+                    </select>
+                    <input type="submit" value="Enviar"
+                        class="px-4 py-2 font-bold text-white bg-red-500 border border-red-700 rounded hover:bg-red-700">
+                </form>
+            </div>
+            <button class="w-full px-6 py-2 text-black bg-gray-100 border border-gray-300 rounded hover:bg-gray-200"
                 onclick="hideSendDialog({{ $activity->id }}); event.preventDefault();">Cancel</button>
             {{-- <button class="px-6 py-2 text-white bg-red-500 rounded hover:bg-red-600">Deactivate</button> --}}
 

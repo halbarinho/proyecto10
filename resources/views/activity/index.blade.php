@@ -111,7 +111,7 @@
                                         class="flex flex-col items-stretch flex-shrink-0 w-full space-y-2 md:justify-end md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
                                         <a class="" href="{{ route('activity.create') }}">
                                             <button type="button" id="createProductModalButton"
-                                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                                                class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal">
                                                 Añadir Actividad
                                             </button>
                                         </a>
@@ -120,7 +120,7 @@
 
                                     <div class="mx-3 mb-5">
                                         <span class="">{{ count($activities) }} actividades</span>
-                                        <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black ">
+                                        <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black mb-2">
                                         @include('activity.modal.deleteMultiple-modal')
                                         <form action="{{ route('activity.deleteActivities') }}"
                                             onsubmit="handleSubmit(event);event.preventDefault();" method="POST"
@@ -223,7 +223,7 @@
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
@@ -253,7 +253,7 @@
                                                                             </td>
                                                                         @else
                                                                             <td>
-                                                                                <svg class="w-9 h-9 text-gray-200"
+                                                                                <svg class="text-gray-200 w-9 h-9"
                                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                                     width="16" height="16"
                                                                                     fill="currentColor"
@@ -332,6 +332,7 @@
                                                                             </button>
                                                                         </td>
                                                                     </tr>
+                                                                    @include('activity.modal.send-modal')
                                                                 @endforeach
 
                                                                 {{-- </form> --}}
@@ -348,10 +349,9 @@
                                             </div>
                                         </form>
 
-                                        @foreach ($activities as $activity)
-                                            @include('activity.modal.delete-modal')
-                                            @include('activity.modal.send-modal')
-                                        @endforeach
+                                        @include('activity.modal.delete-modal')
+
+
 
                                     </div>
                                 @endif
@@ -365,9 +365,14 @@
         </div>
     </main>
     <script>
+        let activityId;
+        let activityToSendId;
+
         function showDialog(id) {
 
-            let dialog = document.getElementById('dialog-' + id);
+            activityId = id;
+
+            let dialog = document.getElementById('dialog');
             dialog.classList.remove('hidden');
             setTimeout(() => {
                 dialog.classList.remove('opacity-0');
@@ -376,7 +381,7 @@
 
         function hideDialog(id) {
 
-            let dialog = document.getElementById('dialog-' + id);
+            let dialog = document.getElementById('dialog');
             dialog.classList.add('opacity-0');
             setTimeout(() => {
                 dialog.classList.add('hidden');
@@ -385,8 +390,12 @@
 
         function deleteActivity(id) {
 
+            if (!activityId) {
+                console.error('No se ha proporcionado un ID de activity para eliminar.');
+                return;
+            }
 
-            fetch(`/activity/${id}`, {
+            fetch(`/activity/${activityId}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -399,6 +408,7 @@
                     // }
                     // Recarga la página
                     location.reload(); // O cualquier otra acción necesaria
+                    // window.location.href = '{{ route('activity.index') }}';
                 })
                 .catch(error => {
                     console.error('Ha habido un error al intentar eliminar la actividad:', error);
@@ -407,7 +417,7 @@
 
         function showSendDialog(id) {
 
-
+            activityToSendId = id;
 
             let dialog = document.getElementById('sendDialog-' + id);
             dialog.classList.remove('hidden');

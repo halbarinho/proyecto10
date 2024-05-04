@@ -21,6 +21,6 @@ class Stage extends Model
 
     public function StageLevel(): HasMany
     {
-        return $this->hasMany(StageLevel::class);
+        return $this->hasMany(StageLevel::class, 'stage_id', 'id');
     }
 }

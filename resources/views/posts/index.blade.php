@@ -50,8 +50,17 @@
                         </div>
                         <div class="flex items-center mt-20 space-x-2">
                             <!--Author's profile photo-->
-                            <img class="object-cover object-center w-10 h-10 rounded-full"
-                                src="https://randomuser.me/api/portraits/men/54.jpg" alt="random user" />
+                            {{-- <img class="object-cover object-center w-10 h-10 rounded-full"
+                                src="https://randomuser.me/api/portraits/men/54.jpg" alt="random user" /> --}}
+                            @if ($post->user->profile_photo_path)
+                                <img src="/storage/{{ $post->user->profile_photo_path }}" alt="Foto de perfil"
+                                    class="object-cover object-center w-10 h-10 rounded-full">
+                            @else
+                                <div
+                                    class="flex items-center justify-center w-10 h-10 text-gray-600 bg-gray-200 rounded-full">
+                                    {{ strtoupper(substr($post->User->name, 0, 1)) }}
+                                </div>
+                            @endif
                             <div>
                                 <!--Author name-->
                                 <p class="font-semibold text-gray-900">{{ $post->user->name }}</p>

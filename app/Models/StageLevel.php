@@ -19,7 +19,7 @@ class StageLevel extends Model
 
     public function Stage(): BelongsTo
     {
-        return $this->belongsTo(Stage::class);
+        return $this->belongsTo(Stage::class, 'id', 'stage_id');
     }
 
     public function Classroom(): HasMany

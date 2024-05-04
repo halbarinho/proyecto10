@@ -9,7 +9,9 @@ use App\Models\Docente;
 use App\Models\Classroom;
 use App\Models\Estudiante;
 use App\Models\StageLevel;
+use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +19,7 @@ use App\Http\Requests\ClassroomRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\Validator;
 
 class ClassroomController extends Controller
 {
@@ -39,8 +42,9 @@ class ClassroomController extends Controller
         $docentes = Docente::all();
         $stages = Stage::all();
         $levels = StageLevel::all();
+        $notifications = Notification::all();
 
-        return view('classroom.create', ['docentes' => $docentes, 'stages' => $stages, 'levels' => $levels]);
+        return view('classroom.create', ['docentes' => $docentes, 'stages' => $stages, 'levels' => $levels, 'notifications' => $notifications]);
     }
 
     /**
@@ -48,10 +52,47 @@ class ClassroomController extends Controller
      */
     public function store(ClassroomRequest $request)
     {
+        /**Eto funciona */
+        // $data = $request->all();
+
+        // $validator = Validator::make(
+        //     $data,
+        //     [
+        //         // 'title' => 'required|string|unique:posts|min:3',
+        //         'class_name' => [
+        //             'required',
+        //             'string',
+        //             'min:3',
+        //             'max:25',
+        //         ],
+        //         'user_id' => 'nullable',
+        //         'stage_id' => 'required|integer|',
+        //         'level_id' => 'required|integer|',
+        //     ],
+        //     [
+        //         // 'unique' => __('El :attribute ya existe, prueba con otro.'),
+        //         'required' => __('El :attribute es obligatorio.'),
+        //         'string' => __('El :attribute debe ser una cadena.'),
+        //         'min' => __('El :attribute no cumple la longitud mínima.'),
+        //         'max' => __('El :attribute no cumple la longitud máxima.'),
+        //         'integer' => __('El :attribute debe ser un entero.'),
+        //     ]
+        // );
+
+
+        // if ($validator->fails()) {
+        //     Log::info('validator', [$validator]);
+        //     return redirect()->back()
+        //         ->withErrors($validator);
+        // }
+/**hasta aqui */
+
+        $data = $request->validated();
+
         try {
 
             // $data = $request->validated();
-            $data = $request->all();
+
 
             $class = Classroom::create([
                 'class_name' => $data['class_name'],
@@ -62,13 +103,17 @@ class ClassroomController extends Controller
 
 
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create classroom. Please try again."])->withInput();
+        } catch (Exception $e) {
+
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create classroom. Please try again."])->withInput();
+
         }
 
         $classes = Classroom::all();
 
         // return view('classroom.index', ['classes' => $classes]);
-        return redirect()->route('classroom.index', ['classes' => $classes]);
+        return redirect()->route('admin.classroom', ['classes' => $classes]);
     }
 
     /**
@@ -114,10 +159,50 @@ class ClassroomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ClassroomRequest $request, int $id)
+    public function update(Request $request, int $id)
     {
+        Log::info('id', [$id]);
+        $class = Classroom::findOrFail((int) $id);
 
-        $data = $request->validated();
+        $data = $request->all();
+
+        $validator = Validator::make(
+            $data,
+            [
+                'class_name' => [
+                    'required',
+                    'string',
+                    'min:3',
+                    'max:25',
+                    Rule::unique('classrooms', 'class_name')->ignore($class->id),
+                ],
+                'user_id' => 'nullable',
+                'stage_id' => 'required|integer|',
+                'level_id' => 'required|integer|',
+            ],
+            [
+                'class_name.required' => 'El nombre de la clase es obligatorio.',
+                'class_name.unique' => 'El nombre de la clase ya existe, prueba con otro.',
+                'class_name.string' => 'El nombre de la clase debe ser una cadena.',
+                'class_name.min' => 'El nombre de la clase debe tener una longitud mínima de 3.',
+                'class_name.max' => 'El nombre de la clase debe tener una longitud máxima de 25.',
+
+                'user_id.nullable' => '',
+
+                'stage_id.required' => 'La etapa formativa es obligatoria.',
+                'stage_id.integer' => 'El valor introducido no es válido.',
+
+                'level_id.required' => 'El curso es obligatorio.',
+                'level_id.integer' => 'El valor introducido no es válido.',
+            ]
+        );
+
+
+        if ($validator->fails()) {
+            Log::info('validator', [$validator]);
+            return redirect()->back()
+                ->withErrors($validator);
+        }
 
 
 
@@ -181,6 +266,29 @@ class ClassroomController extends Controller
 
         $selectedClass = Classroom::findOrFail($classroom->id);
 
+
+        $docentes = Docente::all();
+        $stages = Stage::all();
+        $levels = StageLevel::all();
+        $notifications = Notification::all();
+
+
+
+        return view('classroom.edit', ['class' => $selectedClass, 'docentes' => $docentes, 'stages' => $stages, 'levels' => $levels, 'notifications' => $notifications]);
+    }
+
+
+    /**
+     * METODO PARA VER ESTUDIANTES DE LA CLASE
+     *
+     * @param Classroom $classroom
+     * @return void
+     */
+    public function classroomStudents(Classroom $classroom)
+    {
+
+        $selectedClass = Classroom::findOrFail($classroom->id);
+
         // $studentList = DB::table('users')
         //     ->join('estudiantes', function (JoinClause $join) use ($selectedClass) {
         //         $join->on('users.id', '=', 'estudiantes.user_id')
@@ -195,7 +303,16 @@ class ClassroomController extends Controller
 
         Log::info($studentList);
 
-        return view('classroom.edit', ['classroom' => $selectedClass, 'studentList' => $studentList]);
+        if (Auth::user()->hasRole('admin')) {
+            $notifications = Notification::all();
+
+            return view('admin.classroom.editStudents', ['classroom' => $selectedClass, 'studentList' => $studentList, 'notifications' => $notifications]);
+        }
+
+        $notifications = Notification::all();
+
+        return view('classroom.addStudents', ['classroom' => $selectedClass, 'studentList' => $studentList]);
+
     }
 
     /**

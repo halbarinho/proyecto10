@@ -142,6 +142,30 @@ class TrackingSheetController extends Controller
     public function sendTrackingSheet(Request $request)
     {
         Log::info($request->all());
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'observations' => [
+                    'required',
+                    'string',
+                    'min:15',
+                    // Rule::unique('activities')->ignore($id),
+                ],
+            ],
+            [
+                'string' => __('El :attribute debe ser una cadean válida.'),
+                'required' => __('El :attribute es obligatorio.'),
+                'min' => __('El :attribute no cumple la longitud mínima.'),
+            ]
+        );
+
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator);
+        }
+
         try {
             TrackingSheet::create([
                 'student_id' => $request->input('user_id'),

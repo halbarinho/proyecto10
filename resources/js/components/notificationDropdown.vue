@@ -16,14 +16,14 @@
         </button>
 
         <div v-if="menuOpen" class="absolute right-0 z-40 mt-2 bg-white shadow">
-            <ul>
+            <ul class="inline-block px-2 py-2">
                 <li v-if="notifications.length > 0" v-for=" notification in notifications" :key="notification.id">
                     <!-- <a :href="getNotificationLink(notification)">{{ notification.type }}: {{ notification.message}}</a> -->
                     <a :href="getNotificationLink(notification)" @click.prevent="markAsRead(notification.id)"><span
                             style="color: 00b3e3;" onmouseover="this.style.color = '037dbf'"
                             onmouseout="this.style.color = '00b3e3'"
                             class=" bg-blueLightPersonal text-blueLightPersonal hover:text-blueDarkPersonal">{{
-                            notification.message }}</span></a>
+                                notification.message }}</span></a>
                 </li>
                 <li v-else>
                     <span>No hay notificaciones pendientes.</span>

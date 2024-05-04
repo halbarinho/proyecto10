@@ -104,8 +104,17 @@
                         <div
                             class="flex flex-col items-center w-full px-4 py-6 mt-4 bg-indigo-100 border border-gray-200 rounded-lg">
                             <div class="w-20 h-20 overflow-hidden border rounded-full">
-                                <img src="https://avatars3.githubusercontent.com/u/2763884?s=128" alt="Avatar"
-                                    class="w-full h-full" />
+                                {{-- <img src="https://avatars3.githubusercontent.com/u/2763884?s=128" alt="Avatar"
+                                    class="w-full h-full" /> --}}
+                                @if (Auth()->user()->profile_photo_path)
+                                    <img src="/storage/{{ Auth()->user()->profile_photo_path }}" alt="Foto de perfil"
+                                        class="w-full h-full rounded-full">
+                                @else
+                                    <div
+                                        class="flex items-center justify-center w-full h-full text-gray-600 bg-gray-200 rounded-full">
+                                        {{ strtoupper(substr(Auth()->user()->name, 0, 1)) }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="mt-2 text-sm font-semibold">{{ Auth()->user()->name }}</div>
                             <div class="text-xs text-gray-500">{{ Str::upper(Auth()->user()->user_type) }}</div>
@@ -121,8 +130,14 @@
 
                         <div class="flex flex-col mt-8">
                             <div class="flex flex-row items-center justify-between text-xs">
-                                <span class="font-bold">Active Conversations</span>
-                                <span class="flex items-center justify-center w-4 h-4 bg-gray-300 rounded-full">4</span>
+                                <span class="font-bold">Chats Activos</span>
+                                <span class="flex items-center justify-center w-4 h-4 bg-gray-300 rounded-full">
+                                    @if ($otherUsers->count() > 0)
+                                        {{ $otherUsers->count() }}
+                                    @else
+                                        0
+                                    @endif
+                                </span>
                             </div>
                             <div class="flex flex-col h-48 mt-4 -mx-2 space-y-1 overflow-y-auto">
 
@@ -179,11 +194,14 @@
 
                     {{-- BODY CHAT --}}
                     <div class="flex flex-col flex-auto h-full p-6">
-                        <div class="flex flex-col flex-auto flex-shrink-0 h-full p-4 bg-gray-100 rounded-2xl">
+                        {{-- <div class="flex flex-col flex-auto flex-shrink-0 h-full p-4 bg-gray-100 rounded-2xl">
                             <div class="flex flex-col h-full mb-4 overflow-x-auto">
                                 <div class="flex flex-col h-full">
-                                    <div class="grid grid-cols-12 gap-y-2">
-                                        <div class="col-start-1 col-end-8 p-3 rounded-lg">
+
+                                     <div class="grid grid-cols-12 gap-y-2">
+
+
+                                         <div class="col-start-1 col-end-8 p-3 rounded-lg">
                                             <div class="flex flex-row items-center">
                                                 <div
                                                     class="flex items-center justify-center flex-shrink-0 w-10 h-10 bg-indigo-500 rounded-full">
@@ -356,8 +374,8 @@
                                             class="flex w-full h-10 pl-4 border rounded-xl focus:outline-none focus:border-indigo-300" />
                                         <button
                                             class="absolute top-0 right-0 flex items-center justify-center w-12 h-full text-gray-400 hover:text-gray-600">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                                                 </path>
@@ -380,7 +398,10 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
+
+                        <img src="{{ asset('images/imageChatbot.jpg') }}" class="w-full h-full" alt="">
+
                     </div>
                     {{-- FIN BODY CHAT --}}
                 </div>

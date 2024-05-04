@@ -146,8 +146,8 @@
         <div class="flex flex-col justify-between overflow-x-hidden overflow-y-auto">
             <a href="#" class="flex items-center px-4 pt-4 pb-4 border-b border-b-gray-800">
 
-                <h2 class="hidden text-2xl font-bold md:inline ">App <span
-                        class="hidden px-2 text-white rounded-md md:inline bg-yellowPersonal">Vader</span>
+                <h2 class="hidden text-2xl font-bold md:inline ">Dike <span
+                        class="hidden px-2 text-white rounded-md md:inline bg-yellowPersonal">Tive</span>
                 </h2>
 
                 <svg class="md:hidden" role="img" focusable="false" aria-hidden="true"
@@ -200,21 +200,21 @@
                 <li class="mb-1 group">
                     <a href="{{ route('admin.alertas') }}"
                         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                        <i class='mr-3 text-lg bx bx-list-ul'></i>
+                        <i class='mr-3 text-lg bx bx-bell'></i>
                         <span class="hidden text-sm md:inline">Alertas</span>
                     </a>
                 </li>
                 <li class="mb-1 group">
                     <a href="{{ route('category.index') }}"
                         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                        <i class='mr-3 text-lg bx bx-list-ul'></i>
+                        <i class='mr-3 text-lg bx bx-archive'></i>
                         <span class="hidden text-sm md:inline">Categorias</span>
                     </a>
                 </li>
                 <li class="mb-1 group">
                     <a href="{{ route('admin.classroom') }}"
                         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                        <i class='mr-3 text-lg bx bx-list-ul'></i>
+                        <i class='mr-3 text-lg bx bxs-graduation'></i>
                         <span class="hidden text-sm md:inline">Clases</span>
                     </a>
                 </li>
@@ -240,13 +240,13 @@
                         </li>
                     </ul>
                 </li>
-                <li class="mb-1 group">
+                {{-- <li class="mb-1 group">
                     <a href=""
                         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                         <i class='mr-3 text-lg bx bx-archive'></i>
                         <span class="hidden text-sm md:inline">Archive</span>
                     </a>
-                </li>
+                </li> --}}
                 <span class="pl-2 font-bold text-gray-400">PERSONAL</span>
                 <li class="mb-1 group">
                     <a href="{{ route('admin.notifications') }}"

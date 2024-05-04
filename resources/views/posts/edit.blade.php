@@ -14,7 +14,7 @@
             <div class="alert alert-danger">
                 <ul>
                     @foreach ($errors->all() as $error)
-                        <li class="text-red-600 text-sm">{{ $error }}</li>
+                        <li class="text-sm text-red-600">{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
@@ -56,7 +56,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="{{ $post->title }}" required>
                         @error('title')
-                            <div class="text-red-600 text-sm my-2">{{ $message }}</div>
+                            <div class="my-2 text-sm text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -75,7 +75,7 @@
 
                         </select>
                         @error('category_id')
-                            <div class="text-red-600 text-sm my-2">{{ $message }}</div>
+                            <div class="my-2 text-sm text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-span-2">
@@ -85,19 +85,18 @@
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="{{ $post->body }}">{{ $post->body }}</textarea>
                         @error('body')
-                            <div class="text-red-600 text-sm my-2">{{ $message }}</div>
+                            <div class="my-2 text-sm text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
 
 
                     <div class="col-span-2">
 
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white my-2"
-                            for="img_url">Subir
-                            Imagen</label>
+                        <label class="block my-2 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            for="img_url"></label>
 
                         @if ($post->img_url)
-                            <img class="h-auto w-64 mx-w-xs my-2" src="/storage/{{ $post->img_url }}" alt="">
+                            <img class="w-64 h-auto my-2 mx-w-xs" src="/storage/{{ $post->img_url }}" alt="">
                         @else
                             {{ $post->id }}
                         @endif
@@ -107,7 +106,7 @@
                             value="{{ $post->img_url }}">
 
                         @error('img_url')
-                            <div class="text-red-600 text-sm my-2">{{ $message }}</div>
+                            <div class="my-2 text-sm text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -115,24 +114,82 @@
                 </div>
 
                 <!-- Modal footer -->
-                <div class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
-                    <input type="submit"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <div
+                    class="flex items-center justify-end p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
+                    <input type="submit" value="Actualizar"
+                        class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal">
 
 
-                    <a href="{{ route('post.delete', $post->id) }}">
+                    {{-- <a href="{{ route('post.delete', $post->id) }}">
                         <button data-modal-hide="static-modal" type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-medium text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
+                            class="py-2.5 px-5 ms-3 text-sm font-bold text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
                             Borrar</button>
-                    </a>
+                    </a> --}}
+
+                    <button onclick="showDialog({{ $post->id }})" data-modal-hide="static-modal" type="button"
+                        class="py-2.5 px-5 ms-3 text-sm font-bold text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
+                        Borrar</button>
+
 
                     <a href="{{ route('post.index') }}">
                         <button data-modal-hide="static-modal" type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                            class="py-2.5 px-5 ms-3 text-sm font-bold text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                             Cancelar</button>
                     </a>
                 </div>
             </form>
         </div>
     </div>
+    @include('docente.modal.delete-modal')
+
+    <script>
+        let postToDeleteId;
+
+        function showDialog(id) {
+
+            postToDeleteId = id;
+
+            let dialog = document.getElementById('dialog');
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog(id) {
+
+            let dialog = document.getElementById('dialog');
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+        function deletePost(id) {
+
+            if (!postToDeleteId) {
+                console.error('No se ha proporcionado un ID de post para eliminar.');
+                return;
+            }
+
+            fetch(`/post/${postToDeleteId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    // if (!response.ok) {
+                    //     throw new Error('Network response was not ok');
+                    // }
+                    // Recarga la página
+                    // location.reload(); // O cualquier otra acción necesaria
+                    window.location.href = '{{ route('docente.posts.index') }}';
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar el post:', error);
+                });
+        }
+    </script>
 @endsection

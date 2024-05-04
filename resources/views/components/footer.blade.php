@@ -8,12 +8,15 @@
         <div class="flex self-start mx-auto text-center basis-1/5 md:mx-0 md:text-left">
 
             {{-- <p class="mt-2 text-sm text-gray-500"> --}}
-            <div class="flex-grow mt-2 text-sm text-white ">
+            <div class="flex flex-grow gap-2 mt-2 text-sm text-white">
                 <a class="inline-block self-baseline " href="{{ route('welcome') }}">
-                    <img class="w-auto" src="https://img.icons8.com/glyph-neue/64/darth-vader.png" alt="darth-vader" />
-                </a><span class="">Breve descripción de la aplicación,su funcionalidad y hacia quién
+                    {{-- <img class="w-auto" src="https://img.icons8.com/glyph-neue/64/darth-vader.png" alt="darth-vader" /> --}}
+                    <img class="max-w-20 max-h-20 hover:rotate-6" src="{{ asset('icons/logoTranspDwhite.png') }}"
+                        alt="logo Diketive">
+                </a>
+                <p class="hidden md:block">Breve descripción de la aplicación, su funcionalidad y hacia quién
                     va
-                    dirigida, de forma que ocupe entre tres y cuatro líneas.</span>
+                    dirigida, de forma que ocupe entre tres y cuatro líneas.</p>
             </div>
 
         </div>
@@ -60,34 +63,35 @@
 
 
             <div class="flex basis-1/2">
-                <div class="w-full px-4 basis-1/2">
-                    <h2 class="mb-3 text-sm font-medium tracking-widest text-white uppercase title-font">
+                <div class="items-center w-full px-4 basis-1/2">
+                    <h2 class="mb-3 text-lg font-extrabold tracking-widest text-white uppercase title-font">
                         Información
                     </h2>
                     <nav class="mb-10 list-none">
                         <li class="mt-3">
-                            <a class="text-white cursor-pointer ">Sobre Nosotros</a>
+                            <a href="{{ route('about.aboutUs') }}"
+                                class="text-gray-400 lowercase cursor-pointer hover:text-white">Sobre Nosotros</a>
                         </li>
                         <li class="mt-3">
-                            <a class="text-white cursor-pointer">Politica Privacidad</a>
+                            <a class="text-gray-400 lowercase cursor-pointer hover:text-white">Politica Privacidad</a>
                         </li>
                         <li class="mt-3">
-                            <a class="text-white cursor-pointer">Cookies</a>
+                            <a class="text-gray-400 lowercase cursor-pointer hover:text-white">Cookies</a>
                         </li>
                     </nav>
                 </div>
 
                 <div class="w-full px-4 basis-1/2">
-                    <h2 class="mb-3 text-sm font-medium tracking-widest text-white uppercase title-font">
-                        Contact
+                    <h2 class="mb-3 text-lg font-extrabold tracking-widest text-white uppercase">
+                        Contacto
                     </h2>
                     <nav class="mb-10 list-none">
                         <li class="mt-3">
-                            <a href="{{ route('contact') }}" class="text-white cursor-pointer">Send a
-                                Message</a>
+                            <a href="{{ route('contact') }}"
+                                class="text-gray-400 lowercase cursor-pointer hover:text-white">contáctanos</a>
                         </li>
                         <li class="mt-3">
-                            <a class="text-white cursor-pointer">+123-456-7890</a>
+                            <a class="text-gray-400 lowercase cursor-pointer hover:text-white">976-976-976</a>
                         </li>
                         {{-- <div class="mt-4">
                         <span class="inline-flex justify-center mt-2 sm:ml-auto sm:mt-0 sm:justify-start">
@@ -134,7 +138,8 @@
     </div>
 
     {{-- FOOTER TELEFONOS --}}
-    <div class="flex flex-wrap self-center justify-center px-6 mt-6 mb-6 text-center md:pl-20 md:mt-0 md:text-left">
+    <div
+        class="flex flex-wrap self-center justify-center px-6 mt-6 mb-6 text-center md:justify-center md:pl-20 md:mt-0 md:text-left">
 
         <div class="flex flex-col px-6 mx-3 my-0 text-center">
             <a href="tel:103" class="flex flex-grow">
@@ -171,11 +176,11 @@
                 </div>
                 <div class="flex flex-col justify-around pl-2">
                     <h3 class="flex flex-row justify-center ">
-                        <span class="font-bold">108
+                        <span class="font-bold ">900 100 456
                         </span>
                     </h3>
 
-                    <p class="flex flex-row">Linea Social</p>
+                    <p class="flex flex-row">Atención al menor</p>
                 </div>
             </a>
         </div>
@@ -215,11 +220,11 @@
                 </div>
                 <div class="flex flex-col justify-around pl-2">
                     <h3 class="flex flex-row justify-center ">
-                        <span class="font-bold">108
+                        <span class="font-bold">900 018 018
                         </span>
                     </h3>
 
-                    <p class="flex flex-row">Linea Social</p>
+                    <p class="flex flex-row">Ministerio Interior</p>
                 </div>
             </a>
         </div>
@@ -259,11 +264,11 @@
                 </div>
                 <div class="flex flex-col justify-around pl-2">
                     <h3 class="flex flex-row justify-center ">
-                        <span class="font-bold">108
+                        <span class="font-bold">600 909 073
                         </span>
                     </h3>
 
-                    <p class="flex flex-row">Linea Social</p>
+                    <p class="flex flex-row">Telegram M. Interior</p>
                 </div>
             </a>
         </div>
@@ -303,11 +308,11 @@
                 </div>
                 <div class="flex flex-col justify-around pl-2">
                     <h3 class="flex flex-row justify-center ">
-                        <span class="font-bold">108
+                        <span class="font-bold">915 822 358
                         </span>
                     </h3>
 
-                    <p class="flex flex-row">Linea Social</p>
+                    <p class="flex flex-row">Protección Menor NT</p>
                 </div>
             </a>
         </div>

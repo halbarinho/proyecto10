@@ -12,11 +12,11 @@
 
         @if ($errors->any())
             <div class="alert alert-danger">
-                <ul>
+                {{-- <ul>
                     @foreach ($errors->all() as $error)
                         <li class="text-sm text-red-600">{{ $error }}</li>
                     @endforeach
-                </ul>
+                </ul> --}}
             </div>
         @elseif (session('success'))
             <div class="alert alert-success">
@@ -29,7 +29,7 @@
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                 Editar la Actividad: {{ $activity->activity_name }}
             </h3>
-            <button type="button" @click="closeModal"
+            <button type="button" onclick="goBack();event.preventDefault();"
                 class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-hide="static-modal">
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -105,15 +105,15 @@
                 <!-- Modal footer -->
                 <div
                     class="flex items-center justify-end p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
-                    <input type="submit"
+                    <input type="submit" value="Actualizar"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 
 
-                    <a href="{{ route('activity.destroy', $activity->id) }}">
-                        <button data-modal-hide="static-modal" type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-medium text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
-                            Borrar</button>
-                    </a>
+
+                    <button onclick="showDialog({{ $activity->id }})" data-modal-hide="static-modal" type="button"
+                        class="py-2.5 px-5 ms-3 text-sm font-medium text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
+                        Borrar</button>
+
 
                     <a href="{{ route('activity.index') }}">
                         <button data-modal-hide="static-modal" type="button"
@@ -124,4 +124,59 @@
             </form>
         </div>
     </div>
+    @include('activity.modal.delete-modal')
+    <script>
+        function goBack() {
+            window.location.href = '{{ route('activity.index') }}';
+        }
+
+        let activityId;
+
+        function showDialog(id) {
+
+            activityId = id;
+
+            let dialog = document.getElementById('dialog');
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog(id) {
+
+            let dialog = document.getElementById('dialog');
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+        function deleteActivity(id) {
+
+            if (!activityId) {
+                console.error('No se ha proporcionado un ID de activity para eliminar.');
+                return;
+            }
+
+            fetch(`/activity/${activityId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    // if (!response.ok) {
+                    //     throw new Error('Network response was not ok');
+                    // }
+                    // Recarga la página
+                    // location.reload(); // O cualquier otra acción necesaria
+                    window.location.href = '{{ route('activity.index') }}';
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar la actividad:', error);
+                });
+        }
+    </script>
 @endsection

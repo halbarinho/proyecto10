@@ -8,7 +8,7 @@
 
     {{-- flowbite --}}
 
-    <div class="container mx-auto">
+    <div class="container py-4 mx-auto">
 
 
         <div class="gap-5 space-y-4 md:px-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:space-y-0">

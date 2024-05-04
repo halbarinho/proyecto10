@@ -144,8 +144,8 @@
                                                         </td>
                                                         <td
                                                             class="px-6 py-3 leading-4 whitespace-no-wrap border-b border-gray-200">
-                                                            Alerta Numero: {{ $alerta->id }} en el aula
-                                                            {{ $alerta->id }}
+                                                            Alerta Numero: {{ $alerta->id }} en
+                                                            {{ $alerta->Classroom->class_name }}
                                                         </td>
                                                         {{-- <td class="px-6 py-4 leading-4 whitespace-no-wrap border-b border-gray-200">
                                                         {{ $class->user_id }}</td> --}}
@@ -162,14 +162,18 @@
                                                         @endif
 
                                                         @if ($alerta->active)
-                                                            <td
-                                                                class="px-6 py-4 my-1 text-xl leading-4 text-center text-white whitespace-no-wrap border-b border-gray-200 bg-yellowPersonal">
-                                                                Solucionada
+                                                            <td class="text-right">
+                                                                <span
+                                                                    class=" px-2 py-0.5 ml-auto text-xs text-center font-medium tracking-wide text-green-600 bg-green-200 rounded-full">
+                                                                    Solucionada</span>
                                                             </td>
                                                         @else
-                                                            <td
-                                                                class="px-6 py-4 my-1 text-xl leading-4 text-center text-white whitespace-no-wrap border-b border-gray-200 bg-redPersonal text-bold">
-                                                                Pendiente</td>
+                                                            <td class="text-right">
+                                                                <span
+                                                                    class=" px-2 py-0.5 ml-auto text-xs text-center font-medium tracking-wide text-red-600 bg-red-200 rounded-full">
+                                                                    Pendiente
+                                                                </span>
+                                                            </td>
                                                         @endif
 
                                                         <td class="leading-4 text-right">

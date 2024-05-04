@@ -102,7 +102,7 @@
                                     <h3 class="text-sm text-red-600">No hay registros de Categorías</h3>
                                     <a href="{{ route('category.create') }}">
                                         <button id="createActivity"
-                                            class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700">Crear
+                                            class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal">Crear
                                             Nueva
                                             Categoria</button>
                                     </a>
@@ -111,7 +111,7 @@
                                         class="flex flex-col items-stretch flex-shrink-0 w-full space-y-2 md:justify-end md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
                                         <a class="" href="{{ route('category.create') }}">
                                             <button type="button" id="createActivity"
-                                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                                                class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal">
                                                 Añadir Categoría
                                             </button>
                                         </a>
@@ -119,10 +119,10 @@
 
                                     {{-- ELIMINAR MULTIPLES CATEGORIAS A LA VEZ --}}
 
-                                    {{-- <div class="mx-3 mb-5">
+                                    <div class="mx-3 mb-5">
                                         <span class="">{{ count($categories) }} categorías</span>
                                         <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black ">
-                                        @include('activity.modal.deleteMultiple-modal')
+                                        {{--    @include('activity.modal.deleteMultiple-modal')
                                         <form action="{{ route('activity.deleteActivities') }}"
                                             onsubmit="handleSubmit(event)" method="POST" id="form">
                                             @csrf
@@ -136,10 +136,10 @@
                                                     onclick="showDeleteMultipleModal();event.preventDefault();">Eliminar
                                                     Seleccionadas
                                                     {{-- <input type="submit" value="Eliminar"> --}}
-                                    {{-- </button>
+                                        {{-- </button>
                                     </div>
-                                    </form>
-                            </div> --}}
+                                    </form> --}}
+                                    </div>
                                     {{-- FIN ELIMINAR MULTIPLES CATEGORIAS A LA VEZ --}}
 
 
@@ -175,7 +175,7 @@
                                                                 {{ $category->description }}</td>
 
                                                             <td class="text-right"><a
-                                                                    class="px-4 py-2 font-bold text-white bg-green-500 border border-green-700 rounded hover:bg-green-700"
+                                                                    class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
                                                                     href="{{ route('category.edit', $category->id) }}">Editar</a>
                                                                 {{-- PRUEBO CON EL MODAL --}}
 

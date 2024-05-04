@@ -113,7 +113,7 @@
                                             <div
                                                 class="flex flex-col items-stretch justify-end flex-shrink-0 w-full mb-4 space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
                                                 <button
-                                                    class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                                                    class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal"
                                                     type="button" id="submit">
                                                     <input type="submit" value="Añadir Alumn@s">
                                                 </button>
@@ -137,7 +137,7 @@
                                                     <td class="flex items-center justify-end px-4 py-3">
                                                         <a
                                                             href="{{ route('estudiante.addStudentToClass', ['estudiante' => $student->user_id, 'classroom' => $classroom]) }}">
-                                                            <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg"
+                                                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg"
                                                                 viewBox="0 0 32 32">
                                                                 <path
                                                                     style="text-indent:0;text-align:start;line-height:normal;text-transform:none;block-progression:tb;-inkscape-font-specification:Bitstream Vera Sans"

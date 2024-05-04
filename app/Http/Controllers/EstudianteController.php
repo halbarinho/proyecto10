@@ -9,6 +9,7 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 
 class EstudianteController extends Controller
@@ -166,6 +167,11 @@ class EstudianteController extends Controller
             });
 
             $estudiantesList = [];
+
+            if (Auth::user()->hasRole('admin')) {
+                $notifications = Notification::all();
+                return view('admin.classroom.addStudents', ['estudiantes' => $selectedUsers, 'estudiantesList' => $estudiantesList, 'classroom' => $classroomId, 'notifications' => $notifications]);
+            }
 
             return view('estudiante.addStudents', ['estudiantes' => $selectedUsers, 'estudiantesList' => $estudiantesList, 'classroom' => $classroomId]);
 

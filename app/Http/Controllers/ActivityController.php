@@ -87,9 +87,9 @@ class ActivityController extends Controller
         Log::info('Aqui estoy con los datos', $request->all());
 
         $rules = [
-            'activity_name' => 'required|unique:activities',
+            'activity_name' => 'required|unique:activities|min:3|max:30',
             'activity_description' => 'required|string|min:15|max:500',
-            'questionsData' => 'required|array|min:1',
+            'questionsData' => 'required|array|min:1|max:40',
         ];
         $messages = [
             'activity_name.required' => __('El nombre de la actividad es obligatorio.'),
@@ -99,9 +99,9 @@ class ActivityController extends Controller
             'min' => __('El :attribute no cumple la longitud mínima.'),
             'max' => __('El :attribute no cumple la longitud máxima.'),
 
-            'questionsData.required' => 'Debe inlcuir al menos una pregunta a la actividad.',
-            'questionsData.array' => 'Debe inlcuir al menos una pregunta a la actividad.',
-            'questionsData.min' => 'Debe inlcuir al menos una pregunta a la actividad.',
+            'questionsData.required' => 'La actividad debe incluir al menos una cuestión.',
+            'questionsData.array' => 'La actividad debe incluir al menos una cuestión.',
+            'questionsData.min' => 'La actividad debe incluir al menos una cuestión.',
         ];
 
         // $validator = Validator::make(
@@ -345,11 +345,26 @@ class ActivityController extends Controller
                 'activity_description' => 'required|string|min:15|max:80',
             ],
             [
-                'unique' => __('El :attribute ya existe, prueba con otro.'),
+                // 'unique' => __('El :attribute ya existe, prueba con otro.'),
+                // 'required' => __('El :attribute es obligatorio.'),
+                // 'string' => __('El :attribute debe ser una cadena.'),
+                // 'min' => __('El :attribute no cumple la longitud mínima.'),
+                // 'max' => __('El :attribute no cumple la longitud máxima.'),
+
+
+                'activity_name.required' => __('El nombre de la actividad es obligatorio.'),
+                'activity_name.min' => __('La longitud del titulo de la actividad es de mínimo 3 caracteres.'),
+                'activity_name.max' => __('La longitud del titulo de la actividad es de máximo 3 caracteres.'),
+                'unique' => __('El titulo de la actividad ya existe.'),
                 'required' => __('El :attribute es obligatorio.'),
                 'string' => __('El :attribute debe ser una cadena.'),
                 'min' => __('El :attribute no cumple la longitud mínima.'),
                 'max' => __('El :attribute no cumple la longitud máxima.'),
+
+                // 'questionsData.required' => 'La actividad debe incluir al menos una cuestión.',
+                // 'questionsData.array' => 'La actividad debe incluir al menos una cuestión.',
+                // 'questionsData.min' => 'La actividad debe incluir al menos una cuestión.',
+
             ]
         );
 
@@ -495,7 +510,7 @@ class ActivityController extends Controller
                 //Aqui creo la notificacion para cada user
 
                 $notificationActivity = Notification::create([
-                    'message' => $activity->activity_name,
+                    'message' => 'Nueva Actividad: ' . $activity->activity_name,
                     'type' => 'activity',
                     'user_id' => $estudiante->user_id,
                     'target_id' => $activity->id,

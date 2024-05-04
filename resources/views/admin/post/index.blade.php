@@ -18,10 +18,10 @@
         $(document).ready(function() {
             $('#postsTable').DataTable({
                 "order": [
-                    [3, "desc"]
+                    [4, "desc"]
                 ],
                 columnDefs: [{
-                    targets: [0, 4],
+                    targets: [0, 5, 6],
                     sortable: false,
                     searchable: false
                 }],
@@ -102,18 +102,23 @@
                             <div class="w-1/2 md:w-full">
 
                                 @if ($posts->isEmpty())
-                                    <h3>No hay registros de Posts</h3>
-                                    <a href="{{ route('post.create') }}">
+                                    <h3 class="text-sm text-red-600">No hay registros de Posts</h3>
+                                    {{-- <a href="{{ route('post.create') }}">
                                         <button id="createPost"
-                                            class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700">Crear
+                                            class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal">Crear
                                             Nueva
                                             Post</button>
-                                    </a>
+                                    </a> --}}
                                 @else
                                     @if ($posts->isEmpty())
                                         <h3>No hay registros de Aulas</h3>
                                     @else
                                         {{-- Tabla POST --}}
+
+                                        <div class="mx-3 mb-5">
+                                            <span class="">{{ count($posts) }} posts</span>
+                                            <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black ">
+                                        </div>
 
                                         <table id="postsTable"
                                             class="table w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
@@ -186,11 +191,11 @@
                                                         </td>
                                                         <td class="px-6 py-4 text-right">
                                                             <a href="{{ route('post.edit', $post->id) }}"
-                                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                                                class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal">Editar</a>
                                                         </td>
                                                         <td class="px-6 py-4 text-right">
                                                             <a href="{{ route('post.delete', $post->id) }}"
-                                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Borrar</a>
+                                                                class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700">Borrar</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -215,7 +220,7 @@
                             <div>
                                 <a href="{{ route('post.showPosts') }}">
                                     <button type="button"
-                                        class="py-2.5 px-5 ms-3 text-sm font-medium text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
+                                        class="px-2 py-2 font-bold text-white border rounded-md border-graybg-grayPersonal bg-grayPersonal hover:bg-grayDarkerPersonal">
                                         Previsualizar Posts</button>
                                 </a>
                             </div>

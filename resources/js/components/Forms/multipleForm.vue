@@ -1,45 +1,63 @@
 <template>
-    <div :id="id" class="bg-[#ecf2f7] flex items-center justify-center min-h-screen font-nunito text-slate-600 my-1">
+    <div :id="id" class="bg-[#ecf2f7] flex items-center justify-center font-nunito text-slate-600 my-1">
         <section class="max-w-[968px] w-full mx-4">
             <h1 class="mx-2 my-6 text-2xl font-semibold text-center sm:text-3xl">Respuesta de Opcion Múltiple N.{{ id +
                 1 }}
             </h1>
 
+            <div class="flex">
+                <div class="w-3/4">
+                    <ul
+                        class="flex flex-col items-start justify-center w-full gap-3 p-8 mb-10 bg-white rounded-lg sm:flex-wrap">
 
+                        <li
+                            class="bg-[#f4faff] py-4 px-4 rounded-md min-w-[240px] self-stretch flex items-start justify-center flex-col">
 
-            <ul
-                class="flex flex-col items-start justify-center w-full gap-3 p-8 mb-10 bg-white rounded-lg sm:flex-wrap">
+                            <label :for="inputId"
+                                class="flex items-center justify-start w-full gap-0 p-3 font-semibold cursor-pointer">Enunciado</label>
 
-                <li
-                    class="bg-[#f4faff] py-4 px-4 rounded-md min-w-[240px] self-stretch flex items-start justify-center flex-col">
+                            <input :id="inputId" v-model="multipleStatement"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                @input="updateMultipleStatement" placeholder="Enunciado de la pregunta múltiple"
+                                required minlength="3" maxlength="30">
+                        </li>
 
-                    <label :for="inputId"
-                        class="flex items-center justify-start w-full gap-0 p-3 font-semibold cursor-pointer">Enunciado</label>
+                        <li v-for="(option, index) in 4 " :key="index"
+                            class="bg-[#f4faff] py-4 px-4 rounded-md min-w-full self-stretch flex items-start justify-center flex-col mb-4 sm:mb-0">
 
-                    <input :id="inputId" v-model="multipleStatement"
-                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        @input="updateMultipleStatement" placeholder="Enunciado de la pregunta múltiple">
-                </li>
+                            <div class="flex items-center justify-start w-full gap-4 ">
 
-                <li v-for="(option, index) in 4 " :key="index"
-                    class="bg-[#f4faff] py-4 px-4 rounded-md min-w-full self-stretch flex items-start justify-center flex-col mb-4 sm:mb-0">
+                                <input :id="'option_' + index" :name="'option_' + id" type="radio" :value="index"
+                                    @change="updateOption(index)" v-model="selectedOption">
+                                <label :for="'option_' + index">{{ option }}</label>
 
-                    <div class="flex items-center justify-start w-full gap-4 ">
+                                <input :id="optionTextId + index" v-model="optionText[index]"
+                                    class="flex-grow rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    @input="updateOptionText" placeholder="Texto Opción "></input>
 
-                        <input :id="'option_' + index" :name="'option_' + id" type="radio" :value="index"
-                            @change="updateOption(index)" v-model="selectedOption">
-                        <label :for="'option_' + index">{{ option }}</label>
+                            </div>
+                        </li>
 
-                        <input :id="optionTextId + index" v-model="optionText[index]"
-                            class="flex-grow rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                            @input="updateOptionText" placeholder="Texto Opción "></input>
-
-                    </div>
-                </li>
-
-            </ul>
-
-
+                    </ul>
+                </div>
+                <div class="flex items-center justify-center w-1/4">
+                    <svg @click="removeComponent" version="1.1" width="36" height="36" viewBox="0 0 36 36"
+                        preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>trash-line</title>
+                        <path class="clr-i-outline clr-i-outline-path-1"
+                            d="M27.14,34H8.86A2.93,2.93,0,0,1,6,31V11.23H8V31a.93.93,0,0,0,.86,1H27.14A.93.93,0,0,0,28,31V11.23h2V31A2.93,2.93,0,0,1,27.14,34Z">
+                        </path>
+                        <path class="clr-i-outline clr-i-outline-path-2"
+                            d="M30.78,9H5A1,1,0,0,1,5,7H30.78a1,1,0,0,1,0,2Z"></path>
+                        <rect class="clr-i-outline clr-i-outline-path-3" x="21" y="13" width="2" height="15"></rect>
+                        <rect class="clr-i-outline clr-i-outline-path-4" x="13" y="13" width="2" height="15"></rect>
+                        <path class="clr-i-outline clr-i-outline-path-5"
+                            d="M23,5.86H21.1V4H14.9V5.86H13V4a2,2,0,0,1,1.9-2h6.2A2,2,0,0,1,23,4Z"></path>
+                        <rect x="0" y="0" width="36" height="36" fill-opacity="0" />
+                    </svg>
+                </div>
+            </div>
 
             <!-- <div class="sm-5">
                 <textarea :id="optionTextId" v-model="optionText"
@@ -65,7 +83,7 @@ const multipleStatement = ref('');
 const optionText = ref(['']);
 const selectedOption = ref('');
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'remove']);
 
 let inputId = `multipleStatement_${props.id}`
 let optionTextId = `questionText_${props.id}`
@@ -85,6 +103,12 @@ const updateOptionText = event => {
 const updateOption = event => {
     emit('update:modelValue', props.id, { multipleStatement: multipleStatement.value, optionText: optionText.value, selectedOption: selectedOption.value });
 }
+
+// eliminar el componente del array
+const removeComponent = () => {
+    emit('remove', props.id);
+}
+
 </script>
 
 <style scoped></style>

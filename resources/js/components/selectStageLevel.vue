@@ -58,7 +58,8 @@ const showLevels = () => {
     <div class="mb-3 row">
         <label for="stage_id" class="mb-3 block text-base font-medium text-[#07074D]">Nivel Educativo</label>
         <div class="sm-5">
-            <select name="stage_id" id="stage_id" v-model="selectedStage">
+            <select name="stage_id" id="stage_id" v-model="selectedStage"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
                 <option v-for="(stage, index) in stages" :key="index" :value="stage['id']">{{ stage.stage_name }}
                 </option>
             </select>
@@ -68,7 +69,8 @@ const showLevels = () => {
     <div class="mb-3 row">
         <label for="level_id" class="mb-3 block text-base font-medium text-[#07074D]">Nivel Educativo</label>
         <div class="sm-5">
-            <select name="level_id" id="level_id" v-model="selectedLevel">
+            <select name="level_id" id="level_id" v-model="selectedLevel"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
                 <option v-for="(level, index) in stageLevels" :key="index" :value="level['id']">
                     {{ level.level_name }}
                 </option>

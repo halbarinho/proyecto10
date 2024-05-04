@@ -201,7 +201,7 @@
                                                 @foreach ($trackingSheets as $sheet)
                                                     <tr class="border-b dark:border-gray-700 ">
                                                         <td
-                                                            class="py-3 font-medium text-center text-gray-900 truncate  whitespace-nowrap dark:text-white">
+                                                            class="py-3 font-medium text-center text-gray-900 truncate whitespace-nowrap dark:text-white">
                                                             {{ $sheet->observations }}
                                                         </td>
 
@@ -220,7 +220,19 @@
                                                             {{-- <a
                                                                 href="{{ route('trackingSheet.edit', ['trackingSheet' => $sheet]) }}"> --}}
 
-                                                            <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg"
+                                                            <svg viewBox="0 0 24 24" class="w-9 h-9 ms-3"
+                                                                onclick="showTrackingSheet({{ json_encode($sheet) }})"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round">
+                                                                <path
+                                                                    d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
+                                                                <path
+                                                                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                                            </svg>
+
+                                                            {{-- <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg"
                                                                 viewBox="0 0 32 32">
 
                                                                 <g id="_15_notification-text"
@@ -232,7 +244,7 @@
                                                                     <path
                                                                         d="M29,6a3,3,0,0,0-5.22-2H7A3,3,0,0,0,4,7V25a3,3,0,0,0,3,3H25a3,3,0,0,0,3-3V8.22A3,3,0,0,0,29,6ZM26,5a1,1,0,1,1-1,1A1,1,0,0,1,26,5Zm0,20a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V7A1,1,0,0,1,7,6H23a3,3,0,0,0,3,3Z" />
                                                                 </g>
-                                                            </svg>
+                                                            </svg> --}}
 
                                                             {{-- </a> --}}
 
@@ -241,31 +253,31 @@
 
                                                             {{-- <a href="{{ route('trackingSheet.destroy', ['trackingSheet' => $sheet]) }}"> --}}
                                                             <div onclick="showDialog({{ $sheet->id }})">
-                                                                <svg class="w-7 h-7">
-                                                                    <?xml version="1.0" ?><svg viewBox="0 0 32 32"
-                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                        <defs>
-                                                                            <style>
-                                                                                .cls-1 {
-                                                                                    fill: none;
-                                                                                }
-                                                                            </style>
-                                                                        </defs>
-                                                                        <title />
-                                                                        <g data-name="Layer 2" id="Layer_2">
-                                                                            <path
-                                                                                d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z" />
-                                                                            <path
-                                                                                d="M11.76,21.24a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.41l8.49-8.49A1,1,0,0,1,21,12.46L12.46,21A1,1,0,0,1,11.76,21.24Z" />
-                                                                            <path
-                                                                                d="M20.24,21.24a1,1,0,0,1-.7-.29l-8.49-8.49a1,1,0,0,1,1.41-1.41L21,19.54A1,1,0,0,1,21,21,1,1,0,0,1,20.24,21.24Z" />
-                                                                        </g>
-                                                                        <g id="frame">
-                                                                            <rect class="cls-1" height="32"
-                                                                                width="32" />
-                                                                        </g>
-                                                                    </svg>
+
+                                                                <svg viewBox="0 0 32 32" class="w-9 h-9 ms-3"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <defs>
+                                                                        <style>
+                                                                            .cls-1 {
+                                                                                fill: none;
+                                                                            }
+                                                                        </style>
+                                                                    </defs>
+                                                                    <title />
+                                                                    <g data-name="Layer 2" id="Layer_2">
+                                                                        <path
+                                                                            d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z" />
+                                                                        <path
+                                                                            d="M11.76,21.24a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.41l8.49-8.49A1,1,0,0,1,21,12.46L12.46,21A1,1,0,0,1,11.76,21.24Z" />
+                                                                        <path
+                                                                            d="M20.24,21.24a1,1,0,0,1-.7-.29l-8.49-8.49a1,1,0,0,1,1.41-1.41L21,19.54A1,1,0,0,1,21,21,1,1,0,0,1,20.24,21.24Z" />
+                                                                    </g>
+                                                                    <g id="frame">
+                                                                        <rect class="cls-1" height="32"
+                                                                            width="32" />
+                                                                    </g>
                                                                 </svg>
+
                                                             </div>
                                                         </td>
 

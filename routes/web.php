@@ -99,6 +99,9 @@ Route::post('/contactForm', [ContactFormController::class, 'store'])->name('cont
 Route::view('/contact/formSent', 'contact.formSent')->name('contact.formSent');
 //FIN RUTAS FORMULARIO CONTACTO//
 
+//Ruta para el aboutUs
+Route::view('/about/aboutUs', 'about.aboutUs')->name('about.aboutUs');
+
 //FIN RUTAS PUBLICAS//
 
 /**
@@ -230,7 +233,10 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth']], 
     Route::post('/estudiante/discardClassroom', [EstudianteController::class, 'discardClassroomStudentList'])
         ->name('estudiantes.discardClassroom.post');
 
+    //Ruta para ver/editar los alumnos de una clase determinada
+    Route::get('/classroom/{classroom}/students', [ClassroomController::class, 'classroomStudents'])->name('classroom.classroomStudents');
 
+    //Ruta para añadir alumnos a las clases
     Route::get('/classroom/{classroom}/addestudiantes', [EstudianteController::class, 'addStudents'])
         ->name('studentsList.index');
 

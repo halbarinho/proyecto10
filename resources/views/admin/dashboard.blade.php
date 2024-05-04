@@ -1483,25 +1483,46 @@
                     <div class="w-40 ml-4 font-semibold tracking-wide text-md">contact@contact.com</div>
                 </div>
             </div>
-            <form class="flex flex-col justify-center p-6">
+            <form id="formContact" action="{{ route('contact.send') }}" method="POST"
+                class="flex flex-col justify-center p-6">
+                @csrf
                 <div class="flex flex-col">
                     <label for="name" class="hidden">Nombre completo</label>
-                    <input type="name" name="name" id="name" placeholder="Full Name"
+                    <input type="name" name="name" id="name" placeholder="Nombre y Apellidos"
+                        value="{{ old('name') }}"
                         class="px-3 py-3 mt-2 font-semibold text-gray-800 bg-white border border-gray-400 rounded-lg w-100 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-50 focus:border-blue-500 focus:outline-none" />
+                    @error('name')
+                        <div class="my-2 text-sm text-red-600">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="flex flex-col mt-2">
                     <label for="email" class="hidden">Email</label>
-                    <input type="email" name="email" id="email" placeholder="Email"
+                    <input type="email" name="mail" id="mail" placeholder="Email"
+                        value="{{ old('mail') }}"
                         class="px-3 py-3 mt-2 font-semibold text-gray-800 bg-white border border-gray-400 rounded-lg w-100 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-50 focus:border-blue-500 focus:outline-none" />
+                    @error('mail')
+                        <div class="my-2 text-sm text-red-600">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="flex flex-col mt-2">
-                    <label for="tel" class="hidden">Telefono</label>
-                    <input type="tel" name="tel" id="tel" placeholder="Telephone Number"
+                    <label for="asunto" class="hidden">Asunto</label>
+                    <input type="text" name="asunto" id="asunto" placeholder="Asunto"
+                        value="{{ old('asunto') }}"
                         class="px-3 py-3 mt-2 font-semibold text-gray-800 bg-white border border-gray-400 rounded-lg w-100 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-50 focus:border-blue-500 focus:outline-none" />
+                    @error('asunto')
+                        <div class="my-2 text-sm text-red-600">{{ $message }}</div>
+                    @enderror
                 </div>
+                <div class="flex flex-col mt-2">
+                    <textarea name="mensaje" placeholder='Mensaje' rows="6"
+                        class="px-3 py-3 mt-2 font-semibold text-gray-800 bg-white border border-gray-400 rounded-lg w-100 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-50 focus:border-blue-500 focus:outline-none">{{ old('mensaje') }}</textarea>
 
+                    @error('mensaje')
+                        <div class="my-2 text-sm text-red-600">{{ $message }}</div>
+                    @enderror
+                </div>
                 <button type="submit"
                     class="px-6 py-3 mt-4 font-bold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg md:w-32 dark:bg-gray-100 dark:text-gray-800 hover:bg-blue-500 dark:hover:bg-gray-200">Enviar</button>
             </form>
