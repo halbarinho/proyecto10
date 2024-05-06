@@ -22,7 +22,7 @@ class QuestionController extends Controller
     {
         $question_type = $question;
         return view('question.create', ['question_type' => $question_type]);
-        //return view('question.create', ['question_type' => $question_type]);
+
     }
 
     /**

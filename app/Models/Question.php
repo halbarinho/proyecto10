@@ -17,10 +17,7 @@ class Question extends Model
         'question_type',
 
     ];
-    // public function Activity(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Activity::class);
-    // }
+
 
     public function QuestionOption(): HasMany
     {

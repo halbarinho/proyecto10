@@ -32,7 +32,7 @@ class ForgetPasswordController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-            // ? back()->with(['status' => __($status)])
+
             ? redirect()->route('welcome')->with(['status', 'Profile updated!'])
 
             : back()->withErrors(['email' => __($status)]);
@@ -57,7 +57,7 @@ class ForgetPasswordController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, string $password) {
                 $user->forceFill([
-                    // 'password' => Hash::make($password)
+
                     'password' => $password //Quito la funcion de encriptado, porque si no se realizaría un doble encriptado que no dejaría acceder a traves del login
                 ])->setRememberToken(Str::random(60));
 

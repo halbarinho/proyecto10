@@ -51,7 +51,6 @@ class AdminController extends Controller
 
         // Obtener las últimas actividades subidas
         $actividadesRecientes = Activity::latest()->take(4)->get();
-        Log::info($actividadesRecientes);
 
 
         return view('admin.dashboard', [
@@ -224,7 +223,7 @@ class AdminController extends Controller
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator);
-            // return response()->json(['errors' => $validator->errors()], 422);
+
         }
 
 
@@ -297,7 +296,7 @@ class AdminController extends Controller
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator);
-            // return response()->json(['errors' => $validator->errors()], 422);
+
         }
 
 
@@ -348,15 +347,14 @@ class AdminController extends Controller
     {
         try {
 
-            Log::info('hasta aqui', [$request]);
             if (!isset($request->notificationsList)) {
                 throw new Exception('El elemento "notificationsList" no está definido.');
             }
-            Log::info($request);
+
             $notifications = $request->notificationsList;
 
             foreach ($notifications as $notificationId) {
-                // Log::info('Valor', [$notificationId]);
+
                 $notification = Notification::findOrFail($notificationId);
                 $notification->delete();
             }

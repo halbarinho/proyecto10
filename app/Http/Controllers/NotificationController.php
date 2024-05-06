@@ -77,29 +77,22 @@ class NotificationController extends Controller
 
         $userId = auth()->user()->id;
 
-        // $notifications = DB::table('notifications')
-        //     ->join('users', function (JoinClause $join) use ($userId) {
-        //         $join->on('notifications.user_id', '=', 'users.id')
-        //             ->where('notifications.user_id', '=', $userId);
-        //     })
-        //     ->get();
+
 
         $notifications = Notification::where('user_id', $userId)->get()->reject(function ($notification) {
             return $notification->read == true;
         });
 
-        // $notifications = $notificationsUser->reject(function ($notification) {
-        //     return $notification->read === 1;
-        // });
 
-        Log::info($notifications);
+
+
 
         return response()->json($notifications);
     }
 
     public function markAsRead(int $notificationId)
     {
-        Log::info('Notificacion: ', [$notificationId]);
+
         try {
             $selectedNotification = Notification::findOrFail((int) $notificationId);
 
@@ -128,8 +121,6 @@ class NotificationController extends Controller
      */
     public function sendNotification(Request $request)
     {
-
-        Log::info($request);
 
         $userId = $request->input('user_id');
 
@@ -167,12 +158,10 @@ class NotificationController extends Controller
             ->where('target_id', $chatId)
             ->get();
 
-        Log::info($notifications);
-
 
         foreach ($notifications as $notification) {
             self::markAsRead($notification->id);
-            Log::info('aqui');
+
         }
 
     }

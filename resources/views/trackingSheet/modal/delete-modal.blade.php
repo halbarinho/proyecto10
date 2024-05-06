@@ -4,7 +4,7 @@
     <div class="w-1/4 p-8 mx-auto my-20 bg-white rounded shadow-md">
         <div class="flex items-center gap-5">
             <div class="flex items-center justify-center w-10 h-10 p-5 text-red-500 bg-red-200 rounded-full">
-                <!-- Your SVG icon can be placed here -->
+
             </div>
             <div>
                 <h1 class="mb-2 text-lg font-bold">Borrar Actividad</h1>

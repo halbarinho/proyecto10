@@ -183,7 +183,7 @@
                                         <thead
                                             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
-                                                {{-- <th class="px-4 py-4">Estado</th> --}}
+
                                                 <th class="py-3 ">Contenido</th>
                                                 <th class="py-3 text-right ">Fecha Última Actualización</th>
                                                 <th></th>
@@ -208,17 +208,8 @@
                                                         <td class="py-3 truncate ">
                                                             {{ $sheet->updated_at->format('d-m-Y h:m') }}
                                                         </td>
-                                                        {{--
-                                                        <td class="px-4 py-3 max-w-[12rem]">
-
-                                                        </td> --}}
 
                                                         <td class="flex items-center justify-end py-3">
-
-
-
-                                                            {{-- <a
-                                                                href="{{ route('trackingSheet.edit', ['trackingSheet' => $sheet]) }}"> --}}
 
                                                             <svg viewBox="0 0 24 24" class="w-9 h-9 ms-3"
                                                                 onclick="showTrackingSheet({{ json_encode($sheet) }})"
@@ -227,31 +218,11 @@
                                                                 stroke-linejoin="round">
                                                                 <path
                                                                     d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                2 0 0 0 2-2v-7" />
                                                                 <path
                                                                     d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                             </svg>
 
-                                                            {{-- <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 32 32">
-
-                                                                <g id="_15_notification-text"
-                                                                    data-name="15 notification-text"
-                                                                    onclick="showTrackingSheet({{ json_encode($sheet) }})">
-                                                                    <rect x="8" y="10" width="15.75" height="2" />
-                                                                    <rect x="8" y="15" width="15.75" height="2" />
-                                                                    <rect x="8" y="20" width="8" height="2" />
-                                                                    <path
-                                                                        d="M29,6a3,3,0,0,0-5.22-2H7A3,3,0,0,0,4,7V25a3,3,0,0,0,3,3H25a3,3,0,0,0,3-3V8.22A3,3,0,0,0,29,6ZM26,5a1,1,0,1,1-1,1A1,1,0,0,1,26,5Zm0,20a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V7A1,1,0,0,1,7,6H23a3,3,0,0,0,3,3Z" />
-                                                                </g>
-                                                            </svg> --}}
-
-                                                            {{-- </a> --}}
-
-
-
-
-                                                            {{-- <a href="{{ route('trackingSheet.destroy', ['trackingSheet' => $sheet]) }}"> --}}
                                                             <div onclick="showDialog({{ $sheet->id }})">
 
                                                                 <svg viewBox="0 0 32 32" class="w-9 h-9 ms-3"

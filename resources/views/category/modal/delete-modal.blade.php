@@ -1,4 +1,3 @@
-<!-- Modal Overlay and Content -->
 <div id="dialog-{{ $category->id }}"
     class="fixed top-0 left-0 z-40 hidden w-screen h-screen transition-opacity duration-500 bg-black opacity-0"
     onclick="hideDialog({{ $category->id }})">
@@ -16,7 +15,7 @@
 
             <button class="px-6 py-2 text-black bg-gray-100 border border-gray-300 rounded hover:bg-gray-200"
                 onclick="hideDialog({{ $category->id }})">Cancel</button>
-            {{-- <button class="px-6 py-2 text-white bg-red-500 rounded hover:bg-red-600">Deactivate</button> --}}
+
             <form action="{{ route('category.destroy', $category->id) }}" method="POST">
                 @csrf
                 @method('DELETE')

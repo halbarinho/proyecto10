@@ -20,7 +20,7 @@
             </div>
         @endif
 
-        <!-- Modal header -->
+        <!-- header -->
         <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                 Editar el Post: {{ $post->title }}
@@ -36,7 +36,7 @@
                 <span class="sr-only">Close</span>
             </button>
         </div>
-        <!-- Modal body -->
+        <!-- body -->
         <div class="p-4 space-y-4 md:p-5">
 
             <form action="{{ route('post.update', ['post' => $post->id]) }}" method="POST" enctype="multipart/form-data"
@@ -45,7 +45,7 @@
                 @method('PUT')
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <input type="hidden" name="user_id" value="{{ $post->user_id }}">
-                    {{-- este tengo que modificarlo --}}
+
                     <input type="hidden" name="active" value="{{ $post->active }}">
                     <div class="col-span-2">
                         <label for="title"
@@ -112,7 +112,7 @@
 
                 </div>
 
-                <!-- Modal footer -->
+                <!-- footer -->
                 <div class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
                     <input type="submit"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">

@@ -1,11 +1,9 @@
-<!-- Modal Overlay and Content -->
 <div id="dialog-confirm"
     class="fixed top-0 left-0 z-50 hidden w-screen h-screen transition-opacity duration-500 bg-black opacity-0">
     <div class="w-1/4 p-8 mx-auto my-20 bg-white rounded shadow-md">
         <div class="flex items-center gap-5">
             <div
                 class="flex items-center justify-center w-10 h-10 p-5 rounded-full text-blueLightPerson bg-blueLighterPersonal">
-                <!-- Your SVG icon can be placed here -->
             </div>
             <div>
                 <h1 class="mb-2 text-lg font-bold">Vas a enviar</h1>

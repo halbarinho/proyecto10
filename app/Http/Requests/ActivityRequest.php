@@ -30,9 +30,6 @@ class ActivityRequest extends FormRequest
             'activity_description' => [
 
             ],
-            // 'questionsData.type' => [
-            //     'required',
-            // ]
 
 
         ];

@@ -38,51 +38,20 @@ class AnswerController extends Controller
     public function store(Request $request)
     {
 
-        Log::info($request);
-
-
-
         // Validación de los campos dinámicos
         $rules = [];
         foreach ($request->all() as $key => $value) {
-            Log::info($key);
+
             if (Str::startsWith($key, 'boolQuestion')) {
                 $rules[$key] = ['required', 'boolean'];
             } elseif (Str::startsWith($key, 'multipleQuestion')) {
-                // $rules[$key] = ['required', Rule::exists('question_options', 'id')];
+
                 $rules[$key] = ['required', 'boolean'];
             } elseif (Str::startsWith($key, 'shortAnswer')) {
                 $rules[$key] = ['required', 'string', 'min:10', 'max:255'];
             }
         }
 
-        // $validator = Validator::make(
-        //     $request->all(),
-        //     [
-        //         '*.boolQuestion' => [
-        //             'required',
-        //             'boolean',
-        //         ],
-        //         '*.multipleQuestion' => [
-        //             'required',
-        //             'exists:question_options,id',
-        //         ],
-        //         '*.shortAnswer' => [
-        //             'required',
-        //             'string',
-        //             'min:10',
-        //             'max:255',
-        //         ],
-        //     ],
-        //     [
-        //         'required' => __('El :attribute es obligatorio.'),
-        //         'boolean' => __('El :attribute debe ser un valor booleano.'),
-        //         'string' => __('El :attribute debe ser una cadena.'),
-        //         'min' => __('El :attribute no cumple la longitud mínima.'),
-        //         'max' => __('El :attribute no cumple la longitud máxima de 255.'),
-        //     ]
-
-        // );
 
         $validator = Validator::make($request->all(), $rules);
 
@@ -92,15 +61,12 @@ class AnswerController extends Controller
         }
 
         try {
-            Log::info('aqui estoy: ');
 
             $activity = ActivitiesResult::where([
                 'estudiante_id' => Auth::user()->id,
                 'activity_id' => $request->input('activity_id'),
             ])->first();
 
-            Log::info('actividad: ', [$activity]);
-            Log::info('status', [$activity->status]);
 
             if ($activity->status == 'completed') {
                 return redirect()->route('activity.index');
@@ -115,9 +81,6 @@ class AnswerController extends Controller
                 } else {
 
                     foreach ($request->all() as $key => $value) {
-
-                        Log::info($value);
-                        // Log::info(Auth::user()->id);
 
 
                         if (Str::startsWith($key, 'boolQuestion') || Str::startsWith($key, 'multipleQuestion')) {
@@ -145,19 +108,6 @@ class AnswerController extends Controller
                     }
                 }
 
-
-                // if ($request->input('status') === 'completed') {
-
-                //     $activity = ActivitiesResult::where('activity_id', $request->input('activity_id'))
-                //         ->where('estudiante_id', Auth::user()->id)
-                //         ->first();
-
-                //     if ($activity) {
-                //         $activity->status = 'completed';
-                //         $activity->save();
-                //     }
-
-                // }
 
                 $activity = ActivitiesResult::where([
                     'estudiante_id' => Auth::user()->id,
@@ -201,33 +151,24 @@ class AnswerController extends Controller
      */
     public function update(Request $request)
     {
-        Log::info('request: ', [$request]);
+
         foreach ($request->all() as $key => $value) {
 
-            Log::info($value);
-            // Log::info(Auth::user()->id);
+
             try {
 
                 if (Str::startsWith($key, 'boolQuestion') || Str::startsWith($key, 'multipleQuestion')) {
                     list($type, $questionId) = explode('-', $key);
 
-                    // $answer = Answer::create([
-                    //     'student_id' => Auth::user()->id,
-                    //     'question_id' => $questionId,
-                    //     'activity_id' => $request->input('activity_id'),
-                    //     'answer_text' => null,
-                    //     'answer_bool' => $value,
-                    // ]);
-                    Log::info('student_id', [Auth::user()->id]);
-                    Log::info('questionid', [$questionId]);
-                    Log::info('activityId', [$request->input('activity_id')]);
+
+
 
                     $answer = Answer::where([
                         'student_id' => Auth::user()->id,
                         'question_id' => $questionId,
                         'activity_id' => $request->input('activity_id'),
                     ])->update(['answer_bool' => $value]);
-                    Log::info('mierda', [$answer]);
+
 
 
                 } elseif (Str::startsWith($key, 'shortAnswer')) {

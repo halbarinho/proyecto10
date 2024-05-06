@@ -30,14 +30,10 @@ class AlertaController extends Controller
 
         // añadir a las clases del usuario autenticado la anonima
         $classes->push($anonymousClass);
-        // Log::info($classes);
 
         $classesIds = $classes->pluck('id');
 
         $alertas = Alerta::whereIn('class_id', $classesIds)->get();
-
-        // Log::info('Alertas: ', [$alertas]);
-
 
         return view('alerta.index', ['alertas' => $alertas]);
     }
@@ -55,8 +51,6 @@ class AlertaController extends Controller
      */
     public function store(Request $request)
     {
-
-        Log::info('Aqui estoy con los datos', $request->all());
 
 
         $validator = Validator::make(
@@ -79,7 +73,7 @@ class AlertaController extends Controller
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator);
-            // return response()->json(['errors' => $validator->errors()], 422);
+
         }
 
 
@@ -151,7 +145,7 @@ class AlertaController extends Controller
     {
         try {
 
-            // Log::info('alerta', [$alertaId]);
+
 
             $alerta = Alerta::findOrFail($alertaId);
 
@@ -227,7 +221,7 @@ class AlertaController extends Controller
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator);
-            // return response()->json(['errors' => $validator->errors()], 422);
+
         }
 
 
@@ -241,9 +235,6 @@ class AlertaController extends Controller
             if ($request->has('active')) {
                 $checked = $request->has('active');
             }
-
-
-            Log::info($checked);
 
 
             $selectedAlerta->update([
@@ -270,9 +261,7 @@ class AlertaController extends Controller
 
         $alertas = Alerta::all();
 
-        // return redirect()->route('post.index', ['posts' => $posts]);
 
-        // return view('alerta.index', ['alertas' => $alertas]);
         return redirect()->route('alerta.index');
 
     }
@@ -282,8 +271,6 @@ class AlertaController extends Controller
     {
 
         try {
-            Log::info($request);
-
 
             if (!isset($request->alertasList)) {
                 throw new Exception('No se han seleccionado alertas.');
@@ -292,7 +279,7 @@ class AlertaController extends Controller
             $alertas = $request->alertasList;
 
             foreach ($alertas as $alertaId) {
-                Log::info('Valor', [$alertaId]);
+
                 $alerta = Alerta::findOrFail($alertaId);
                 $alerta->delete();
             }

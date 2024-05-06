@@ -72,15 +72,13 @@
             </div>
         @endif
 
-        {{-- {{ Log::info($alerta->Estudiante->user_id) }} --}}
-
         @if (!is_null($alerta->estudiante_id))
             @include('alerta.modal.tracking-modal')
             @include('alerta.modal.changeEstudiantesStatus-modal')
         @endif
 
 
-        <!-- Modal header -->
+        <!-- header -->
         <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                 @if (!is_null($alerta->estudiante_id))
@@ -90,18 +88,8 @@
                 @endif
             </h3>
 
-            {{-- <button type="button" @click="closeModal"
-                class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="static-modal">
-                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                </svg>
-                <span class="sr-only">Close</span>
-            </button> --}}
         </div>
-        <!-- Modal body -->
+        <!--  body -->
         <div class="p-4 space-y-4 md:p-5">
 
             <form action="{{ route('alerta.update', ['alertum' => $alerta->id]) }}" method="POST"
@@ -109,9 +97,7 @@
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-2 gap-4 mb-4">
-                    {{-- <input type="hidden" name="user_id" value="{{ $alerta->user_id }}"> --}}
-                    {{-- este tengo que modificarlo --}}
-                    {{-- <input type="hidden" name="active" value="{{ $alerta->active }}"> --}}
+
                     <div class="col-span-2">
                         <label for="title"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
@@ -144,7 +130,7 @@
 
                 </div>
 
-                <!-- Modal footer -->
+                <!-- footer -->
                 <div
                     class="flex items-center justify-end p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
                     <input type="submit" value="Actualizar"
@@ -162,7 +148,6 @@
                             value="">Cambiar Seguimiento</button>
                     @endif
 
-                    {{-- <a href="{{ route('alerta.delete', $alerta->id) }}"> --}}
                     <a onclick="showDialog({{ $alerta->id }})">
                         <button data-modal-hide="static-modal" type="button"
                             class="py-2.5 px-5 ms-3 text-sm font-medium text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">

@@ -87,15 +87,10 @@ class ActivityQuestionController extends Controller
                 'activity_id' => $activitySelected->id,
             ])->first();
 
-            // Log::info('actividad: ', [$activity]);
-            // Log::info('status', [$activity->status]);
 
             if ($activityResult->status == 'completed') {
                 return redirect()->route('activity.index');
             }
-
-            Log::info($activitySelected);
-            Log::info($activityQuestions);
 
             //Marco como leida la notificacion si la hubiera
             $notification = Notification::where([
@@ -114,7 +109,7 @@ class ActivityQuestionController extends Controller
 
             }
 
-            // return view('activityQuestion.makeActivity', ['activityId' => $activity_id]);
+
             return view('activityQuestion.makeActivity', ['activity' => $activitySelected, 'questions' => $activityQuestions]);
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();

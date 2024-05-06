@@ -47,7 +47,6 @@ class ContactFormController extends Controller
 
         Mail::to('halbarinho@hotmail.com')->send(new ContactFormMail($request));
 
-        // return 'Email Send';
         return redirect()->route('contact.formSent');
     }
 

@@ -45,10 +45,7 @@ class TrackingSheetController extends Controller
 
             $student = Estudiante::findOrFail($studentId);
 
-            Log::info($student);
             $trackingSheets = $student->trackingSheet;
-
-            Log::info($trackingSheets);
 
 
             return view('trackingSheet.index', ['student' => $student, 'trackingSheets' => $trackingSheets]);
@@ -75,9 +72,6 @@ class TrackingSheetController extends Controller
     {
         $data = $request->all();
 
-
-
-        Log::info($data);
 
         $validator = Validator::make(
             $request->all(),
@@ -141,7 +135,6 @@ class TrackingSheetController extends Controller
 
     public function sendTrackingSheet(Request $request)
     {
-        Log::info($request->all());
 
         $validator = Validator::make(
             $request->all(),

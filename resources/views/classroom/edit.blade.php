@@ -52,19 +52,12 @@
                 <div>
 
                     <h2 class="mt-3 text-2xl font-semibold text-center">Editar Clase</h2>
-                    {{-- <span class="p-1 mt-1 text-sm text-center text-white uppercase rounded bg-yellowPersonal"></span> --}}
 
                     <div class="mt-5 text-center">
                         <h3 class="text-xl font-semibold">Edita los datos de la clase {{ $class->class_name }}</h3>
                         <p class="mt-2 text-justify text-gray-600">Puedes editar la información de la clase.</p>
                     </div>
                     </br>
-                    {{-- <a href="{{ route('admin.classroom') }}" class="">
-                    <button type='button'
-                        class="text-white bg-rose-500 hover:bg-rose-700 cursor-pointer font-bold rounded-md px-4 py-2.5 w-full">Cancelar</button>
-                </a> --}}
-
-
 
                 </div>
                 {{-- Fin primer div --}}

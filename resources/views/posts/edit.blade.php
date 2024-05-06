@@ -119,13 +119,6 @@
                     <input type="submit" value="Actualizar"
                         class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal">
 
-
-                    {{-- <a href="{{ route('post.delete', $post->id) }}">
-                        <button data-modal-hide="static-modal" type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-bold text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
-                            Borrar</button>
-                    </a> --}}
-
                     <button onclick="showDialog({{ $post->id }})" data-modal-hide="static-modal" type="button"
                         class="py-2.5 px-5 ms-3 text-sm font-bold text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
                         Borrar</button>

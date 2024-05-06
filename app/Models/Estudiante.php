@@ -21,7 +21,7 @@ class Estudiante extends Model
     protected $primaryKey = 'user_id';
 
     protected $fillable = [
-        // 'dni_FK',
+
         'date_of_birth',
         'history',
         'class_id',

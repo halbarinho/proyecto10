@@ -47,7 +47,7 @@
                 <span class="sr-only">Close</span>
             </button> --}}
         </div>
-        <!-- Modal body -->
+        <!--  body -->
         <div class="p-4 space-y-4 md:p-5">
 
             <form action="{{ route('admin.updateActivity', $activity) }}" method="POST" enctype="multipart/form-data"
@@ -84,7 +84,7 @@
 
                 </div>
 
-                <!-- Modal footer -->
+                <!-- footer -->
                 <div class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
                     <input type="submit" value="Actualizar"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">

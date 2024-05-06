@@ -8,51 +8,6 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-
-// //USO DE LARAVEL ECHO
-// import Echo from "laravel-echo"
-
-// // window.Pusher = require('pusher-js');
-// import Pusher from 'pusher-js';
-
-// window.Pusher = Pusher;
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     wsHost: window.location.hostname,
-//     wsPort: 6001,
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-//     forceTLS: true,
-//     disableStats: true,
-// });
-
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     wsHost: window.location.hostname,
-//     wsPort: 6001,
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-//     forceTLS: false,
-//     disableStats: true,
-// });
-
-// VALIDO SIN FUNCIONAR EL LISTENER PERO SI EL BROADCAST
-// import Echo from 'laravel-echo';
-// import Pusher from 'pusher-js';
-
-// window.Pusher = Pusher;
-
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
-
-
 import Echo from "laravel-echo"
 import { Input } from 'postcss';
 import Pusher from 'pusher-js';
@@ -69,36 +24,15 @@ window.Echo = new Echo({
 });
 
 
-//DOCUMENTACION DE WEBSOCKETS
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     wsHost: window.location.hostname,
-//     wsPort: 6001,
-//     forceTLS: false,
-//     disableStats: true,
-// });
-
-
-//DOCUMENTACION WEBSOCKETS CON SSL
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     wsHost: window.location.hostname,
-//     wsPort: 6001,
-//     disableStats: true,
-//     forceTLS: true
-// });
-
 /**
  * Selectores
  */
 const chatForm = document.getElementById("chat-inputarea");
 const chatInput = document.getElementById("chat-input");
-// const chatBody = get(".chat-body");
+
 const chatBody= document.getElementById('chat-body');
 
-// Icons made by Freepik from www.flaticon.com
+// Icons defecto
 const PERSON_IMG = "https://iconos8.es/icon/k6v69zoAsLLY/frida-kahlo";
 
 const chatWith = document.getElementById('chatWith');
@@ -126,7 +60,7 @@ const leftSubcontainer ="flex flex-row items-center";
 const rightColor = 'bg-blueDarkPersonal';
 const leftColor='bg-gray-200';
 
-// const usersConnected=[];
+
 let usersChat;
 let usersAtChat;
 
@@ -146,7 +80,7 @@ window.onload=function(){
 axios.get(`/chat/${chat_id}/get_users`)
 .then(response=>{
     usersAtChat = response.data.users.filter(user=>user.id !=authUser.id);
-    console.log(usersAtChat);
+
     if(usersAtChat.length>0){
 
         chatWith.innerHTML =usersAtChat[0].name;
@@ -168,7 +102,7 @@ axios.get(`/chat/${chat_id}/get_users`)
         window.Echo.join(`chat.${chat_id}`)
         .listen('MessageSend',(e)=>{
 
-          console.log('Mensajito: ',e);
+
 
 
           if(e.message.user.id!==authUser.id){
@@ -184,18 +118,18 @@ axios.get(`/chat/${chat_id}/get_users`)
 
         }
 
-        console.log(usersChat);
+
           //AQUI DEBO IMPLEMENTAR EL ENVIO DE LA NOTIFICACION
             if(usersChat.length<2){
-                console.log(usersChat);
-                console.log(usersAtChat[0].id);
+
+
 
             axios.post('/send/notification',{
                 'user_id':usersAtChat[0].id,
                 'target_id':chat_id,
                 })
                 .then(response => {
-                    console.log(usersAtChat[0].id)
+
                     console.log('Notificación enviada correctamente');
                 })
                 .catch(error => {
@@ -203,18 +137,15 @@ axios.get(`/chat/${chat_id}/get_users`)
                 });
                 }
 
-        // console.log(usersConnected);
 
         })
         .here((users)=>{
-          //console.log('Usuarios en el chat',users);
-          //usuarios en la conexion solo con el que se chatea
-        //   let usersConnected = users.filter(user=>user.id!=authUser.id);
+
 
         usersChat=users;
 
         let usersConnected = users.filter(user=>user.id!=authUser.id);
-        console.log(usersConnected);
+
           if(usersConnected.length>0){
             chatStatus.className = 'flex flex-col justify-center w-12 h-4 rounded-full bg-greenPersonal';
             chatStatusText.innerHTML='Activo';
@@ -237,7 +168,7 @@ axios.get(`/chat/${chat_id}/get_users`)
         })
         //whisper de typing
         .listenForWhisper('typing',e=>{
-            // console.log(e);
+
             //esta escribiendo y ha introducido al menos 1
             if(e>0){
                 typing.style.display='';
@@ -288,7 +219,7 @@ chatForm.addEventListener("submit", event => {
     'message':msgText,
     'chat_id':chat_id,
   }).then(response=>{
-    console.log(response);
+
 
     let data = response.data;
 
@@ -330,7 +261,7 @@ function appendMessage(name, img, sideContainer,sideSubcontainer,sideColor, text
         </div>`;
         }
 
-console.log(profileImage);
+
   const mssgHTML = `
 
 <div class="p-3 rounded-lg ${sideContainer}">
@@ -355,7 +286,6 @@ ${profileImage}
 
 function appendOldMessages(messages){
 
-    //console.log(messages);
 
     let side = 'left';
     let sideColor= 'leftColor';
@@ -363,8 +293,6 @@ function appendOldMessages(messages){
     let sideSubcontainer='';
 
     messages.forEach(msg => {
-
-        //console.log(msg)
 
 
 
@@ -394,7 +322,7 @@ function get(selector, root = document) {
 
 
 /**
- * No la he cambiado
+ * Foramtear la fecha
  */
 function formatDate(date) {
     const d= date.getDate();
@@ -413,20 +341,12 @@ function formatDate(date) {
  */
 function scrollToEnd(){
 
-    // const chatB = document.getElementById('chatBody');
-    // chatB.scrollTop=chatB.scrollHeight;
     chatBody.scrollTop=chatBody.scrollHeight;
 
 
 }
 
-// // function chatWith(){
 
-// // }
-
-// function chatStatus(){
-
-// }
 chatInput.addEventListener('input',()=>{
 
     timerTyping=true;
@@ -436,18 +356,11 @@ chatInput.addEventListener('input',()=>{
 });
 
 
-//No la uso porque deberia añadir en el html de chat.blade el evento
-//loo he creado con el addEventListener
-// function userTyping(){
-// window.Echo.join(`chat.${chat_id}`)
-// .whisper('typing',chatInput.value.length)
-// }
-
 function markAsReadNotification(chat_id){
 
     axios.get(`/notification/${chat_id}/getChatNotifications`)
     .then(response=>{
-        // appendOldMessages(response.data.messages);
+
     })
     .catch(error=>{
         console.error('Error al obtener las notificaciones:', error);

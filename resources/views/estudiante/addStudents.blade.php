@@ -10,8 +10,7 @@
 
                 $('table tbody tr').each(function() {
                     let studentName = $(this).find('td:nth-child(2)').text().toLowerCase();
-                    // let className = $(this).find('td:nth-child(3)').text().toLowerCase();
-                    // if (studentName.includes(searchText) || className.includes(searchText)) {
+
                     if (studentName.includes(searchText)) {
                         $(this).show();
                     } else {
@@ -75,14 +74,7 @@
                                     </div>
                                 </form>
                             </div>
-                            {{-- <div
-                                class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-                                <button type="button" id="createProductModalButton"
-                                    class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-                                    Añadir Alumn@
-                                </button>
 
-                            </div> --}}
                         </div>
                         <div class="mx-3 mb-5">
                             <span class="">{{ count($estudiantes) }} alumn@s</span>
@@ -121,9 +113,7 @@
                                             <input type="hidden" name="classroom" value="{{ $classroom }}">
                                             @foreach ($estudiantes as $student)
                                                 <tr class="border-b dark:border-gray-700 ">
-                                                    {{-- <td
-                                                    class="px-4 py-3 font-medium text-center text-gray-900 whitespace-nowrap dark:text-white">
-                                                </td> --}}
+
                                                     <td><input type="checkbox" name="estudiantesList[]"
                                                             value="{{ $student->user_id }}"></td>
                                                     <td class="px-4 py-3 max-w-[12rem] truncate">

@@ -99,25 +99,9 @@
                                 @if ($activities->isEmpty())
                                     <div class="flex justify-between w-full mx-auto">
                                         <h3 class="text-red-600">No hay registros de Actividades</h3>
-                                        {{-- <a href="{{ route('activity.create') }}">
-                                            <button id="createActivity"
-                                                class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700">Crear
-                                                Nueva
-                                                Actividad</button>
-                                        </a> --}}
+
                                     </div>
                                 @else
-                                    {{-- <div
-                                        class="flex flex-col items-stretch flex-shrink-0 w-full space-y-2 md:justify-end md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-                                        <a class="" href="{{ route('activity.create') }}">
-                                            <button type="button" id="createProductModalButton"
-                                                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-                                                Añadir Actividad
-                                            </button>
-                                        </a>
-                                    </div> --}}
-
-
                                     <div class="mx-3 mb-5">
                                         <span class="">{{ count($activities) }} actividades</span>
                                         <hr class="mb-4 h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black ">
@@ -134,7 +118,6 @@
                                                     type="submit" id="submitBtn"
                                                     onclick="showDeleteMultipleModal();event.preventDefault();">Eliminar
                                                     Seleccionadas
-                                                    {{-- <input type="submit" value="Eliminar"> --}}
                                                 </button>
                                             </div>
                                         </form>
@@ -193,7 +176,7 @@
                                                                             stroke-linejoin="round">
                                                                             <path
                                                                                 d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
                                                                             <path
                                                                                 d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                         </svg>
@@ -203,7 +186,7 @@
 
                                                                 {{-- Enviar --}}
                                                                 <td class="max-w-9 max-h-9">
-                                                                    {{-- <a href="" class="" ">Enviar</a> --}}
+
                                                                     <button type="button" id="send-{{ $activity->id }}"
                                                                         class="w-9 h-9"
                                                                         onclick="showSendDialog({{ $activity->id }}); event.preventDefault();">
@@ -259,8 +242,6 @@
                                                             </tr>
                                                         @endforeach
 
-                                                        {{-- </form> --}}
-                                                        {{-- {{ Log::info($classrooms) }} --}}
                                                         @foreach ($activities as $activity)
                                                             @include('activity.modal.delete-modal')
                                                             @include('activity.modal.send-modal')
@@ -348,13 +329,6 @@
                 let selectedActivities = document.querySelectorAll('input[name="activitiesList[]"]:checked');
 
                 let selectedIds = Array.from(selectedActivities).map(selectedActivities => selectedActivities.value);
-
-                console.log(selectedIds);
-
-                // let formData = new FormData(form);
-                // let activitiesList = formData.getAll('activitiesList[]');
-                // console.log('de vedad', activitiesList);
-                // event.preventDefault();
 
                 if (selectedIds.length < 1) {
                     location.reload();

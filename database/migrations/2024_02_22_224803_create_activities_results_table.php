@@ -11,12 +11,10 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('activities_results', function (Blueprint $table) {
-            // $table->id('activity_id');
+
             $table->id();
             $table->foreignId('activity_id')->references('id')->on('activities');
             $table->foreignId('estudiante_id')->references('user_id')->on('estudiantes');
-
-            // $table->primary(['activity_id', 'estudiante_id']);
 
             $table->foreignId('class_id')
                 ->nullable()

@@ -129,14 +129,6 @@
                             value="{{ old('phone1') }}" placeholder="Phone">
                     </div>
                 </div>
-                {{-- <div class="mb-3 row">
-                    <label for="phone2" class="mb-3 block text-base font-medium text-[#07074D]">Phone 2</label>
-                    <div class="sm-5">
-                        <input type="tel" name="phone_number" id="phone2"
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                            value="{{ old('phone2') }}" placeholder="Phone">
-                    </div>
-                </div> --}}
 
                 {{-- AÑADO LA CLASSROOM --}}
 
@@ -157,7 +149,6 @@
                     </div>
                 </div>
 
-                {{-- modificar estilos --}}
                 <div class="mb-3 md:flex md:justify-between">
                     <div class="mb-4 md:mr-2 md:mb-0">
                         <label class="mb-3 block text-base font-medium text-[#07074D]" for="password">

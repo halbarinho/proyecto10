@@ -16,16 +16,7 @@
 
     <div class="mr-4 overflow-auto ml-14 mt-14">
         <div class="flex justify-between w-full ">
-            {{-- INCLUYO MENSAJES DE ERROR
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif --}}
+
             @if (session('error'))
                 <div>
                     <ul>
@@ -106,16 +97,6 @@
             </div>
 
             @if ($user->user_type == 'docente')
-                {{-- <div class="mb-3 row">
-                <label for="user_type" class="mb-3 block text-base font-medium text-[#07074D]">Tipo Usuario</label>
-                <div class="sm-5">
-                    <select name="user_type" id="user_type" class="form-select" required>
-                        <option value="">Seleccione Tipo Usuario</option>
-                        <option value="docente">Docente</option>
-                        <option value="estudiante">Estudiante</option>
-                    </select>
-                </div>
-            </div> --}}
 
                 {{-- CAMPOS FORM VARIABLES SEGUN TIPO USUARIO --}}
                 {{-- DOCENTE --}}
@@ -160,8 +141,6 @@
                 </div>
             @endif
 
-
-            {{-- modificar estilos --}}
             <div class="mb-3 md:flex md:justify-between">
                 <div class="mb-4 md:mr-2 md:mb-0">
                     <label class="mb-3 block text-base font-medium text-[#07074D]" for="password">

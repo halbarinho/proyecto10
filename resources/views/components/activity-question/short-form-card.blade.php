@@ -1,9 +1,6 @@
 <div class="bg-[#ecf2f7] flex items-center justify-center min-h-screen font-nunito text-slate-600">
     <section class="max-w-[968px] w-full mx-4">
-        {{-- <p class="flex justify-center w-full mt-10">
-    <img src="https://neluttu.github.io/gift-membership/gift.png"
-        class="max-w-[100px] slide-in-elliptic-top-fwd">
-         </p> --}}
+
         <h1 class="mx-2 my-10 text-2xl font-semibold text-center sm:text-3xl">Pregunta de Respuesta
             Corta
         </h1>
@@ -21,9 +18,5 @@
             </li>
         </ul>
 
-        {{-- <button
-    class="mb-20 px-20 py-4 text-white bg-[#f1626e] mx-auto block mt-5 rounded-xl text-lg transition-all duration-150 ease-in hover:bg-[#d14f5a]">
-    Order now
-</button> --}}
     </section>
 </div>

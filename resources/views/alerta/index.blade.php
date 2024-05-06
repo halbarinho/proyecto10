@@ -56,7 +56,7 @@
 
 @endsection
 
-@section('title', 'Enviar Denuncia')
+@section('title', 'Enviar Alerta')
 
 @vite(['resources/css/app.css'])
 @vite(['resources/js/app.js'])
@@ -120,9 +120,7 @@
                                                     <th
                                                         class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                                         Titulo Alerta</th>
-                                                    {{-- <th
-                                                  class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                Tutor</th> --}}
+
                                                     <th
                                                         class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                                         Alumno</th>
@@ -147,8 +145,6 @@
                                                             Alerta Numero: {{ $alerta->id }} en
                                                             {{ $alerta->Classroom->class_name }}
                                                         </td>
-                                                        {{-- <td class="px-6 py-4 leading-4 whitespace-no-wrap border-b border-gray-200">
-                                                        {{ $class->user_id }}</td> --}}
 
                                                         @if (is_null($alerta->estudiante_id))
                                                             <td
@@ -179,9 +175,7 @@
                                                         <td class="leading-4 text-right">
                                                             <a class="px-5 py-2 font-bold text-white bg-green-500 border border-green-700 rounded-md hover:bg-green-700"
                                                                 href="{{ route('alerta.show', $alerta->id) }}">Acceder</a>
-                                                            {{-- PRUEBO CON EL MODAL --}}
 
-                                                            <!-- This button is used to open the dialog -->
                                                             <button id="delete-btn"
                                                                 class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700"
                                                                 onclick="showDialog({{ $alerta->id }}); event.preventDefault();">
@@ -249,13 +243,6 @@
             let selectedAlertas = document.querySelectorAll('input[name="alertasList[]"]:checked');
 
             let selectedIds = Array.from(selectedAlertas).map(selectedAlertas => selectedAlertas.value);
-
-            console.log(selectedIds);
-
-            // let formData = new FormData(form);
-            // let activitiesList = formData.getAll('activitiesList[]');
-            // console.log('de vedad', activitiesList);
-            // event.preventDefault();
 
             if (selectedIds.length < 1) {
                 location.reload();

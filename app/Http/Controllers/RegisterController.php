@@ -18,18 +18,13 @@ class RegisterController extends Controller
 
     public function show()
     {
-        // if (Auth::check()) {
-        //     return redirect()->route('welcome');
-        // }
 
         $users = User::all();
         $docentes = Docente::all();
         $estudiantes = Estudiante::all();
 
-
-        // return view('registro'); //este guay
         return view('CRUD.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
-        // return redirect()->route('registro.show');
+
     }
 
     public function create()
@@ -39,8 +34,7 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request)
     {
 
-        // Validar los inputs a la vez
-        // $user = User::create($request->validated());
+
 
 
         try {
@@ -78,16 +72,15 @@ class RegisterController extends Controller
             ]);
 
 
-            //ESTA LINEA AUTENTIFICA AL USUARIO CREADO
-            // Auth::login($user);
+
 
         } catch (QueryException $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
         }
-        // return redirect('welcome')->with('success', 'Cuenta creada con exito');
+
 
         return view('CRUD.index');
-        // return route('registro.show');
+
     }
 
 

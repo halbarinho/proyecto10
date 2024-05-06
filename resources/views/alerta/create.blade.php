@@ -66,18 +66,12 @@
                         </p>
                     </div>
 
-                    {{-- <div
-                        class="flex flex-col items-center justify-between p-4 mx-auto space-y-3 md:flex-row md:space-y-0 md:space-x-4">
-                        <h1 class="mx-auto text-3xl uppercase">Que te preocupa</h1>
-                    </div> --}}
-
                     <div class="mt-5 text-center">
                         <form action="{{ route('alerta.store') }}" method="POST"
                             class="flex flex-col items-center justify-center" id="mainForm">
                             @csrf
                             <div class="w-full mb-3">
-                                {{-- <label for="alerta-text" class="mb-3 block text-base font-medium text-[#07074D]">Cuentame que
-                                pasa</label> --}}
+
                                 <div class="flex flex-col w-full sm-5">
                                     <textarea name="content" cols="50" rows="10"
                                         class="items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"

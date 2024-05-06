@@ -19,10 +19,7 @@
                         tienes dudas
                         o quieres que te resolvamos alguna cuestion especifica, ponte en contacto con nosotros.</p>
                     <div class="mt-12">
-                        {{-- <h2 class="text-lg font-extrabold">Email</h2>
-                        <ul class="mt-3">
 
-                        </ul> --}}
                     </div>
                     <div class="mt-12">
                         <h2 class="text-lg font-extrabold">Social</h2>

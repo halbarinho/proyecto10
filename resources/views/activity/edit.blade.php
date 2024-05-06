@@ -24,7 +24,7 @@
             </div>
         @endif
 
-        <!-- Modal header -->
+        <!--header -->
         <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                 Editar la Actividad: {{ $activity->activity_name }}
@@ -40,7 +40,7 @@
                 <span class="sr-only">Close</span>
             </button>
         </div>
-        <!-- Modal body -->
+        <!-- body -->
         <div class="p-4 space-y-4 md:p-5">
 
             <form action="{{ route('activity.update', $activity) }}" method="POST" enctype="multipart/form-data"
@@ -77,32 +77,9 @@
 
 
 
-
-                    {{-- <div class="col-span-2">
-
-                        <label class="block my-2 mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            for="img_url">Subir
-                            Imagen</label>
-
-                        @if ($post->img_url)
-                            <img class="w-64 h-auto my-2 mx-w-xs" src="/storage/{{ $post->img_url }}" alt="">
-                        @else
-                            {{ $post->id }}
-                        @endif
-                        <input
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                            aria-describedby="img_url_help" id="img_url" name="img_url" type="file"
-                            value="{{ $post->img_url }}">
-
-                        @error('img_url')
-                            <div class="my-2 text-sm text-red-600">{{ $message }}</div>
-                        @enderror
-                    </div> --}}
-
-
                 </div>
 
-                <!-- Modal footer -->
+                <!-- footer -->
                 <div
                     class="flex items-center justify-end p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
                     <input type="submit" value="Actualizar"

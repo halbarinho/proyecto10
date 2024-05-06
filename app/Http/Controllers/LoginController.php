@@ -22,28 +22,24 @@ class LoginController extends Controller
             return redirect()->route('welcome');
         }
         return view('login');
-        // return redirect()->route('loginShow');
+
     }
 
 
     public function authenticate(LoginRequest $request): RedirectResponse
     {
-        //Validar datos
-// $credentials = $request->getCredentials();
+
 
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // $remember = ($request->has('remember') ? true : false);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
 
-
-            // return request();
             return redirect()->intended('dashboard');
         }
 
@@ -54,17 +50,6 @@ class LoginController extends Controller
     }
 
 
-    //Añado el metodo para controlar LOGOUT
-    // public function logout(Request $request)
-    // {
 
-    //     Auth::logout();
-
-    //     //Resetear la sesion para evitar problemas
-    //     $request->session()->invalidate();
-    //     $request->session()->regenerateToken();
-
-    //     return redirect(route('login'));
-    // }
 
 }

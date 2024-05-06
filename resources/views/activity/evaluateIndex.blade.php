@@ -189,7 +189,7 @@
                                                     type="submit" id="submitBtn"
                                                     onclick="showDeleteMultipleModal();event.preventDefault();">Eliminar
                                                     Seleccionadas
-                                                    {{-- <input type="submit" value="Eliminar"> --}}
+
                                                 </button>
                                             </div>
 
@@ -209,15 +209,11 @@
                                                                     <th class="">Evaluada</th>
                                                                     <th class="text-right "></th>
                                                                     <th class="text-right "></th>
-                                                                    {{-- <th class="text-right "></th> --}}
+
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
 
-
-
-
-                                                                {{-- <input type="hidden" name="classroom" value="{{ $classroom }}"> --}}
                                                                 @foreach ($activities as $activity)
                                                                     <tr class="border-b dark:border-gray-700 ">
 
@@ -257,24 +253,6 @@
                                                                             </td>
                                                                         @endif
 
-                                                                        {{-- Editar --}}
-                                                                        {{-- <td class="max-w-9 max-h-9">
-                                                                            <a href="" class="w-9 h-9">
-                                                                                <svg viewBox="0 0 24 24" class="w-9 h-9"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    fill="none" stroke="currentColor"
-                                                                                    stroke-width="2" stroke-linecap="round"
-                                                                                    stroke-linejoin="round">
-                                                                                    <path
-                                                                                        d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
-                                                                                    <path
-                                                                                        d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                                                                </svg>
-
-                                                                            </a>
-                                                                        </td> --}}
-
                                                                         {{-- Corregir --}}
 
                                                                         <td class="max-w-9 max-h-9">
@@ -287,7 +265,7 @@
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
@@ -302,7 +280,7 @@
                                                                                         stroke-linejoin="round">
                                                                                         <path
                                                                                             d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                2 0 0 0 2-2v-7" />
                                                                                         <path
                                                                                             d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                     </svg>
@@ -358,11 +336,6 @@
                                                 </div>
                                             </div>
                                         </form>
-
-                                        {{-- @foreach ($activities as $activity)
-                                            @include('activity.modal.delete-modal')
-                                            @include('activity.modal.send-modal')
-                                        @endforeach --}}
 
                                     </div>
                                     @include('activity.modal.deleteActivityEvaluated-modal')

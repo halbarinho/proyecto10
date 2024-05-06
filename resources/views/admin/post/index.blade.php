@@ -103,12 +103,6 @@
 
                                 @if ($posts->isEmpty())
                                     <h3 class="text-sm text-red-600">No hay registros de Posts</h3>
-                                    {{-- <a href="{{ route('post.create') }}">
-                                        <button id="createPost"
-                                            class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal">Crear
-                                            Nueva
-                                            Post</button>
-                                    </a> --}}
                                 @else
                                     @if ($posts->isEmpty())
                                         <h3>No hay registros de Aulas</h3>
@@ -206,16 +200,9 @@
 
                             </div>
 
-
-
-
                             @endif
                         </div>
                         <div class="flex flex-col items-end my-2 mr-2">
-                            {{-- <div id="postsModalCreate" class="">
-                                    <postsModalCreate">
-                                        </postsModalCreate>
-                                </div> --}}
 
                             <div>
                                 <a href="{{ route('post.showPosts') }}">

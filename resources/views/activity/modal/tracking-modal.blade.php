@@ -1,5 +1,3 @@
-    <!-- Main modal -->
-
     <div id="showTrackingSheet" tabindex="-1" aria-hidden="true"
         class="md:py-28 hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative justify-center w-full max-w-2xl max-h-full p-4 mx-auto">
@@ -44,9 +42,6 @@
                         <div
                             class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
 
-                            {{-- <input type="submit"
-                                class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                value="Añadir Hoja"> --}}
                             <button type="submit" form="trackingForm" onclick="submit()"
                                 class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg class="w-5 h-5 me-1 -ms-1" fill="currentColor" viewBox="0 0 20 20"
@@ -62,8 +57,6 @@
                             <button data-modal-hide="static-modal" type="button" onclick="hideTrackingSheet()"
                                 class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancelar</button>
                         </div>
-
-
 
                     </form>
                 </div>

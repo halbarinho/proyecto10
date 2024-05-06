@@ -13,7 +13,7 @@ class Docente extends Model
 
     protected $fillable = [
         'speciality',
-        // 'dni_FK'
+
     ];
     public function User(): BelongsTo
     {

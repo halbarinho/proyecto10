@@ -5,8 +5,6 @@
     crossorigin="anonymous"></script>
 @vite(['resources/css/app.css'])
 
-
-
 @section('content')
 
     <div class="mr-4 ml-14 mt-14">

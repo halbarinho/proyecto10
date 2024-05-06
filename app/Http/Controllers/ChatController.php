@@ -23,22 +23,10 @@ class ChatController extends Controller
 
         abort_unless($chat->User->contains(auth()->id()), 403);
 
-        // //Obtengo los chats que tiene el usuario autenticado
-        // $userChats = Auth()->user()->chat;
-
-        // $otherUsers = $userChats->flatMap(function ($chat) {
-
-        //     return $chat->user->where('id', '!=', Auth()->user()->id);
-
-        // });
-
-        Log::info('chat', [$chat->user]);
-
         //Obtener el otro usuario del chat
         $userAuth = User::findOrFail(Auth::user()->id);
         $userB = $chat->user->firstWhere('id', '!=', $userAuth->id);
 
-        Log::info('b', [$userB]);
         $otherUsers = self::obtenerOtherUsers();
 
         return view('chat', [
@@ -93,20 +81,7 @@ class ChatController extends Controller
     public function index()
     {
 
-
-        // //Obtengo los chats que tiene el usuario autenticado
-        // $userChats = Auth()->user()->chat;
-
-        // $otherUsers = $userChats->flatMap(function ($chat) {
-
-        //     return $chat->user->where('id', '!=', Auth()->user()->id);
-
-        // });
-
         $otherUsers = self::obtenerOtherUsers();
-
-        // Log::info('Chats: ', [$userChats]);
-        Log::info('Users: ', [$otherUsers]);
 
         return view('chat.index', ['otherUsers' => $otherUsers]);
     }

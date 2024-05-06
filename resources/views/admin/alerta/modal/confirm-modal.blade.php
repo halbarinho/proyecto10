@@ -1,4 +1,3 @@
-<!-- Modal Overlay and Content -->
 <div id="dialog-confirm"
     class="fixed top-0 left-0 hidden w-screen h-screen transition-opacity duration-500 bg-black opacity-0">
     <div class="w-1/4 p-8 mx-auto my-20 bg-white rounded shadow-md">
@@ -24,13 +23,8 @@
         </div>
         <div class="flex justify-end gap-4 mt-5">
 
-
-            {{-- <button class="px-6 py-2 text-white bg-red-500 rounded hover:bg-red-600">Deactivate</button> --}}
-
             @csrf
             @method('POST')
-            {{-- <input type="submit" value="Confirmar"
-                class="px-4 py-2 font-bold text-white bg-red-500 border border-red-700 rounded hover:bg-red-700"> --}}
 
             <button type="button" onclick="submitForm()"
                 class="px-4 py-2 font-bold text-white bg-red-500 border border-red-700 rounded hover:bg-red-700">Confirmar</button>

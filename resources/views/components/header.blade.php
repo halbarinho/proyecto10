@@ -1,11 +1,4 @@
 <script>
-    // function showMenu() {
-    //     let menuMobile = document.getElementById('menu');
-
-    //     menuMobile.classList.remove('hidden');
-    //     // alert('hola');
-    // }
-
     function toggleMenu() {
         let menuMobile = document.getElementById('menu');
         menuMobile.classList.toggle('hidden'); // Cambiar el estado de la clase hidden
@@ -32,8 +25,7 @@
         <div class="flex items-center h-12 px-8 pt-6 my-1">
             <div class="flex items-center justify-center w-20 h-20">
                 <a href="{{ route('welcome') }}">
-                    {{-- <img class="max-w-16 max-h-16" src="https://img.icons8.com/glyph-neue/64/darth-vader.png"
-                        alt="darth-vader"> --}}
+
                     <img class="mx-auto max-w-16 max-h-16 hover:rotate-6" src="{{ asset('icons/logo.png') }}"
                         alt="logo Diketive">
                 </a>
@@ -49,9 +41,6 @@
                         @auth
 
                             <div class="flex flex-row items-start">
-
-
-
 
                                 <div>
 
@@ -109,25 +98,11 @@
 
         @auth
 
-            {{-- <div class="md:hidden">
-                <label for="menu-toggle" class="z-20 flex justify-end cursor-pointer" onclick="toggleMenu()">
-                    <svg class="justify-center text-gray-900 fill-current" xmlns="http://www.w3.org/2000/svg" width="20"
-                        height="20" viewBox="0 0 20 20">
-                        <title>menu</title>
-                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-                    </svg>
-                </label>
-            </div> --}}
-
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 md:justify-center"
                 id="menu">
                 <nav>
 
                     @if (Auth::user()->hasRole('docente'))
-                        {{-- <ul id="menuMobile"
-                            class="absolute bottom-0 left-0 right-0 items-center justify-center h-8 px-8 mb-1 md:flex"> --}}
-                        {{-- <ul id="menuMobile"
-                            class="flex flex-col w-full mt-4 overflow-hidden font-medium bg-white max-h-64 lg:flex-row lg:space-x-8 lg:mt-0 top-full lg:static"> --}}
                         <ul id="menuMobile"
                             class="static bottom-0 left-0 right-0 z-40 flex flex-col items-center justify-center w-full h-screen px-8 mb-1 bg-white md:h-8 md:bg-transparent md:flex-row md:w-auto">
 
@@ -159,8 +134,6 @@
                                         Perfil</span></a></li>
                         </ul>
                     @else
-                        {{-- <ul
-                            class="absolute bottom-0 left-0 right-0 items-center justify-center hidden h-8 px-8 mb-1 md:flex"> --}}
                         <ul id="menuMobile"
                             class="static bottom-0 left-0 right-0 z-40 flex flex-col items-center justify-center w-full h-screen px-8 mb-1 bg-white md:h-8 md:bg-transparent md:flex-row md:w-auto">
                             <li class="relative flex flex-col px-4 align-middle"><a href="{{ route('post.index') }}"

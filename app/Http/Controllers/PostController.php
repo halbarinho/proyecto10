@@ -22,10 +22,6 @@ class PostController extends Controller
     public function index()
     {
 
-        // $posts = Post::all();
-
-
-        // return view('posts.index', ['posts' => $posts]);
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {
@@ -38,7 +34,7 @@ class PostController extends Controller
         } else {
             // Si el usuario tiene otro tipo de rol o no tiene rol, mostrar los posts en la ruta por defecto
             $posts = Post::all();
-            Log::info($posts);
+
             return view('posts.index', ['posts' => $posts]);
         }
     }
@@ -78,8 +74,7 @@ class PostController extends Controller
 
 
         if ($validator->fails()) {
-            // return redirect()->back()
-            //     ->withErrors($validator);
+
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
@@ -99,37 +94,6 @@ class PostController extends Controller
                 $new_path = '\images\defaultCollege.png';
             }
 
-            // $post = Post::create(
-            //     [
-            //         'title' => $request->input('title'),
-            //         'slug' => $request->input('slug'),
-            //         'body' => $request->input('body'),
-            //         // 'img_url' => $request->input('img_url'),
-            //         'img_url' => $path_img ?? null,
-            //         'active' => (bool) true,
-            //         // 'category_id' => $request->input('category_id'),
-            //         'category_id' => $request->input('category_id'),
-            //         'user_id' => (int) $request->input('user_id'),
-            //     ]
-            // );
-
-
-            /*
-            ESTE ES EL QUE ME FUNCION ANTES DE VALIDATE
-            $post = Post::create(
-                [
-                    'title' => $request->title,
-                    'slug' => $request->slug,
-                    'body' => $request->body,
-                    // 'img_url' => $request->input('img_url'),
-                    'img_url' => $new_path,
-                    'active' => (bool) true,
-                    // 'category_id' => $request->input('category_id'),
-                    'category_id' => $request->category_id,
-                    'user_id' => (int) $request->user_id,
-                ]
-            );
-*/
 
             //ESTO LO AÑADO PARA VALIDATE
             $post = Post::create(
@@ -151,62 +115,15 @@ class PostController extends Controller
 
         } catch (QueryException $e) {
             return (['message Error' => $request]);
-            // return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+
         }
 
         return (['message' => $request]);
 
 
-
-
-
-
-
-        // dd($request);
-        // try {
-        //     $data = $request->all();
-        //     dd($data);
-
-        //     $boolean = true;
-
-        //     $newPath = "";
-
-        //     if ($request->hasFile('img_url')) {
-
-        //         $path = Storage::putFile('public/images', $data['img_url']);
-        //         $newPath = str_replace('public/', '', $path);
-
-        //     }
-
-        //     $post = Post::create([
-        //         // 'title' => $data['title'],
-        //         // //'slug' => $data['slug'],
-        //         // 'slug' => 'slug',
-        //         // 'body' => $data['body'],
-        //         // //'img_url' => $newPath,
-        //         // 'img_url' => $newPath,
-        //         // 'active' => true,
-        //         // 'category_id' => $data['category'],
-
-        //         'title' => 'avion',
-        //         //'slug' => $data['slug'],
-        //         'slug' => 'slug',
-        //         'body' => 'jopetas',
-        //         //'img_url' => $newPath,
-        //         // 'img_url' => '',
-        //         'active' => (bool) $boolean,
-        //         'category_id' => 3,
-
-        //     ]);
-        // } catch (QueryException $e) {
-        //     return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
-        // }
-
-
         $categories = Category::all();
         $posts = Post::all();
 
-        //return redirect()->route('post.index', ['categories' => $categories, 'posts' => $posts]);
         return view('post.index', ['categories' => $categories, 'posts' => $posts]);
     }
 
@@ -248,7 +165,7 @@ class PostController extends Controller
         $categories = Category::all();
 
         return view('posts.edit', ['post' => $selectedPost, 'categories' => $categories]);
-        // return redirect()->route('post.edit', ['post' => $postId]);
+
     }
 
     /**
@@ -314,7 +231,6 @@ class PostController extends Controller
                 'user_id' => auth()->user()->id,
             ]);
 
-            // return redirect()->back()->with(['success' => 'Registro Actualizado con Exito']);
 
             return redirect()->route('post.index')->with(['success' => 'Registro Actualizado con Exito']);
 
@@ -347,7 +263,6 @@ class PostController extends Controller
         $posts = Post::all();
 
         return redirect()->route('post.index', ['posts' => $posts]);
-        // return view('posts.index', ['posts' => $posts]);
 
     }
 

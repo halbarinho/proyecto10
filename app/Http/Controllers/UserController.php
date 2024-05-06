@@ -25,15 +25,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $users = User::all();
-        // $docentes = Docente::all();
-        // $estudiantes = Estudiante::all();
-        // // $classes = Classroom::all();
 
-        // //Paso notifications
-        // $notifications = Notification::all();
-
-        // return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes, 'notifications' => $notifications]);
 
     }
 
@@ -82,7 +74,6 @@ class UserController extends Controller
                 //actualizo la tabla CLASSROOM para asociar al DOCENTE
                 $class_id = $data['class_id'];
 
-                // $classroom = Classroom::findOrFail($class_id);
 
                 if (!is_null($classroom = Classroom::find($class_id))) {
 
@@ -126,7 +117,7 @@ class UserController extends Controller
         } catch (QueryException $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
         }
-        // return redirect('welcome')->with('success', 'Cuenta creada con exito');
+
 
         //Recupero el contenido de las tablas
         $docentes = Docente::all();
@@ -152,7 +143,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
         $userSelected = User::findOrFail($id);
 
         //Paso notifications
@@ -168,13 +159,13 @@ class UserController extends Controller
      */
     public function update(UpdateRequest $request, string $id)
     {
-        Log::info('aqui');
+
         $data = $request->validated();
-        Log::info('aca');
+
         try {
             $userSelected = User::findOrFail($id);
 
-            // $userSelected->update($request->all());
+
 
             if (!empty($data['password'])) {
                 $userSelected->update([
@@ -200,19 +191,19 @@ class UserController extends Controller
             }
 
             if ($userSelected->user_type == 'docente') {
-                Log::info($userSelected);
+
                 $docenteSelected = $userSelected->docente;
-                Log::info($docenteSelected);
-                Log::info($data['speciality']);
+
+
                 $userSelected->Docente()->update([
                     'speciality' => $data['speciality'],
                 ]);
-                Log::info($data['speciality']);
+
             } elseif ($userSelected->user_type == 'estudiante') {
 
-                // $estudianteSelected = Estudiante::findOrFail($userSelected->id);
+
                 $estudianteSelected = $userSelected->Estudiante;
-                Log::info('estudiante', [$data['date_of_birth']]);
+
                 $estudianteSelected->update([
                     'history' => $data['history'],
                     'date_of_birth' => $data['date_of_birth'],
@@ -221,7 +212,7 @@ class UserController extends Controller
 
 
             return redirect()->back()->with('success', 'Registro Actualizado con Exito');
-            // return redirect()->route('user.index');
+
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
@@ -234,7 +225,7 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
         $selectedUser = User::findOrFail($id);
 
         $selectedUser->delete();
@@ -243,8 +234,6 @@ class UserController extends Controller
         $docentes = Docente::all();
         $estudiantes = Estudiante::all();
 
-
-        // return view('user.index', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
         return redirect()->route('user.listUsers', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
     }
 
@@ -285,12 +274,10 @@ class UserController extends Controller
 
     public function updateProfilePhoto(Request $request, string $id)
     {
-        Log::info('aqui');
-        // $data = $request->validated();
+
+
         try {
             $userSelected = User::findOrFail($id);
-            Log::info($userSelected);
-
 
             if ($request->hasFile('profile_photo_path')) {
 
@@ -312,23 +299,8 @@ class UserController extends Controller
             }
 
 
-
-            // if ($request->hasFile('profile_photo_path')) {
-            //     // Eliminar la foto de perfil anterior si existe
-            //     if ($userSelected->profile_photo_path) {
-            //         Storage::delete($userSelected->profile_photo_path);
-            //     }
-
-            //     // Guardar la nueva foto de perfil
-            //     $userSelected->profile_photo_path = $request->file('profile_photo_path')->store('profile-photos');
-            // }
-
-            // Guardar los cambios en el usuario
-            // $userSelected->save();
-
-
             return redirect()->back()->with('success', 'Registro Actualizado con Exito');
-            // return redirect()->route('user.index');
+
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {

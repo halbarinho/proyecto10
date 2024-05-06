@@ -14,15 +14,15 @@
 </head>
 
 <body class="font-mono bg-gray-400">
-    <!-- Container -->
+
     <div class="container mx-auto">
         <div class="flex justify-center px-6 my-12">
-            <!-- Row -->
+
             <div class="flex w-full xl:w-3/4 lg:w-11/12">
-                <!-- Col -->
+
                 <div class="hidden w-full h-auto bg-gray-400 bg-cover rounded-l-lg lg:block lg:w-5/12"
                     style="background-image: url('https://source.unsplash.com/Mv9hjnEUHR4/600x800')"></div>
-                <!-- Col -->
+
                 <div class="w-full p-5 bg-white rounded-lg lg:w-7/12 lg:rounded-l-none">
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -169,25 +169,10 @@
                                 class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                                 value="Registrar Usuario">
 
-                            {{-- <button type="submit" name="submit-button" id="submit-button"
-                                class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">
-                                Registrar</button> --}}
-
                         </div>
                         <hr class="mb-6 border-t" />
                     </form>
-                    {{-- <script>
-                        $(document).ready(
-                            () => {
 
-                                document.getElementById('submit-button').addEventListener('click', function() {
-                                    document.getElementById('registerForm').submit();
-                                });
-
-
-                            }
-                        );
-                    </script> --}}
                 </div>
             </div>
         </div>
@@ -196,6 +181,3 @@
 
 
 </html>
-
-
-<!-- component -->

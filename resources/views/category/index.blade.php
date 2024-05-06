@@ -60,7 +60,7 @@
 
 @section('title', 'Categorías')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
-@vite('resources/js/modal-delete.js')
+
 
 @section('content')
 
@@ -82,9 +82,6 @@
                     {{ session('success') }}
                 </div>
             @endif
-
-
-
 
             <section class="p-3 antialiased bg-gray-50 dark:bg-gray-900 sm:p-5">
                 <div class="max-w-screen-xl px-4 mx-auto lg:px-12">
@@ -122,23 +119,7 @@
                                     <div class="mx-3 mb-5">
                                         <span class="">{{ count($categories) }} categorías</span>
                                         <hr class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-black ">
-                                        {{--    @include('activity.modal.deleteMultiple-modal')
-                                        <form action="{{ route('activity.deleteActivities') }}"
-                                            onsubmit="handleSubmit(event)" method="POST" id="form">
-                                            @csrf
 
-                                            <div
-                                                class="flex flex-col items-stretch justify-end flex-shrink-0 w-full mb-4 space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-
-                                                <button
-                                                    class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                                                    type="submit" id="submitBtn"
-                                                    onclick="showDeleteMultipleModal();event.preventDefault();">Eliminar
-                                                    Seleccionadas
-                                                    {{-- <input type="submit" value="Eliminar"> --}}
-                                        {{-- </button>
-                                    </div>
-                                    </form> --}}
                                     </div>
                                     {{-- FIN ELIMINAR MULTIPLES CATEGORIAS A LA VEZ --}}
 
@@ -177,9 +158,7 @@
                                                             <td class="text-right"><a
                                                                     class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
                                                                     href="{{ route('category.edit', $category->id) }}">Editar</a>
-                                                                {{-- PRUEBO CON EL MODAL --}}
 
-                                                                <!-- This button is used to open the dialog -->
                                                                 <button id="delete-btn"
                                                                     class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700"
                                                                     onclick="showDialog()">

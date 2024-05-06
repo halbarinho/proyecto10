@@ -60,13 +60,13 @@
 
 @section('title', 'Admin Gestion Aulas')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
-@vite('resources/js/modal-delete.js')
+
 
 @section('content')
 
     <div class="grid grid-cols-1 ml-4 mr-4 mt-14">
         {{-- TABLA CLASSROOM --}}
-        {{-- <div class="md:min-h-96 p-4 bg-white sm:flex  border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700"> --}}
+
         <div class="container py-4 mx-auto">
             {{-- INCLUYO MENSAJES DE ERROR --}}
             @if ($errors->any())
@@ -169,9 +169,7 @@
 
                                                                     <a class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
                                                                         href="{{ route('classroom.edit', $class->id) }}">Editar</a>
-                                                                    {{-- PRUEBO CON EL MODAL --}}
 
-                                                                    <!-- This button is used to open the dialog -->
                                                                     <button id="delete-btn"
                                                                         class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700"
                                                                         onclick="showDialog({{ $class->id }})">

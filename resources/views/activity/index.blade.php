@@ -135,7 +135,6 @@
                                                     type="submit" id="submitBtn"
                                                     onclick="showDeleteMultipleModal();event.preventDefault();">Eliminar
                                                     Seleccionadas
-                                                    {{-- <input type="submit" value="Eliminar"> --}}
                                                 </button>
                                             </div>
 
@@ -161,36 +160,6 @@
                                                             </thead>
                                                             <tbody>
 
-                                                                {{-- @if ($activities->isEmpty())
-                                                            <tr class="col-span-3 text-center">
-                                                                <td>
-                                                                    <h3 class="text-red-600">No hay registros de Actividades
-                                                                    </h3>
-                                                                </td>
-                                                            </tr>
-                                                            <hr
-                                                                class="h-0.5 mt-5 mx-auto border-t-2 border-opacity-100 border-gray-300">
-                                                        @else
-                                                            @include('activity.modal.deleteMultiple-modal')
-                                                            <form action="{{ route('activity.deleteActivities') }}"
-                                                                onsubmit="handleSubmit(event)" method="POST"
-                                                                id="form">
-                                                                @csrf
-
-                                                                <div
-                                                                    class="flex flex-col items-stretch justify-end flex-shrink-0 w-full mb-4 space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-
-                                                                    <button
-                                                                        class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                                                                        type="submit" id="submitBtn"
-                                                                        onclick="showDeleteMultipleModal();event.preventDefault();">Eliminar
-                                                                        Seleccionadas
-                                                                        {{-- <input type="submit" value="Eliminar"> --}}
-                                                                {{-- </button>
-                                                         </div> --}}
-
-
-                                                                {{-- <input type="hidden" name="classroom" value="{{ $classroom }}"> --}}
                                                                 @foreach ($activities as $activity)
                                                                     <tr class="border-b dark:border-gray-700 ">
 
@@ -223,7 +192,7 @@
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
@@ -269,7 +238,6 @@
 
                                                                         {{-- Enviar --}}
                                                                         <td class="max-w-9 max-h-9">
-                                                                            {{-- <a href="" class="" ">Enviar</a> --}}
                                                                             <button type="button"
                                                                                 id="send-{{ $activity->id }}"
                                                                                 class="w-9 h-9"
@@ -334,13 +302,6 @@
                                                                     </tr>
                                                                     @include('activity.modal.send-modal')
                                                                 @endforeach
-
-                                                                {{-- </form> --}}
-                                                                {{-- {{ Log::info($classrooms) }} --}}
-                                                                {{-- @foreach ($activities as $activity)
-                                                                    @include('activity.modal.delete-modal')
-                                                                    @include('activity.modal.send-modal')
-                                                                @endforeach --}}
 
                                                             </tbody>
                                                         </table>

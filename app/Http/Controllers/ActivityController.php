@@ -58,19 +58,6 @@ class ActivityController extends Controller
      */
     public function create()
     {
-        // // Verificar si existen errores en la sesión
-        // if (session()->has('errors')) {
-
-        //     // Obtener los errores de la sesión
-        //     $errors = session('errors');
-
-        //     Log::info('Aqui: ', [$errors]);
-        //     // Limpiar los errores de la sesión
-        //     session()->forget('errors');
-        //     // Retornar la vista con los errores
-        //     return view('activity.create', ['errors' => $errors]);
-
-        // }
 
         // Si no hay errores en la sesión, simplemente retornar la vista de creación
 
@@ -83,8 +70,6 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-
-        Log::info('Aqui estoy con los datos', $request->all());
 
         $rules = [
             'activity_name' => 'required|unique:activities|min:3|max:30',
@@ -103,22 +88,6 @@ class ActivityController extends Controller
             'questionsData.array' => 'La actividad debe incluir al menos una cuestión.',
             'questionsData.min' => 'La actividad debe incluir al menos una cuestión.',
         ];
-
-        // $validator = Validator::make(
-        //     $request->all(),
-        //     [
-        //         'activity_name' => 'required',
-        //         'activity_description' => 'required|string|min:15|max:500',
-
-        //     ],
-        //     [
-        //         'activity_name.required' => __('El nombre de la actividad es obligatorio.'),
-        //         'required' => __('El :attribute es obligatorio.'),
-        //         'string' => __('El :attribute debe ser una cadena.'),
-        //         'min' => __('El :attribute no cumple la longitud mínima.'),
-        //         'max' => __('El :attribute no cumple la longitud máxima.'),
-        //     ]
-        // );
 
 
         if ($request->has('questionsData') && is_array($request->input('questionsData'))) {
@@ -151,13 +120,8 @@ class ActivityController extends Controller
             $messages
         );
 
-        Log::info('Validator: ', [$validator->errors()]);
-
-
         if ($validator->fails()) {
             Log::info('Aqui entro', [$validator]);
-            // return redirect()->back()
-            //     ->withErrors($validator);
 
             return response()->json(['errors' => $validator->getMessageBag()], 422);
 
@@ -168,18 +132,15 @@ class ActivityController extends Controller
 
 
 
-            // $loggedUser = 2;
+
 
             $usuario = $request->input('user_id');
-            // Log::info('User: ', [$usuario]);
 
 
-            //$data = $request->validated();
-            // $data = $request->all();
 
-            //Retrieving only los datos necesarios
-            //FUNCIONANDO
-            // $data = $request->safe()->only(['activity_name', 'activity_description']);
+
+
+
 
             $class = Activity::create([
                 'activity_name' => $request->input('activity_name'),
@@ -188,15 +149,10 @@ class ActivityController extends Controller
             ]);
 
 
-            Log::info('Datos de entrada:', [$class]);
+
 
             //Obtener el id de la Actividad creada
             $classId = $class->id;
-
-            // $activityQuestions = ActivityQuestion::create([
-            //     'activity_id' => $classId,
-            //     'question_id' => 1,
-            // ]);
 
 
             $data = $request->all();
@@ -213,7 +169,7 @@ class ActivityController extends Controller
                             'question_text' => $question['info']['boolStatement'],
                         ]);
 
-                        //$questionId = $newQuestion->id;
+
 
                         $questionOptions = QuestionOption::create([
                             'question_id' => $newQuestion->id,
@@ -231,12 +187,8 @@ class ActivityController extends Controller
                         ]);
 
                         $options = $question['info']['optionText'];
-                        Log::info('Dentro Multiple: ', [$options]);
-
-
 
                         $selectedAsRight = (int) $question['info']['selectedOption'];
-                        Log::info('SelectedIndex: ', [$selectedAsRight]);
 
                         foreach ($options as $index => $option) {
 
@@ -246,7 +198,7 @@ class ActivityController extends Controller
                                 $isRight = true;
                             }
 
-                            Log::info('Dentro Multiple: ', [$option]);
+
                             $questionOptions = QuestionOption::create([
                                 'question_id' => $newQuestion->id,
                                 'option_text' => $option,
@@ -289,10 +241,7 @@ class ActivityController extends Controller
 
         }
 
-        // return view('classroom.index', ['classes' => $classes]);
-        // return redirect()->route('activity.showUserActivities', ['user' => $usuario]);
-        // return(['message' => $request]);
-        // return redirect()->back()->with('succes', 'HEcho con exito');
+
         redirect()->route('activity.index');
 
     }
@@ -320,7 +269,6 @@ class ActivityController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
         }
 
-        // return redirect()->route('activity.edit', $selectedActivity->id)->with('succes', 'Actualizado correctamente');
         return view('activity.edit', ['activity' => $selectedActivity]);
     }
 
@@ -345,12 +293,6 @@ class ActivityController extends Controller
                 'activity_description' => 'required|string|min:15|max:80',
             ],
             [
-                // 'unique' => __('El :attribute ya existe, prueba con otro.'),
-                // 'required' => __('El :attribute es obligatorio.'),
-                // 'string' => __('El :attribute debe ser una cadena.'),
-                // 'min' => __('El :attribute no cumple la longitud mínima.'),
-                // 'max' => __('El :attribute no cumple la longitud máxima.'),
-
 
                 'activity_name.required' => __('El nombre de la actividad es obligatorio.'),
                 'activity_name.min' => __('La longitud del titulo de la actividad es de mínimo 3 caracteres.'),
@@ -360,10 +302,6 @@ class ActivityController extends Controller
                 'string' => __('El :attribute debe ser una cadena.'),
                 'min' => __('El :attribute no cumple la longitud mínima.'),
                 'max' => __('El :attribute no cumple la longitud máxima.'),
-
-                // 'questionsData.required' => 'La actividad debe incluir al menos una cuestión.',
-                // 'questionsData.array' => 'La actividad debe incluir al menos una cuestión.',
-                // 'questionsData.min' => 'La actividad debe incluir al menos una cuestión.',
 
             ]
         );
@@ -397,26 +335,6 @@ class ActivityController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy(Activity $activity)
-    // {
-    //     try {
-
-    //         $selectedActivity = Activity::findOrFail($activity->id);
-
-    //         $activity->delete();
-
-    //         return redirect()->route('activity.index');
-
-    //     } catch (Exception $e) {
-    //         return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
-    //     } catch (QueryException $e) {
-    //         return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
-    //     }
-    // }
-
 
     public function destroy(int $id)
     {
@@ -424,11 +342,8 @@ class ActivityController extends Controller
 
             $selectedActivity = Activity::findOrFail($id);
 
-            Log::info('Aqui: ', [$selectedActivity]);
             $selectedActivity->delete();
 
-            //Esto lo tengo funcionando, pero quiero que funcione tanto para admin como para docente
-            // return redirect()->route('activity.index');
 
             return redirect()->back();
 
@@ -444,16 +359,12 @@ class ActivityController extends Controller
     {
         $activities = Activity::where('user_id', $userId)->get();
 
-        Log::info('Activities: ', [$activities]);
-
         return view('activity.index', ['activities' => $activities]);
     }
 
     public function deleteActivities(Request $request)
     {
         try {
-
-            Log::info($request);
 
             if (!isset($request->activitiesList)) {
                 throw new Exception('El elemento "activitiesList" no está definido.');
@@ -462,7 +373,7 @@ class ActivityController extends Controller
             $activities = $request->activitiesList;
 
             foreach ($activities as $activityId) {
-                Log::info('Valor', [$activityId]);
+
                 $activity = Activity::findOrFail($activityId);
                 $activity->delete();
             }
@@ -483,11 +394,8 @@ class ActivityController extends Controller
 
         try {
 
-            // Log::info($activityId);
 
             $activity = Activity::findOrFail($activityId);
-
-            Log::info($activity);
 
             $classroomId = $request->classroom;
             $class = Classroom::findOrFail($classroomId);
@@ -495,12 +403,8 @@ class ActivityController extends Controller
             //Obtener los estudiantes de la clase
             $estudiantes = $class->Estudiante;
 
-
-
-            Log::info($class);
-
             foreach ($estudiantes as $estudiante) {
-                Log::info($estudiante);
+
                 $activityEstudiante = ActivitiesResult::create([
                     'activity_id' => $activity->id,
                     'estudiante_id' => $estudiante->user_id,
@@ -516,8 +420,7 @@ class ActivityController extends Controller
                     'target_id' => $activity->id,
                 ]);
 
-                // Log::info(`Type: ${$notificationActivity->type}, UsR: ${$notificationActivity->user_id}, messg: ${$notificationActivity->message}`);
-                Log::info(${$notificationActivity->type});
+
                 broadcast(new NotificationSend($notificationActivity->type, $notificationActivity->user_id, $notificationActivity->message))->toOthers();
             }
 
@@ -551,10 +454,6 @@ class ActivityController extends Controller
 
             $activitiesResult = $activity->ActivitiesResult;
 
-            Log::info('activities:', [$activitiesResult]);
-
-
-
             return view('activity.evaluateIndex', ['activities' => $activitiesResult]);
 
         } catch (QueryException $e) {
@@ -576,29 +475,16 @@ class ActivityController extends Controller
         try {
 
 
-            // $activitySelected = Activity::findOrFail($activityId);
-
-
-
-            // $questionaire = Question::whereHas('Activity', function ($query) use ($activityId) {
-            //     $query->where('activity_id', $activityId);
-            // })->get();
-
-            // Log::info('user', [$studentId]);
             $studentAnswers = Answer::where([
                 'activity_id' => $activityId,
                 'student_id' => $studentId,
             ])->get();
 
-            // $questionaire = ActivitiesResult::findOrFail([
-            //     'activity_id' => $activityId,
-            //     'estudiante_id' => $studentId,
-            // ]);
 
             if ($studentAnswers) {
-                Log::info('studentAnswers', [$studentAnswers]);
+
                 $status = ['Sin Seguimiento' => 'safe', 'Precacución' => 'caution', 'Atención Prioritaria' => 'warning'];
-                // return view('activity.evaluateActivity', ['questionaire' => $questionaire, 'studentAnswers' => $studentAnswers]);
+
                 return view('activity.evaluateActivity', ['questionaire' => $studentAnswers, 'studentId' => $studentId, 'activityId' => $activityId, 'status' => $status]);
             } else {
                 return redirect()->back()->withErrors(['error' => "Error, no se encontraron coincidencias."])->withInput();

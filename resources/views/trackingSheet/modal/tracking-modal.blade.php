@@ -1,9 +1,9 @@
 <div id="showTrackingSheet" tabindex="-1" aria-hidden="true"
     class="md:py-28 hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative justify-center w-full max-w-2xl max-h-full p-4 mx-auto">
-        <!-- Modal content -->
+
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
+
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Nueva Hoja Seguimiento
@@ -19,7 +19,7 @@
                     <span class="sr-only">Close</span>
                 </button>
             </div>
-            <!-- Modal body -->
+
             <div class="p-4 space-y-4 md:p-5">
 
                 <form action="{{ route('trackingSheet.update') }}" method="POST" id="updateForm">
@@ -41,9 +41,6 @@
 
                     <div class="flex items-center p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
 
-                        {{-- <input type="submit"
-                                class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                value="Añadir Hoja"> --}}
                         <button type="submit" onclick="submit()"
                             class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             <svg class="w-5 h-5 me-1 -ms-1" fill="currentColor" viewBox="0 0 20 20"

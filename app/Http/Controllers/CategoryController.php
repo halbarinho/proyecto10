@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+
         $categories = Category::all();
 
         //Paso notifications
@@ -84,9 +84,6 @@ class CategoryController extends Controller
 
         try {
 
-
-
-            // $data = $request->validated();
             $data = $request->all();
 
             $class = Category::create([
@@ -101,8 +98,7 @@ class CategoryController extends Controller
         }
 
         $categories = Category::all();
-        // return (['message' => $request]);
-        //return redirect()->route('category.index', ['categories' => $categories]);
+
         return view('category.index', ['categories' => $categories]);
     }
 
@@ -122,7 +118,6 @@ class CategoryController extends Controller
         try {
             $selectedCategory = Category::findOrFail($id);
 
-            // Log::info($selectedCategory);
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
@@ -133,7 +128,6 @@ class CategoryController extends Controller
         //Paso notifications
         $notifications = Notification::all();
 
-        // return redirect()->route('activity.edit', $selectedActivity->id)->with('succes', 'Actualizado correctamente');
         return view('category.edit', ['category' => $selectedCategory, 'notifications' => $notifications]);
     }
 
@@ -199,9 +193,6 @@ class CategoryController extends Controller
             $selectedCategory = Category::findOrFail($id);
 
             $selectedCategory->delete();
-
-            //Esto lo tengo funcionando, pero quiero que funcione tanto para admin como para docente
-            // return redirect()->route('activity.index');
 
             return redirect()->back();
 

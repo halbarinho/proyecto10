@@ -7,16 +7,6 @@ import shortForm from "@/components/Forms/shortForm.vue";
 import singleQuestionForChoice from "@/components/Forms/singleQuestionForChoice.vue";
 
 
-// createApp(questionPanel).mount("#questionPanel");
-// esto funciona
-// import axios from 'axios';
-
-// window.axios = axios;
-
-// window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-//hasta aqui
-
-
 // Configura Axios para incluir el token en todas las solicitudes
 import axios from 'axios';
 

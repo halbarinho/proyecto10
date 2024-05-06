@@ -69,7 +69,7 @@ class User extends Authenticatable
     protected function setPasswordAttribute(string $password)
     {
         $this->attributes['password'] = bcrypt($password);
-        // $this->attributes['password'] = Hash::make($value);
+
     }
 
     public function Docente(): HasOne

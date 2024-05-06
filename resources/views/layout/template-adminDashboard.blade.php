@@ -101,19 +101,10 @@
             <span class="hidden md:block">ADMIN</span>
         </div>
         <div class="flex items-center justify-end bg-yellowPersonal h-14 header-right">
-            {{-- <div class="flex items-center w-full max-w-xl p-2 mr-4 bg-white border border-gray-200 rounded shadow-sm">
-                {{-- <button class="outline-none focus:outline-none">
-                    {{-- <svg class="w-5 h-5 text-gray-600 cursor-pointer" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </button>
-                <input type="search" name="" id="" placeholder="Search"
-                    class="w-full pl-3 text-sm text-black bg-transparent outline-none focus:outline-none" />
-         </div> --}}
+
             <ul class="flex items-center">
                 <li>
-                    {{-- <div class="block w-px h-6 mx-3 bg-gray-400 dark:bg-gray-700"></div> --}}
+
                 </li>
                 <li>
 
@@ -138,8 +129,6 @@
     </div>
     <!-- end navbar -->
 
-
-    {{-- <div class="flex flex-row mt-14 pt-14"> --}}
     <!--sidenav -->
     <div
         class="fixed left-0 z-10 flex flex-col h-full transition-all duration-300 bg-gray-100 border-none top-14 w-14 hover:w-64 md:w-64 sidebar">
@@ -219,16 +208,16 @@
                     </a>
                 </li>
 
-                {{-- <span class="pl-2 font-bold text-gray-400">BLOG</span> --}}
+
                 <li id="postsBtn" class="mb-1 group">
-                    {{-- <a href="{{ route('admin.posts') }}" --}}
+
                     <span
                         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
                         <i class='mr-3 text-lg bx bxl-blogger'></i>
                         <span class="hidden text-sm md:inline">Post</span>
                         <i id="postsArrow" class="ml-auto ri-arrow-right-s-line"></i>
                     </span>
-                    {{-- </a> --}}
+
                     <ul id="postsSubMenu" class="pl-7 mt-2 hidden group-[.selected]:block">
                         <li class="mb-4">
                             <a href="{{ route('admin.posts') }}"
@@ -240,13 +229,7 @@
                         </li>
                     </ul>
                 </li>
-                {{-- <li class="mb-1 group">
-                    <a href=""
-                        class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                        <i class='mr-3 text-lg bx bx-archive'></i>
-                        <span class="hidden text-sm md:inline">Archive</span>
-                    </a>
-                </li> --}}
+
                 <span class="pl-2 font-bold text-gray-400">PERSONAL</span>
                 <li class="mb-1 group">
                     <a href="{{ route('admin.notifications') }}"
@@ -277,7 +260,7 @@
             </ul>
         </div>
     </div>
-    {{-- <div class="fixed top-0 left-0 z-40 w-full h-full bg-black/50 md:hidden sidebar-overlay"></div> --}}
+
     <!-- end sidenav -->
     <div class="flex flex-row basis-full">
         <main class="w-full h-full mb-10 ml-14 mt-14 md:ml-64 ">
@@ -307,13 +290,8 @@
             $("#postsArrow").toggleClass("rotate-90");
         })
 
-        // $('#usersBtn').hover(function() {
-        //     $('#userSubMenu').toggle('slow');
-        // })
 
-        //fin button usuarios
-
-        // start: Sidebar
+        // methods: Sidebar
         const sidebarToggle = document.querySelector('.sidebar-toggle')
         const sidebarOverlay = document.querySelector('.sidebar-overlay')
         const sidebarMenu = document.querySelector('.sidebar-menu')
@@ -348,7 +326,7 @@
 
 
 
-        // start: Popper
+        // methods: Popper
         const popperInstance = {}
         document.querySelectorAll('.dropdown').forEach(function(item, index) {
             const popperId = 'popper-' + index
@@ -431,7 +409,7 @@
 
 
 
-        // start: Tab
+        // methods: Tab
         document.querySelectorAll('[data-tab]').forEach(function(item) {
             item.addEventListener('click', function(e) {
                 e.preventDefault()

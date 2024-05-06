@@ -2,7 +2,7 @@
     <div :id="id" class="bg-[#ecf2f7] flex items-center justify-center font-nunito text-slate-600 my-1">
 
         <section class="max-w-[968px] w-full mx-4">
-            <h1 class="mx-2 my-6 text-2xl font-semibold text-center sm:text-3xl">Pregunta Verdadero/Falso N.{{ id +
+            <h1 class="mx-2 my-6 text-2xl font-semibold text-center sm:text-3xl">Pregunta Corta N.{{ id +
                 1 }}
             </h1>
 

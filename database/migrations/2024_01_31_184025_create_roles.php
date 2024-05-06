@@ -16,7 +16,6 @@ return new class extends Migration {
         $roleDoc = Role::create(['name' => 'docente']);
         $roleAlum = Role::create(['name' => 'alumno']);
 
-        // $permission = Permission::create(['name' => 'edit articles']);
     }
 
     /**

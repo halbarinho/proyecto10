@@ -21,9 +21,6 @@ class EstudianteController extends Controller
     {
         $estudiantes = Estudiante::all();
 
-        //inicializo la variable $estudiantesList
-        // $estudiantesList = [];
-
         //Paso notifications
         $notifications = Notification::all();
 
@@ -148,18 +145,7 @@ class EstudianteController extends Controller
         try {
             $selectedClass = Classroom::findOrFail($classroomId);
             $users = Estudiante::all();
-            // $selectedUsers = $users->diff(Estudiante::whereIn('class_id', ['$classroomId'])->get());
 
-
-            // $selectedUsers = Estudiante::where('class_id', '<>', $classroomId)->get();
-
-
-
-            // $selectedUsers = DB::table('estudiantes')
-            //     ->where([
-            //         ['class_id', '=', $classroomId],
-            //     ])
-            //     ->get();
 
             //ESTO FUNCIONA LO ANTERIOR NO Y NO LO ENTIENDO POR QUE?
             $selectedUsers = $users->filter(function ($user) use ($classroomId) {
@@ -249,23 +235,16 @@ class EstudianteController extends Controller
 
         try {
 
-            Log::info('Bueno hasta aqui');
 
             $data = $request->all();
 
-            Log::info($data);
 
             $selectedUser = Estudiante::findOrFail($data['estudianteId']);
-
-            // $status = $request->input('status');
-
-            Log::info($selectedUser);
 
             $selectedUser->update([
                 'status' => $request->input('status'),
             ]);
 
-            Log::info('bis', [$selectedUser]);
 
             return redirect()->back()->with('success', 'Registro Actualizado con Exito');
 

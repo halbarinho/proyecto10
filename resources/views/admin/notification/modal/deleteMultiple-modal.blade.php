@@ -17,13 +17,7 @@
 
             <button class="px-6 py-2 text-black bg-gray-100 border border-gray-300 rounded hover:bg-gray-200"
                 onclick="hideDeleteMultipleModal(); event.preventDefault();">Cancel</button>
-            {{-- <button class="px-6 py-2 text-white bg-red-500 rounded hover:bg-red-600">Deactivate</button> --}}
-            {{-- <form action="{{ route('activity.destroy', $activity->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <input type="submit" value="Eliminar"
-                    class="px-4 py-2 font-bold text-white bg-red-500 border border-red-700 rounded hover:bg-red-700">
-            </form> --}}
+
             <button class="px-4 py-2 font-bold text-white bg-red-500 border border-red-700 rounded hover:bg-red-700"
                 onclick="submitDeleteMultipleForm()">Eliminar</button>
         </div>

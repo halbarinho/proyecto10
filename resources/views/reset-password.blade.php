@@ -16,15 +16,15 @@
         </div>
     @endif
 
-    <!-- Container -->
+
     <div class="container mx-auto font-mono">
         <div class="flex justify-center px-6 my-12">
-            <!-- Row -->
+
             <div class="flex w-full xl:w-3/4 lg:w-11/12">
-                <!-- Col -->
+
                 <div class="hidden w-full h-auto bg-gray-400 bg-cover rounded-l-lg lg:block lg:w-5/12"
                     style="background-image: url('https://source.unsplash.com/Mv9hjnEUHR4/600x800')"></div>
-                <!-- Col -->
+
                 <div class="w-full p-5 bg-white rounded-lg lg:w-7/12 lg:rounded-l-none">
                     <h3 class="pt-4 text-2xl text-center">Restablece Tu Password</h3>
                     <form action="{{ route('password.update') }}" method="post" class="px-8 pt-6 pb-8 mb-4 bg-white rounded">

@@ -54,10 +54,6 @@ require __DIR__ . '/auth.php';
  * RUTAS PUBLICAS
  */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('welcome');
-
 Route::get('/', function () {
 
 

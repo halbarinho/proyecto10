@@ -103,12 +103,6 @@
 
                                 @if ($posts->isEmpty())
                                     <h3 class="text-red-600">No hay registros de Posts</h3>
-                                    {{-- <a href="{{ route('post.create') }}">
-                                        <button id="createPost"
-                                            class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700">Crear
-                                            Nuevo
-                                            Post</button>
-                                    </a> --}}
                                 @else
                                     <div class="mx-3 mb-5">
                                         <span class="">{{ count($posts) }} posts</span>
@@ -162,7 +156,6 @@
                                                         @if ($post->img_url)
                                                             <img class="w-40 h-auto max-w-xs"
                                                                 src="/storage/{{ $post->img_url }}" alt="">
-                                                            {{-- <img class="w-64 h-auto mx-w-xs" src="{{ asset($post->img_url) }}" alt=""> --}}
                                                         @else
                                                             {{ $post->id }}
                                                         @endif
@@ -194,38 +187,14 @@
                                                                 stroke-linecap="round" stroke-linejoin="round">
                                                                 <path
                                                                     d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                2 0 0 0 2-2v-7" />
                                                                 <path
                                                                     d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                             </svg>
                                                         </a>
                                                     </td>
                                                     <td class="px-6 py-4 text-right">
-                                                        {{-- <a href="{{ route('post.delete', $post->id) }}"
-                                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                                                <svg version="1.1" width="36" height="36"
-                                                                    viewBox="0 0 36 36" preserveAspectRatio="xMidYMid meet"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <title>trash-line</title>
-                                                                    <path class="clr-i-outline clr-i-outline-path-1"
-                                                                        d=" M27.14,34H8.86A2.93,2.93,0,0,1,6,31V11.23H8V31a.93.93,0,0,0,.86,1H27.14A.93.93,0,0,0,28,31V11.23h2V31A2.93,2.93,0,0,1,27.14,34Z" />
-                                                                    <path
-                                                                        class="clr-i-outline clr-i-outline-path-2"d="M30.78,9H5A1,1,0,0,1,5,7H30.78a1,1,0,0,1,0,2Z">
-                                                                    </path>
-                                                                    <rect class="clr-i-outline clr-i-outline-path-3" x="21"
-                                                                        y="13" width="2" height="15">
-                                                                    </rect>
-                                                                    <rect class="clr-i-outline clr-i-outline-path-4" x="13"
-                                                                        y="13" width="2" height="15">
-                                                                    </rect>
-                                                                    <path class="clr-i-outline clr-i-outline-path-5"
-                                                                        d="M23,5.86H21.1V4H14.9V5.86H13V4a2,2,0,0,1,1.9-2h6.2A2,2,0,0,1,23,4Z">
-                                                                    </path>
-                                                                    <rect x="0" y="0" width="36" height="36"
-                                                                        fill-opacity="0" />
-                                                                </svg>
-                                                            </a> --}}
+
                                                         <div onclick="showDialog({{ $post->id }})">
                                                             <svg version="1.1" width="36" height="36"
                                                                 class="hover:cursor-pointer" viewBox="0 0 36 36"
@@ -267,10 +236,6 @@
 
                         </div>
                         <div class="flex flex-col items-end my-2 mr-2">
-                            {{-- <div id="postsModalCreate" class="">
-                                                            <postsModalCreate">
-                                                                </postsModalCreate>
-                                                        </div> --}}
 
                             <div>
                                 <a href="{{ route('post.showPosts') }}">

@@ -14,7 +14,7 @@ class UserSearchController extends Controller
     {
 
         $query = $request->input('q');
-        Log::info('Request: ', [$query]);
+
 
         $authUser = Auth()->user()->id;
         $authUserType = Auth()->user()->user_type;
@@ -41,8 +41,6 @@ class UserSearchController extends Controller
         }
 
 
-
-        Log::info('users: ', [$users]);
         return response()->json(['users' => $users]);
 
     }

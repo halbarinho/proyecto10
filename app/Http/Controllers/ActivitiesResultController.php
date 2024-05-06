@@ -64,11 +64,11 @@ class ActivitiesResultController extends Controller
     public function destroy(int $activityResultId, int $studentId)
     {
 
-        Log::info('activityResult', [$activityResultId, $studentId]);
+
 
         try {
-            Log::info('joo');
-            // $selectedActivity = ActivitiesResult::findOrFail($activityResultId, $studentId);
+
+
 
             $selectedActivity = ActivitiesResult::where('activity_id', $activityResultId)
                 ->where('estudiante_id', $studentId)
@@ -76,7 +76,7 @@ class ActivitiesResultController extends Controller
 
 
 
-            Log::info('slected', [$selectedActivity]);
+
 
             $selectedActivity->delete();
 
@@ -101,7 +101,6 @@ class ActivitiesResultController extends Controller
     {
         try {
 
-            Log::info($request);
 
             if (!isset($request->activitiesList)) {
                 throw new Exception('El elemento "activitiesList" no está definido.');
@@ -110,7 +109,7 @@ class ActivitiesResultController extends Controller
             $activities = $request->activitiesList;
 
             foreach ($activities as $activityId) {
-                Log::info('Valor', [$activityId]);
+
                 $activity = ActivitiesResult::findOrFail($activityId);
                 $activity->delete();
             }
