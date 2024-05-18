@@ -1,7 +1,7 @@
 @extends('layout.template-adminDashboard')
 
 @section('title', 'Editar Notificacion')
-{{-- @vite(['resources/css/app.css']) --}}
+
 @vite('resources\js\app.js')
 
 @section('content')
@@ -9,20 +9,6 @@
     <div
         class="relative gap-16 items-center p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif] dark:bg-gray-700">
 
-
-        {{-- @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li class="text-sm text-red-600">{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @elseif (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif --}}
 
         @if (session('error'))
             <div>

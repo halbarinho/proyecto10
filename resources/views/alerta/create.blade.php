@@ -1,5 +1,47 @@
 @extends('layout.template-dashboard')
 
+@section('js')
+    <script>
+        function showDialog() {
+            let dialog = document.getElementById('dialog-confirm');
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog() {
+            let dialog = document.getElementById('dialog-confirm');
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+
+        function submitForm() {
+
+            // Añado los campos que están incluidos en el modal al resto del form
+            let modalForm = document.getElementById('modalForm');
+            let mainForm = document.getElementById('mainForm');
+
+            Array.from(modalForm.elements).forEach(function(element) {
+                mainForm.appendChild(element.cloneNode(true));
+            });
+
+            mainForm.submit();
+
+        }
+
+
+        function goBack() {
+
+            window.history.back();
+
+        }
+    </script>
+@endsection
+
 @section('title', 'Enviar Denuncia')
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
@@ -107,44 +149,6 @@
 
 
     </main>
-    <script>
-        function showDialog() {
-            let dialog = document.getElementById('dialog-confirm');
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
 
-        function hideDialog() {
-            let dialog = document.getElementById('dialog-confirm');
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-
-        function submitForm() {
-
-            // Añado los campos que están incluidos en el modal al resto del form
-            let modalForm = document.getElementById('modalForm');
-            let mainForm = document.getElementById('mainForm');
-
-            Array.from(modalForm.elements).forEach(function(element) {
-                mainForm.appendChild(element.cloneNode(true));
-            });
-
-            mainForm.submit();
-            // document.getElementById('mainForm').submit();
-        }
-
-
-        function goBack() {
-
-            window.history.back();
-
-        }
-    </script>
 
 @endsection

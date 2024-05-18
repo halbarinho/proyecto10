@@ -53,6 +53,24 @@
         });
     </script>
 
+    <script>
+        function showDialog(id) {
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog(id) {
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+    </script>
+
 @endsection
 
 @section('title', 'Admin Gestion Aulas')
@@ -138,23 +156,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <script>
-                            function showDialog(id) {
-                                let dialog = document.getElementById('dialog-' + id);
-                                dialog.classList.remove('hidden');
-                                setTimeout(() => {
-                                    dialog.classList.remove('opacity-0');
-                                }, 20);
-                            }
 
-                            function hideDialog(id) {
-                                let dialog = document.getElementById('dialog-' + id);
-                                dialog.classList.add('opacity-0');
-                                setTimeout(() => {
-                                    dialog.classList.add('hidden');
-                                }, 500);
-                            }
-                        </script>
 
 
                     </div>

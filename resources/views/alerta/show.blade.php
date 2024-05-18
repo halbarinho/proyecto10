@@ -2,6 +2,42 @@
 
 @section('js')
     <script>
+        function showDialog(id) {
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog(id) {
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+        function deleteAlerta(id) {
+
+            fetch(`/alerta/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+
+                    // Recarga la página
+                    // location.reload(); //
+                    window.history.back();
+                })
+                .catch(error => {
+                    console.error("Ha habido un error al intentar eliminar la alerta: ".id, error);
+                });
+        }
+
         function showTrackingSheet() {
 
             let dialog = document.getElementById('showTrackingSheet');
@@ -51,7 +87,7 @@
 @endsection
 
 @section('title', 'Ver Alerta')
-{{-- @vite(['resources/css/app.css']) --}}
+
 @vite('resources\js\app.js')
 
 
@@ -165,43 +201,5 @@
         @include('alerta.modal.delete-modal')
     </div>
 
-    <script>
-        function showDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
 
-        function hideDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deleteAlerta(id) {
-
-            fetch(`/alerta/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                })
-                .then(response => {
-                    // if (!response.ok) {
-                    //     throw new Error('Network response was not ok');
-                    // }
-                    // Recarga la página
-                    // location.reload(); //
-                    window.history.back();
-                })
-                .catch(error => {
-                    console.error("Ha habido un error al intentar eliminar la alerta: ".id, error);
-                });
-        }
-    </script>
 @endsection

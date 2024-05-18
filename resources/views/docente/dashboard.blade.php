@@ -14,7 +14,7 @@
             <div class="w-full p-8 lg:w-1/3 xl:w-1/3 md:w-1/2">
                 <div>
                     <a href="{{ route('post.index') }}">
-                        <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/student.png') }}"
+                        <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/articulos.svg') }}"
                             alt="photo">
                     </a>
                 </div>
@@ -28,7 +28,7 @@
             <div class="w-full p-8 lg:w-1/3 xl:w-1/3 md:w-1/2">
                 <div>
                     <a href="{{ route('docente.showClassrooms') }}">
-                        <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/student.png') }}"
+                        <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/schoolIcon.svg') }}"
                             alt="photo">
                     </a>
                 </div>
@@ -42,12 +42,12 @@
             <div class="w-full p-8 lg:w-1/3 xl:w-1/3 md:w-1/2">
                 <div>
                     <a href="{{ route('activity.index') }}">
-                        <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/student.png') }}"
+                        <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/test.svg') }}"
                             alt="photo">
                     </a>
                 </div>
                 <div class="py-8 text-center sm:py-6">
-                    <p class="mb-2 text-xl font-bold text-gray-700">Dinámicasa</p>
+                    <p class="mb-2 text-xl font-bold text-gray-700">Dinámicas</p>
                     <p class="text-base font-normal text-gray-400">Gestión Dinámicas</p>
                 </div>
             </div>
@@ -56,7 +56,7 @@
             <div class="w-full p-8 lg:w-1/3 xl:w-1/3 md:w-1/2">
                 <div>
                     <a href="{{ route('alerta.index') }}">
-                        <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/student.png') }}"
+                        <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/alertExclama.svg') }}"
                             alt="photo">
                     </a>
                 </div>
@@ -68,13 +68,13 @@
             <div class="w-full p-8 lg:w-1/3 xl:w-1/3 md:w-1/2">
                 <div>
                     <a href="{{ route('chat.index') }}">
-                        <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/student.png') }}"
+                        <img class="object-cover object-center w-full h-auto" src="{{ asset('icons/chatIcon.svg') }}"
                             alt="photo">
                     </a>
                 </div>
                 <div class="py-8 text-center sm:py-6">
                     <p class="mb-2 text-xl font-bold text-gray-700">Mensajes</p>
-                    <p class="text-base font-normal text-gray-400"></p>
+                    <p class="text-base font-normal text-gray-400">Área de Chat</p>
                 </div>
             </div>
             <div class="w-full p-8 lg:w-1/3 xl:w-1/3 md:w-1/2">

@@ -13,7 +13,6 @@
         crossorigin="anonymous"></script>
 
     @if ($studentList->isNotEmpty())
-        {{ Log::info('aqui', [$studentList]) }}
         {{-- Datatables --}}
         <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
 
@@ -57,6 +56,30 @@
                     }
                 });
             });
+        </script>
+
+        <script>
+            let selectedStudentId;
+
+            function showDialog(id) {
+
+                const deleteLink = document.getElementById('deleteLink');
+                deleteLink.href = '{{ route('estudiante.discardClassroom', ':id') }}'.replace(':id', id);
+
+                let dialog = document.getElementById('dialog');
+                dialog.classList.remove('hidden');
+                setTimeout(() => {
+                    dialog.classList.remove('opacity-0');
+                }, 20);
+            }
+
+            function hideDialog() {
+                let dialog = document.getElementById('dialog');
+                dialog.classList.add('opacity-0');
+                setTimeout(() => {
+                    dialog.classList.add('hidden');
+                }, 500);
+            }
         </script>
     @endif
 
@@ -204,29 +227,7 @@
 
                                                 @include('classroom.modal.deleteStudent-modal')
 
-                                                <script>
-                                                    let selectedStudentId;
 
-                                                    function showDialog(id) {
-
-                                                        const deleteLink = document.getElementById('deleteLink');
-                                                        deleteLink.href = '{{ route('estudiante.discardClassroom', ':id') }}'.replace(':id', id);
-
-                                                        let dialog = document.getElementById('dialog');
-                                                        dialog.classList.remove('hidden');
-                                                        setTimeout(() => {
-                                                            dialog.classList.remove('opacity-0');
-                                                        }, 20);
-                                                    }
-
-                                                    function hideDialog() {
-                                                        let dialog = document.getElementById('dialog');
-                                                        dialog.classList.add('opacity-0');
-                                                        setTimeout(() => {
-                                                            dialog.classList.add('hidden');
-                                                        }, 500);
-                                                    }
-                                                </script>
 
                                             @endif
                                         </tbody>

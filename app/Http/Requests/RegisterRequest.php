@@ -25,7 +25,7 @@ class RegisterRequest extends FormRequest
         return [
             'dni' => [
                 'required',
-                // 'regex:/^((([XYZ])[0-9]{7}[A-Z])|([0-9]{8}[A-Z]))$/',
+
                 new DniNieValidationRule(),
             ],
             'name' => [
@@ -57,7 +57,7 @@ class RegisterRequest extends FormRequest
                 'required',
                 'min:6',
                 'max:50',
-                //'confirmed',
+
             ],
             'password_confirmation' => [
                 'required',

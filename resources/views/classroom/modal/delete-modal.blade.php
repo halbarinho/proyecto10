@@ -1,5 +1,5 @@
 <div id="dialog-{{ $class->id }}"
-    class="fixed top-0 left-0 hidden w-screen h-screen transition-opacity duration-500 bg-black opacity-0"
+    class="fixed top-0 left-0 z-40 hidden w-screen h-screen transition-opacity duration-500 bg-black opacity-0"
     onclick="hideDialog({{ $class->id }})">
     <div class="w-1/4 p-8 mx-auto my-20 bg-white rounded shadow-md">
         <div class="flex items-center gap-5">

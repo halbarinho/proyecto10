@@ -347,10 +347,16 @@ class ActivityController extends Controller
 
             return redirect()->back();
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            // log::info($e->errorInfo[1]);
+            // Manejo de error al eliminar si la actividad ya tuviera registros vinculados en otras tablas como ActivityResult
+            if ($e->errorInfo[1] === 1451) {
+                // return redirect()->back()->with('errorDelete', 'No se puede eliminar esta actividad porque tiene registros vinculados.');
+                return redirect()->back()->withErrors(['error' => 'No se puede eliminar esta actividad porque tiene registros vinculados.'])->withInput();
+            }
+            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
         }
     }
 
@@ -381,10 +387,16 @@ class ActivityController extends Controller
             return redirect()->back()->with('success', 'Registros Actualizados con Exito');
 
 
+        } catch (QueryException $e) {
+            // log::info($e->errorInfo[1]);
+            // Manejo de error al eliminar si la actividad ya tuviera registros vinculados en otras tablas como ActivityResult
+            if ($e->errorInfo[1] === 1451) {
+                // return redirect()->back()->with('errorDelete', 'No se puede eliminar esta actividad porque tiene registros vinculados.');
+                return redirect()->back()->withErrors(['error' => 'No se puede eliminar esta actividad porque tiene registros vinculados.'])->withInput();
+            }
+            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
-        } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . " Failed to update post. Please try again."])->withInput();
         }
     }
 

@@ -55,6 +55,25 @@
             });
         });
     </script>
+    @if ($categories->isNotEmpty())
+        <script>
+            function showDialog(id) {
+                let dialog = document.getElementById('dialog-' + id);
+                dialog.classList.remove('hidden');
+                setTimeout(() => {
+                    dialog.classList.remove('opacity-0');
+                }, 20);
+            }
+
+            function hideDialog(id) {
+                let dialog = document.getElementById('dialog-' + id);
+                dialog.classList.add('opacity-0');
+                setTimeout(() => {
+                    dialog.classList.add('hidden');
+                }, 500);
+            }
+        </script>
+    @endif
 
 @endsection
 
@@ -161,7 +180,7 @@
 
                                                                 <button id="delete-btn"
                                                                     class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700"
-                                                                    onclick="showDialog()">
+                                                                    onclick="showDialog({{ $category->id }})">
                                                                     Eliminar
                                                                 </button>
                                                             </td>
@@ -180,21 +199,5 @@
             </section>
         </div>
     </div>
-    <script>
-        function showDialog() {
-            let dialog = document.getElementById('dialog-{{ $category->id }}');
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
 
-        function hideDialog() {
-            let dialog = document.getElementById('dialog-{{ $category->id }}');
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-    </script>
 @endsection

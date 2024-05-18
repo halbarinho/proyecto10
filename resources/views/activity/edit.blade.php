@@ -1,5 +1,60 @@
 @extends('layout.template-dashboard')
 
+@section('js')
+    <script>
+        function goBack() {
+            window.location.href = '{{ route('activity.index') }}';
+        }
+
+        let activityId;
+
+        function showDialog(id) {
+
+            activityId = id;
+
+            let dialog = document.getElementById('dialog');
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog(id) {
+
+            let dialog = document.getElementById('dialog');
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+        function deleteActivity(id) {
+
+            if (!activityId) {
+                console.error('No se ha proporcionado un ID de activity para eliminar.');
+                return;
+            }
+
+            fetch(`/activity/${activityId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+
+                    // Recarga la página
+                    // location.reload(); // O cualquier otra acción necesaria
+                    window.location.href = '{{ route('activity.index') }}';
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar la actividad:', error);
+                });
+        }
+    </script>
+@endsection
+
 @section('title', 'Editarar Posts')
 {{-- @vite(['resources/css/app.css']) --}}
 @vite('resources\js\app.js')
@@ -12,11 +67,7 @@
 
         @if ($errors->any())
             <div class="alert alert-danger">
-                {{-- <ul>
-                    @foreach ($errors->all() as $error)
-                        <li class="text-sm text-red-600">{{ $error }}</li>
-                    @endforeach
-                </ul> --}}
+
             </div>
         @elseif (session('success'))
             <div class="alert alert-success">
@@ -49,7 +100,7 @@
                 @method('PUT')
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <input type="hidden" name="user_id" value="{{ $activity->user_id }}">
-                    {{-- este tengo que modificarlo --}}
+
                     <input type="hidden" name="id" value="{{ $activity->id }}">
                     <div class="col-span-2">
                         <label for="activity_name"
@@ -102,58 +153,5 @@
         </div>
     </div>
     @include('activity.modal.delete-modal')
-    <script>
-        function goBack() {
-            window.location.href = '{{ route('activity.index') }}';
-        }
 
-        let activityId;
-
-        function showDialog(id) {
-
-            activityId = id;
-
-            let dialog = document.getElementById('dialog');
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
-
-        function hideDialog(id) {
-
-            let dialog = document.getElementById('dialog');
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deleteActivity(id) {
-
-            if (!activityId) {
-                console.error('No se ha proporcionado un ID de activity para eliminar.');
-                return;
-            }
-
-            fetch(`/activity/${activityId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                })
-                .then(response => {
-                    // if (!response.ok) {
-                    //     throw new Error('Network response was not ok');
-                    // }
-                    // Recarga la página
-                    // location.reload(); // O cualquier otra acción necesaria
-                    window.location.href = '{{ route('activity.index') }}';
-                })
-                .catch(error => {
-                    console.error('Ha habido un error al intentar eliminar la actividad:', error);
-                });
-        }
-    </script>
 @endsection

@@ -26,7 +26,7 @@ class PostController extends Controller
 
         if ($user->hasRole('admin')) {
             // Si el usuario tiene el rol de administrador, redirigir a una ruta específica
-            return redirect()->route('admin.posts.index');
+            return redirect()->route('admin.posts');
         } elseif ($user->hasRole('docente')) {
             // Si el usuario tiene el rol de docente, redirigir a otra ruta específica
             $posts = Post::all();

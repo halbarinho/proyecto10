@@ -46,9 +46,87 @@
                         "sortAscending": ": Activar orden de columna ascendente",
                         "sortDescending": ": Activar orden de columna desendente"
                     }
+                },
+                layout: {
+                    topStart: null
                 }
             });
         });
+    </script>
+
+    <script>
+        function showDialog(id) {
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog(id) {
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+        function deleteAlerta(id) {
+
+            fetch(`/alerta/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+
+                    // Recarga la página
+                    location.reload(); // O cualquier otra acción necesaria
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar la alerta:', error);
+                });
+        }
+
+
+        function handleSubmit(event) {
+
+
+            let selectedAlertas = document.querySelectorAll('input[name="alertasList[]"]:checked');
+
+            let selectedIds = Array.from(selectedAlertas).map(selectedAlertas => selectedAlertas.value);
+
+            if (selectedIds.length < 1) {
+                location.reload();
+            } else {
+                showDeleteMultipleModal();
+            }
+
+        }
+
+
+        function showDeleteMultipleModal() {
+            let deleteMultipleModal = document.getElementById('deleteMultipleModal');
+            deleteMultipleModal.classList.remove('hidden');
+            setTimeout(() => {
+                deleteMultipleModal.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDeleteMultipleModal() {
+            let deleteMultipleModal = document.getElementById('deleteMultipleModal');
+            deleteMultipleModal.classList.add('opacity-0');
+            setTimeout(() => {
+                deleteMultipleModal.classList.add('hidden');
+            }, 500);
+        }
+
+        function submitDeleteMultipleForm() {
+            let form = document.getElementById('form');
+            form.submit();
+        }
     </script>
 
 @endsection
@@ -156,13 +234,17 @@
 
                                                         @if ($alerta->active)
                                                             <td
-                                                                class="px-6 py-4 my-1 text-xl leading-4 text-center text-white whitespace-no-wrap border-b border-gray-200 bg-yellowPersonal">
-                                                                Solucionada
+                                                                class="px-6 py-4 my-1 leading-4 whitespace-no-wrap border-b border-gray-200">
+                                                                <span
+                                                                    class=" px-2 py-0.5 ml-auto text-xs text-center font-medium tracking-wide text-yellow-600 bg-yellow-200 rounded-full">Solucionada</span>
+
                                                             </td>
                                                         @else
                                                             <td
-                                                                class="px-6 py-4 my-1 text-xl leading-4 text-center text-white whitespace-no-wrap border-b border-gray-200 bg-redPersonal text-bold">
-                                                                Pendiente</td>
+                                                                class="px-6 py-4 my-1 leading-4 whitespace-no-wrap border-b border-gray-200">
+                                                                <span
+                                                                    class=" px-2 py-0.5 ml-auto text-xs text-center font-medium tracking-wide text-red-600 bg-red-200 rounded-full">Pendiente</span>
+                                                            </td>
                                                         @endif
 
                                                         <td class="leading-4 text-right">
@@ -191,81 +273,6 @@
 
         </div>
     </main>
-    <script>
-        function showDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
 
-        function hideDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deleteAlerta(id) {
-
-            fetch(`/alerta/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                })
-                .then(response => {
-                    // if (!response.ok) {
-                    //     throw new Error('Network response was not ok');
-                    // }
-                    // Recarga la página
-                    location.reload(); // O cualquier otra acción necesaria
-                })
-                .catch(error => {
-                    console.error('Ha habido un error al intentar eliminar la alerta:', error);
-                });
-        }
-
-
-        function handleSubmit(event) {
-
-
-            let selectedAlertas = document.querySelectorAll('input[name="alertasList[]"]:checked');
-
-            let selectedIds = Array.from(selectedAlertas).map(selectedAlertas => selectedAlertas.value);
-
-            if (selectedIds.length < 1) {
-                location.reload();
-            } else {
-                showDeleteMultipleModal();
-            }
-
-        }
-
-
-        function showDeleteMultipleModal() {
-            let deleteMultipleModal = document.getElementById('deleteMultipleModal');
-            deleteMultipleModal.classList.remove('hidden');
-            setTimeout(() => {
-                deleteMultipleModal.classList.remove('opacity-0');
-            }, 20);
-        }
-
-        function hideDeleteMultipleModal() {
-            let deleteMultipleModal = document.getElementById('deleteMultipleModal');
-            deleteMultipleModal.classList.add('opacity-0');
-            setTimeout(() => {
-                deleteMultipleModal.classList.add('hidden');
-            }, 500);
-        }
-
-        function submitDeleteMultipleForm() {
-            let form = document.getElementById('form');
-            form.submit();
-        }
-    </script>
 
 @endsection

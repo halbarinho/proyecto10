@@ -13,7 +13,6 @@
         crossorigin="anonymous"></script>
 
     @if ($studentList->isNotEmpty())
-        {{ Log::info('aqui', [$studentList]) }}
         {{-- Datatables --}}
         <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
 

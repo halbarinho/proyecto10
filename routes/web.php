@@ -128,6 +128,10 @@ Route::middleware(['auth', 'hasRole:admin'])->group(function () {
 });
 
 
+// Route::middleware(['auth', 'hasRole:admin,docente'])->group(function () {
+//     Route::get('/posts/showPosts', [PostController::class, 'showPosts'])->name('post.showPosts');
+// });
+
 //FIN RUTAS ADMINISTRADOR//
 
 /**

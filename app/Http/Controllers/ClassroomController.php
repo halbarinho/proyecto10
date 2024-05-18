@@ -165,7 +165,8 @@ class ClassroomController extends Controller
 
         $classes = Classroom::all();
 
-        return redirect()->route('classroom.index', ['classes' => $classes]);
+        // return redirect()->route('classroom.index', ['classes' => $classes]);
+        return redirect()->route('admin.classroom', ['classes' => $classes]);
     }
 
     public function edit(Classroom $classroom)

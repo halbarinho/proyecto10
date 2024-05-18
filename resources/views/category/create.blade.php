@@ -1,8 +1,12 @@
 @extends('layout.template-adminDashboard')
 
+@section('js')
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+@endsection
+
 @section('title', 'Registrar Nuevo Categoría')
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-    crossorigin="anonymous"></script>
+
 @vite(['resources/css/app.css'])
 
 @section('content')
@@ -10,15 +14,6 @@
     <div class="mr-4 ml-14 mt-14">
         <div class="container py-4">
             {{-- INCLUYO MENSAJES DE ERROR --}}
-            {{-- @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif --}}
 
             <h2>Registrar Nueva Categoria</h2>
             <form action="{{ route('category.store') }}" method="post">

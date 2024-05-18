@@ -22,12 +22,11 @@
         crossorigin="anonymous"></script>
 
     <!-- Styles -->
-    {{-- @vite('resources/css/app.css', 'resources/js/refreshSelectUserType.js', 'resources/js/userDropdownMenu.js') --}}
+
     @vite(['resources/css/app.css'])
-    {{-- @vite(['resources/js/refreshSelectUserType.js'])
-@vite(['resources/js/userDropdownMenu.js']) --}}
+
     @vite(['resources/js/app.js'])
-    {{-- @vite(['resources\js\vueJs\notificationMenu.js']) --}}
+
     @vite(['resources/js/vueJs/notificationMenu.js'])
 
     @yield('css')
@@ -240,16 +239,7 @@
                             class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-600 bg-red-200 rounded-full">{{ count($notifications) }}</span>
                     </a>
                 </li>
-                <li class="mb-1 group">
-                    <a href=""
-                        class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                        <i class='mr-3 text-lg bx bx-envelope'></i>
-                        <span class="hidden text-sm md:inline">Messages</span>
-                        <span
-                            class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-600 bg-green-200 rounded-full">2
-                            New</span>
-                    </a>
-                </li>
+
                 <li class="mb-1 group">
                     <a href="{{ route('admin.activities') }}"
                         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">

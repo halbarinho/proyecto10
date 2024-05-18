@@ -1,6 +1,6 @@
 <div id="statusDialog"
     class="fixed top-0 left-0 z-40 hidden w-screen h-screen transition-opacity duration-500 bg-black opacity-0">
-    {{-- onclick="hideSendDialog({{ $activity->id }}); event.preventDefault();"> --}}
+
     <div class="w-1/4 p-8 mx-auto my-20 bg-white rounded shadow-md">
         <div class="flex items-center gap-5">
             <div class="flex items-center justify-center w-10 h-10 p-5 text-red-500 bg-red-200 rounded-full">

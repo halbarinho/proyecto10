@@ -55,6 +55,85 @@
                 },
             });
         });
+
+        function showDialog(id) {
+
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog(id) {
+
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+        function deleteNotification(id) {
+
+            fetch(`/admin/notification/delete/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    // if (!response.ok) {
+                    //     throw new Error('Network response was not ok');
+                    // }
+                    // Recarga la página
+                    location.reload(); // O cualquier otra acción necesaria
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar la notificación:', error);
+                });
+        }
+
+
+
+
+        function handleSubmit(event) {
+
+
+            let selectednotifications = document.querySelectorAll('input[name="notificationsList[]"]:checked');
+
+            let selectedIds = Array.from(selectednotifications).map(selectednotifications => selectednotifications.value);
+
+            if (selectedIds.length < 1) {
+                location.reload();
+            } else {
+                showDeleteMultipleModal();
+            }
+
+        }
+
+
+        function showDeleteMultipleModal() {
+            let deleteMultipleModal = document.getElementById('deleteMultipleModal');
+            deleteMultipleModal.classList.remove('hidden');
+            setTimeout(() => {
+                deleteMultipleModal.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDeleteMultipleModal() {
+            let deleteMultipleModal = document.getElementById('deleteMultipleModal');
+            deleteMultipleModal.classList.add('opacity-0');
+            setTimeout(() => {
+                deleteMultipleModal.classList.add('hidden');
+            }, 500);
+        }
+
+        function submitDeleteMultipleForm() {
+            let form = document.getElementById('form');
+            form.submit();
+        }
     </script>
 
 @endsection
@@ -195,7 +274,7 @@
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
@@ -241,11 +320,10 @@
                                                                             </button>
                                                                         </td>
                                                                     </tr>
-                                                                @endforeach
-
-                                                                @foreach ($notifications as $activity)
                                                                     @include('admin.notification.modal.delete-modal')
                                                                 @endforeach
+
+
 
                                                             </tbody>
                                                         </table>
@@ -265,84 +343,5 @@
 
         </div>
     </div>
-    <script>
-        function showDialog(id) {
 
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
-
-        function hideDialog(id) {
-
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deleteNotification(id) {
-
-            fetch(`/admin/notification/delete/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                })
-                .then(response => {
-                    // if (!response.ok) {
-                    //     throw new Error('Network response was not ok');
-                    // }
-                    // Recarga la página
-                    location.reload(); // O cualquier otra acción necesaria
-                })
-                .catch(error => {
-                    console.error('Ha habido un error al intentar eliminar la notificación:', error);
-                });
-        }
-
-
-
-
-        function handleSubmit(event) {
-
-
-            let selectednotifications = document.querySelectorAll('input[name="notificationsList[]"]:checked');
-
-            let selectedIds = Array.from(selectednotifications).map(selectednotifications => selectednotifications.value);
-
-            if (selectedIds.length < 1) {
-                location.reload();
-            } else {
-                showDeleteMultipleModal();
-            }
-
-        }
-
-
-        function showDeleteMultipleModal() {
-            let deleteMultipleModal = document.getElementById('deleteMultipleModal');
-            deleteMultipleModal.classList.remove('hidden');
-            setTimeout(() => {
-                deleteMultipleModal.classList.remove('opacity-0');
-            }, 20);
-        }
-
-        function hideDeleteMultipleModal() {
-            let deleteMultipleModal = document.getElementById('deleteMultipleModal');
-            deleteMultipleModal.classList.add('opacity-0');
-            setTimeout(() => {
-                deleteMultipleModal.classList.add('hidden');
-            }, 500);
-        }
-
-        function submitDeleteMultipleForm() {
-            let form = document.getElementById('form');
-            form.submit();
-        }
-    </script>
 @endsection

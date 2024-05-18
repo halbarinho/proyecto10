@@ -57,14 +57,14 @@ class AlertaController extends Controller
             $request->all(),
             [
                 'identificado' => 'required',
-                'content' => 'required|string|min:15|max:500',
+                'content' => 'required|string|min:2|max:500',
 
             ],
             [
                 'content.required' => __('El contenido no puede estar vacío.'),
                 'required' => __('El :attribute es obligatorio.'),
                 'string' => __('El :attribute debe ser una cadena.'),
-                'min' => __('El contenido no cumple la longitud mínima.'),
+                'min' => __('El contenido no cumple la longitud mínima de 2.'),
                 'max' => __('El contenido no cumple la longitud máxima.'),
             ]
         );
@@ -206,13 +206,13 @@ class AlertaController extends Controller
             $request->all(),
             [
 
-                'content' => 'required|string|min:15|max:500',
+                'content' => 'required|string|min:2|max:500',
             ],
             [
                 'content.required' => __('El contenido es obligatorio.'),
                 'required' => __('El :attribute es obligatorio.'),
                 'string' => __('El :attribute debe ser una cadena.'),
-                'min' => __('El :attribute no cumple la longitud mínima.'),
+                'min' => __('El :attribute no cumple la longitud mínima de 2.'),
                 'max' => __('El :attribute no cumple la longitud máxima.'),
             ]
         );

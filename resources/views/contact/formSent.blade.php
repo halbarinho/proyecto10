@@ -13,12 +13,11 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
     <!-- Styles -->
-    {{-- @vite('resources/css/app.css', 'resources/js/refreshSelectUserType.js', 'resources/js/userDropdownMenu.js') --}}
+
     @vite(['resources/css/app.css'])
-    {{-- @vite(['resources/js/refreshSelectUserType.js'])
-@vite(['resources/js/userDropdownMenu.js']) --}}
+
     @vite(['resources/js/app.js'])
-    {{-- @vite(['resources\js\vueJs\notificationMenu.js']) --}}
+
     @vite(['resources/js/vueJs/notificationMenu.js'])
 
     @yield('css')
@@ -37,10 +36,6 @@
 
 
     <script>
-        // setTimeout(function() {
-        //     window.history.back();
-        // }, 3000);
-
         function goBack() {
 
             window.history.back();
@@ -77,7 +72,7 @@
                 </div>
 
                 <div>
-                    <img class="rounded-full" src="{{ asset('storage\images\mensajeEnviado.png') }}" alt="">
+                    <img class="rounded-full" src="{{ asset('images\mensajeEnviado.png') }}" alt="">
                 </div>
 
             </div>

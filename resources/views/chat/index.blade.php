@@ -187,7 +187,7 @@
                     {{-- BODY CHAT --}}
                     <div class="flex flex-col flex-auto h-full p-6">
 
-                        <img src="{{ asset('images/imageChatbot.jpg') }}" class="w-full h-full" alt="">
+                        <img src="{{ asset('images/imageChatbot.svg') }}" class="w-full h-full" alt="">
 
                     </div>
                     {{-- FIN BODY CHAT --}}

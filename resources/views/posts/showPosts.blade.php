@@ -1,7 +1,7 @@
 @extends('layout.template-dashboard')
 
 @section('title', 'Show Posts')
-{{-- @vite(['resources/css/app.css']) --}}
+
 @vite('resources\js\posts.js')
 
 @section('content')

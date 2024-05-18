@@ -24,15 +24,7 @@
     <div class="mr-4 overflow-auto ml-14 mt-14">
         <div class="flex justify-between w-full ">
             {{-- INCLUYO MENSAJES DE ERROR --}}
-            {{-- @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif --}}
+
             @if (session('error'))
                 <div>
                     <ul>
@@ -48,7 +40,7 @@
                 class="grid xs:grid-cols-1 md:grid-cols-2 items-center gap-16 p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
 
 
-                {{-- Primer div --}}
+
                 <div>
 
                     <h2 class="mt-3 text-2xl font-semibold text-center">Editar Clase</h2>
@@ -60,7 +52,7 @@
                     </br>
 
                 </div>
-                {{-- Fin primer div --}}
+
 
                 <div>
                     <form action="{{ route('classroom.update', $class->id) }}" method="post">

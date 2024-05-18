@@ -13,7 +13,6 @@
 
 @section('title', 'Registrar Nuevo Clase')
 
-{{-- @vite(['resources/css/app.css', 'resources/js/app.js', 'resources\js\selectStageLevel.js']) --}}
 @vite('resources/js/app.js')
 
 @vite('resources\js\selectStageLevel.js');
@@ -23,15 +22,7 @@
     <div class="mr-4 overflow-auto ml-14 mt-14">
         <div class="flex justify-between w-full ">
             {{-- INCLUYO MENSAJES DE ERROR --}}
-            {{-- @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif --}}
+
             @if (session('error'))
                 <div>
                     <ul>
@@ -47,19 +38,19 @@
                 class="grid xs:grid-cols-1 md:grid-cols-2 items-center gap-16 p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
 
 
-                {{-- Primer div --}}
+
                 <div>
 
                     <h2 class="mt-3 text-2xl font-semibold text-center">Registrar Nueva Clase</h2>
 
-                    <div class="mt-5 text-center">
-                        <h3 class="text-xl font-semibold">Crea una nueva Clase</h3>
-                        <p class="mt-2 text-justify text-gray-600">Puedes crear nuevas clases.</p>
+                    <div class="mx-auto mt-5 text-center">
+
+                        <p class="mt-2 text-center text-gray-600">Introduce los datos para la nueva clase.</p>
                     </div>
                     </br>
 
                 </div>
-                {{-- Fin primer div --}}
+
 
                 <div>
                     <form action="{{ route('classroom.store') }}" method="post">
@@ -80,7 +71,7 @@
 
 
                         <div class="mb-3 row">
-                            <label for="user_id" class="mb-3 block text-base font-medium text-[#07074D]">Clase</label>
+                            <label for="user_id" class="mb-3 block text-base font-medium text-[#07074D]">Tutor</label>
                             <div class="sm-5">
                                 <select name="user_id" id="user_id"
                                     class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">

@@ -861,7 +861,7 @@
 
     <div class="grid grid-cols-1 grid-rows-2 gap-5 py-3 md:grid-cols-2 md:grid-rows-1">
         <div class="p-1.5 items-center justify-center flex max-h-80">
-            <img class="w-2/4 rounded-full ring-4 max-h-80 aspect-square ring-red-300 hover:ring-offset-2 hover:ring-redPersonal"
+            <img class="w-auto rounded-full ring-4 max-h-80 aspect-square ring-red-300 hover:ring-offset-2 hover:ring-redPersonal"
                 src="{{ asset('/images/pexels-rethaferguson-3825567.jpg') }}" alt="">
         </div>
 
@@ -952,7 +952,7 @@
         </div>
 
         <div class="p-1.5 items-center justify-center flex max-h-80">
-            <img class="w-2/4 rounded-full max-h-80 aspect-square ring-4 ring-green-300 hover:ring-offset-2 hover:ring-greenPersonal"
+            <img class="w-auto rounded-full max-h-80 aspect-square ring-4 ring-green-300 hover:ring-offset-2 hover:ring-greenPersonal"
                 src="{{ asset('/images/pexels-rethaferguson-3825567.jpg') }}" alt="">
         </div>
 
@@ -962,7 +962,7 @@
     {{-- section orientacion normal --}}
     <div class="grid grid-cols-1 grid-rows-2 gap-5 py-3 md:grid-cols-2 md:grid-rows-1">
         <div class="p-1.5 items-center justify-center flex max-h-80">
-            <img class="w-2/4 rounded-full max-h-80 aspect-square ring-4 ring-pink-200 hover:ring-offset-2 hover:ring-pinkPersonal"
+            <img class="w-auto rounded-full max-h-80 aspect-square ring-4 ring-pink-200 hover:ring-offset-2 hover:ring-pinkPersonal"
                 src="{{ asset('/images/pexels-rethaferguson-3825567.jpg') }}" alt="">
         </div>
 

@@ -1,5 +1,45 @@
 @extends('layout.template-adminDashboard')
 
+@section('js')
+    <script>
+        function showDialog(id) {
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog(id) {
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+        function deleteAlerta(id) {
+
+            fetch(`/alerta/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+
+                    // Recarga la página
+                    // location.reload(); //
+                    window.history.back();
+                })
+                .catch(error => {
+                    console.error("Ha habido un error al intentar eliminar la alerta: ".id, error);
+                });
+        }
+    </script>
+@endsection
+
 @section('title', 'Editar Alerta')
 {{-- @vite(['resources/css/app.css']) --}}
 @vite('resources\js\app.js')
@@ -8,17 +48,6 @@
 
     <div
         class="relative gap-16 items-center p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif] dark:bg-gray-700">
-
-
-        {{-- @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li class="text-sm text-red-600">{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif --}}
 
         @if (session('error'))
             <div>
@@ -46,24 +75,23 @@
                     <div class="col-span-2">
                         <label for="title"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
-                        <input type="text" name="title" id="title" value="{{ $alerta->id }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="{{ $alerta->id }}" required>
-                        @if ($errors->has('title'))
-                            <div class="text-xs text-redPersonal">{{ $errors->first('title') }}</div>
-                        @endif
+
+                        <input type="hidden" name="title" id="title" value="{{ $alerta->id }}">
+
+                        <div id="titleValue"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            {{ $alerta->id }}</div>
+
                     </div>
 
                     <div class="col-span-2">
                         <label for="content"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contenido</label>
-                        <textarea id="content" name="content" rows="4" value="{{ $alerta->content }}"
-                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="{{ $alerta->content }}">{{ $alerta->content }}</textarea>
-                        @if ($errors->has('content'))
-                            <div class="text-xs text-redPersonal">{{ $errors->first('content') }}</div>
-                        @endif
+                        <div id="content" rows="4" contenteditable="false"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            {{ $alerta->content }}</div>
                     </div>
+                    <input type="hidden" name="content" value="{{ $alerta->content }}">
 
                     <div class="col-span-2">
 
@@ -102,43 +130,5 @@
         @include('alerta.modal.delete-modal')
     </div>
 
-    <script>
-        function showDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
 
-        function hideDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deleteAlerta(id) {
-
-            fetch(`/alerta/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                })
-                .then(response => {
-                    // if (!response.ok) {
-                    //     throw new Error('Network response was not ok');
-                    // }
-                    // Recarga la página
-                    // location.reload(); //
-                    window.history.back();
-                })
-                .catch(error => {
-                    console.error("Ha habido un error al intentar eliminar la alerta: ".id, error);
-                });
-        }
-    </script>
 @endsection

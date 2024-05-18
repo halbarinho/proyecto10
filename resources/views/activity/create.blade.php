@@ -1,8 +1,17 @@
 @extends('layout.template-dashboard')
 
+@section('js')
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <script>
+        $('#form').submit(function(evento) {
+            evento.preventDefault(); // Evita que se envíe el formulario
+        });
+    </script>
+@endsection
+
 @section('title', 'Registrar Nuevo Actividad')
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-    crossorigin="anonymous"></script>
+
 @vite(['resources/css/app.css'])
 @vite(['resources/js/app.js'])
 @vite(['resources\js\vueJs\questionPanel.js'])
@@ -32,10 +41,6 @@
 
 
     </main>
-    <script>
-        $('#form').submit(function(evento) {
-            evento.preventDefault(); // Evita que se envíe el formulario
-        });
-    </script>
+
 
 @endsection

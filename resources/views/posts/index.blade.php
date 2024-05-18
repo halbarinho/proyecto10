@@ -1,7 +1,7 @@
 @extends('layout.template-dashboard')
 
 @section('title', 'Posts')
-{{-- @vite(['resources/css/app.css']) --}}
+
 @vite('resources\js\posts.js')
 
 @section('content')
@@ -25,7 +25,6 @@
                 </div>
             @endif
 
-            {{ Log::info($posts) }}
             @if ($posts->count() < 1)
                 <h2>No existen post para mostrar.</h2>
             @else

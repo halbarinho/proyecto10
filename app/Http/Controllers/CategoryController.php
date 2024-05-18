@@ -64,7 +64,7 @@ class CategoryController extends Controller
                     'min:3',
                     'max:25',
                 ],
-                'description' => 'string|max:25',
+                'description' => 'string|max:250',
             ],
             [
                 'unique' => __('El :attribute ya existe, prueba con otro.'),
@@ -99,7 +99,10 @@ class CategoryController extends Controller
 
         $categories = Category::all();
 
-        return view('category.index', ['categories' => $categories]);
+        //Paso notifications
+        $notifications = Notification::all();
+
+        return view('category.index', ['categories' => $categories, 'notifications' => $notifications]);
     }
 
     /**
@@ -148,7 +151,7 @@ class CategoryController extends Controller
                     'min:3',
                     'max:25',
                 ],
-                'description' => 'string|max:25',
+                'description' => 'string|max:250',
             ],
             [
                 'unique' => __('El :attribute ya existe, prueba con otro.'),
@@ -196,10 +199,10 @@ class CategoryController extends Controller
 
             return redirect()->back();
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando category id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to delete category. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo eliminando la Categoría. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo buscando category id."])->withInput();
         }
     }
 }

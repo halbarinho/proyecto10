@@ -1,7 +1,58 @@
 @extends('layout.template-dashboard')
 
-@section('title', 'Editarar Posts')
-{{-- @vite(['resources/css/app.css']) --}}
+@section('js')
+    <script>
+        let postToDeleteId;
+
+        function showDialog(id) {
+
+            postToDeleteId = id;
+
+            let dialog = document.getElementById('dialog');
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog(id) {
+
+            let dialog = document.getElementById('dialog');
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+
+        function deletePost(id) {
+
+            if (!postToDeleteId) {
+                console.error('No se ha proporcionado un ID de post para eliminar.');
+                return;
+            }
+
+            fetch(`/post/${postToDeleteId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+
+                    // Recarga la página
+                    // location.reload(); // O cualquier otra acción necesaria
+                    window.location.href = '{{ route('docente.posts.index') }}';
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar el post:', error);
+                });
+        }
+    </script>
+@endsection
+
+@section('title', 'Editar Posts')
+
 @vite('resources\js\app.js')
 
 @section('content')
@@ -20,7 +71,7 @@
             </div>
         @endif
 
-        <!-- Modal header -->
+        <!-- header -->
         <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                 Editar el Post: {{ $post->title }}
@@ -38,7 +89,7 @@
                 </button>
             </a>
         </div>
-        <!-- Modal body -->
+        <!-- body -->
         <div class="p-4 space-y-4 md:p-5">
 
             <form action="{{ route('post.update', ['post' => $post->id]) }}" method="POST" enctype="multipart/form-data"
@@ -47,7 +98,7 @@
                 @method('PUT')
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <input type="hidden" name="user_id" value="{{ $post->user_id }}">
-                    {{-- este tengo que modificarlo --}}
+
                     <input type="hidden" name="active" value="{{ $post->active }}">
                     <div class="col-span-2">
                         <label for="title"
@@ -113,7 +164,7 @@
 
                 </div>
 
-                <!-- Modal footer -->
+                <!-- footer -->
                 <div
                     class="flex items-center justify-end p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
                     <input type="submit" value="Actualizar"
@@ -135,54 +186,5 @@
     </div>
     @include('docente.modal.delete-modal')
 
-    <script>
-        let postToDeleteId;
 
-        function showDialog(id) {
-
-            postToDeleteId = id;
-
-            let dialog = document.getElementById('dialog');
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
-
-        function hideDialog(id) {
-
-            let dialog = document.getElementById('dialog');
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deletePost(id) {
-
-            if (!postToDeleteId) {
-                console.error('No se ha proporcionado un ID de post para eliminar.');
-                return;
-            }
-
-            fetch(`/post/${postToDeleteId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                })
-                .then(response => {
-                    // if (!response.ok) {
-                    //     throw new Error('Network response was not ok');
-                    // }
-                    // Recarga la página
-                    // location.reload(); // O cualquier otra acción necesaria
-                    window.location.href = '{{ route('docente.posts.index') }}';
-                })
-                .catch(error => {
-                    console.error('Ha habido un error al intentar eliminar el post:', error);
-                });
-        }
-    </script>
 @endsection

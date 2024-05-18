@@ -56,6 +56,24 @@
         });
     </script>
 
+    <script>
+        function showDialog(id) {
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                dialog.classList.remove('opacity-0');
+            }, 20);
+        }
+
+        function hideDialog(id) {
+            let dialog = document.getElementById('dialog-' + id);
+            dialog.classList.add('opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 500);
+        }
+    </script>
+
 @endsection
 
 @section('title', 'Admin Gestion Aulas')
@@ -159,8 +177,13 @@
                                                                     {{ $class->class_name }}</td>
                                                                 <td
                                                                     class="px-6 py-4 leading-4 whitespace-no-wrap border-b border-gray-200">
-                                                                    {{ $class->Docente->User->name }}
-                                                                    {{ $class->Docente->User->last_name_1 }}</td>
+                                                                    @if ($class->Docente)
+                                                                        {{ $class->Docente->User->name }}
+                                                                        {{ $class->Docente->User->last_name_1 }}
+                                                                    @else
+                                                                        Sin docente asignado
+                                                                    @endif
+                                                                </td>
                                                                 <td>{{ count($class->estudiante) }}</td>
                                                                 <td class="leading-4 text-right">
 
@@ -195,22 +218,6 @@
         </div>
     </div>
 
-    <script>
-        function showDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
 
-        function hideDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-    </script>
 
 @endsection

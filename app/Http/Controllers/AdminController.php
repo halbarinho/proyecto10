@@ -94,7 +94,7 @@ class AdminController extends Controller
             $selectedActivity = Activity::findOrFail($id);
 
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando activity id."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
         }
 
         return view('admin.activity.edit', ['activity' => $selectedActivity]);
@@ -207,8 +207,8 @@ class AdminController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'title' => 'required|string|min:3|max:25',
-                'content' => 'required|string|min:15|max:500',
+                'title' => 'required|string|min:1|max:25',
+                'content' => 'required|string|min:2|max:500',
             ],
             [
                 'content.required' => __('El contenido es obligatorio.'),

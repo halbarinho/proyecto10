@@ -1,7 +1,7 @@
 <template>
 
     <ul v-if="errors.length > 0">
-        <!-- <li class="text-sm text-red-600" v-for="(error, index)  in errors" :key="index">{{ error }}</li> -->
+
         <li class="text-sm text-red-600" v-for="(error, index)  in errors" :key="index">
             {{ error }}</li>
     </ul>
@@ -61,7 +61,7 @@
 
 
 
-                    <!-- ====== Cards Section Start -->
+
 
                     <div class="flex justify-between w-full mb-3 flex-nowrap">
 
@@ -87,7 +87,7 @@
                         </div>
                     </div>
 
-                    <!-- ====== Cards Section End -->
+
 
 
 
@@ -98,17 +98,12 @@
 
 
 
-                    <!-- Botones de acción -->
-                    <!-- <a href="{{ url('welcome') }}"
-            class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">Regresar</a> -->
-                    <!-- <input type="submit" name="submit" id="submit"
-            class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none"
-            value="Registrar"> -->
 
-                    <!-- pruebo boton en lugar de submit  -->
+
+
 
                     <div class="container flex flex-wrap justify-center mx-auto my-2">
-                        <!-- <div class="justify-center mx-4 "> -->
+
 
                         <div class="flex justify-center w-full my-2 md:justify-end md:w-1/2 md:my-0">
                             <button @click="goBack"
@@ -122,7 +117,7 @@
                         </div>
 
 
-                        <!-- </div> -->
+
                     </div>
                 </ul>
             </section>
@@ -173,7 +168,7 @@ const addForm = (formType) => {
             break;
     }
 
-    console.log('Lista de formularios:', formList.value);
+
 };
 
 //Eliminar elemento del array
@@ -188,7 +183,7 @@ onMounted(() => {
     axios.get(`/user_id`)
         .then(function (response) {
             user_id.value = response.data;
-            console.log(user_id.value)
+
         })
         .catch((er) => {
             console.log(er)
@@ -205,8 +200,7 @@ const handleSubmit = () => {
     errors.value = [];
 
     try {
-        //funciona pasando tipo objeto sin el objeto compo
-        // axios.post('/activity/', { activity_name: formData.activityName, activity_description: formData.activityDescription }, {
+
 
         axios.post('/activity/', {
             activity_name: activityName.value, activity_description: activityDescription.value,
@@ -216,10 +210,8 @@ const handleSubmit = () => {
             headers: { 'Content-Type': 'application/json' }
         })
             .then(function (response) {
-                //anterior modificar
-                // console.log(response);
-                // window.location.href = '/activity';
-                console.log(response.status);
+
+
                 window.location.href = '/activity';
             }).catch(function (e) {
 
@@ -227,16 +219,11 @@ const handleSubmit = () => {
                 if (e.response.data.hasOwnProperty('errors')) {
                     const serverErrors = e.response.data.errors;
                     console.log(serverErrors);
-                    // for (let error in serverErrors) {
-                    //     if (serverErrors.hasOwnProperty(error)) {
-                    //         errors.value.push(serverErrors[error][0]);
-                    //     }
-                    // }
 
                     // SOLO AÑADO AL ARRAY DE ERRORES LOS QUE DESEO PARA QUE NO SE DUPLIQUEN
 
                     for (let error in serverErrors) {
-                        console.log('aqui: ', error);
+
                         if (serverErrors[error][0] == 'El titulo de la actividad ya existe.' || error === 'questionsData') {
                             errors.value.push(serverErrors[error][0]);
                         }
@@ -270,28 +257,16 @@ const submitForm = () => {
 
 // Función para actualizar los datos del formulario principal
 const updateFormData = (index, newValue) => {
-    //esto funciona
-    console.log('INdex a actualizar: ', index);
-    console.log('NewValue: ', newValue)
-    //ESTO FUNCIONANDO para acceder al valor
-    // console.log('ver valor info: ', formList.value[index].info.boolStatement);
-    //
-    formList.value[index].info = newValue;
-    console.log("length: ", formList.value.length)
-    console.log("FormlistActualizada: ", formList);
 
-    // formList.value[index].info.value = newValue;
+
+
+    formList.value[index].info = newValue;
+
+
+
 }
 
-// Observar cambios en formList y actualizar formData
-// watch(formList, (newValue) => {
-//     const formData = {
-//         activityName: activityName.value,
-//         activityDescription: activityDescription.value,
-//         formData: newValue.map(item => ([type => item.type.name, data => item.value]))
-//     };
-//     console.log('Formulario actualizado:', formData);
-// });
+
 
 //Metodo para regresar atras
 const goBack = () => {
