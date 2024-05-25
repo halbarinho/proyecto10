@@ -56,38 +56,22 @@
             });
         });
     </script>
+
+    <script src="{{ asset('js/showHideDialog.js') }}"></script>
+
+
     <script>
-        let activityId;
-        let activityToSendId;
+        function deleteActivity() {
 
-        function showDialog(id) {
+            const dialog = document.getElementById('dialog');
+            const id = dialog.dataset.id;
 
-            activityId = id;
-
-            let dialog = document.getElementById('dialog');
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
-
-        function hideDialog(id) {
-
-            let dialog = document.getElementById('dialog');
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deleteActivity(id) {
-
-            if (!activityId) {
+            if (!id) {
                 console.error('No se ha proporcionado un ID de activity para eliminar.');
                 return;
             }
 
-            fetch(`/activity/${activityId}`, {
+            fetch(`/activity/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -107,18 +91,21 @@
 
         function showSendDialog(id) {
 
-            activityToSendId = id;
+            const sendForm = document.getElementById('sendForm');
 
-            let dialog = document.getElementById('sendDialog-' + id);
+            sendForm.action = `{{ url('activity/sendActivity/${id}') }}`;
+
+            let dialog = document.getElementById('sendDialog');
             dialog.classList.remove('hidden');
             setTimeout(() => {
                 dialog.classList.remove('opacity-0');
             }, 20);
+
         }
 
         function hideSendDialog(id) {
 
-            let dialog = document.getElementById('sendDialog-' + id);
+            let dialog = document.getElementById('sendDialog');
             dialog.classList.add('opacity-0');
             setTimeout(() => {
                 dialog.classList.add('hidden');
@@ -175,16 +162,18 @@
         <div class="container py-4 mx-auto">
             {{-- INCLUYO MENSAJES DE ERROR --}}
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li class="text-sm text-red-600">{{ $error }}</li>
+                            <li class="text-sm"><span
+                                    class="p-1 text-sm text-white bg-red-300 rounded-md">{{ $error }}</span>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
             @elseif (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+                <div class="">
+                    <span class="p-1 text-white rounded-md bg-greenPersonal">{{ session('success') }}</span>
                 </div>
             @endif
 
@@ -283,7 +272,7 @@
                                                                                     stroke-linejoin="round">
                                                                                     <path
                                                                                         d=" M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    2 0 0 0 2-2v-7" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                2 0 0 0 2-2v-7" />
                                                                                     <path
                                                                                         d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                                                 </svg>
@@ -356,7 +345,6 @@
                                                                             </button>
                                                                         </td>
                                                                     </tr>
-                                                                    @include('activity.modal.send-modal')
                                                                 @endforeach
 
                                                             </tbody>
@@ -368,6 +356,7 @@
 
                                             </div>
                                         </form>
+                                        @include('activity.modal.send-modal')
                                         @include('admin.activity.modal.delete-modal')
                                     </div>
                                 @endif

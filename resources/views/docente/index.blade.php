@@ -67,22 +67,28 @@
         });
     </script>
 
-
+    <script src="{{ asset('js/showHideDialog.js') }}"></script>
     <script>
-        function showDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
+        function deleteUser() {
 
-        function hideDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
+            const dialog = document.getElementById('dialog');
+            const id = dialog.dataset.id;
+
+            fetch(`/user/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+
+                    // Recarga la página
+                    location.reload(); // O cualquier otra acción necesaria
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar al usuario:', error);
+                });
         }
     </script>
 
@@ -217,14 +223,14 @@
                                             Eliminar
                                         </button>
                                     </td>
-                                    @include('user.modal.delete-modal', [
+                                    {{-- @include('user.modal.delete-modal', [
                                         'userId' => $docente->User->id,
-                                    ])
+                                    ]) --}}
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-
+                    @include('user.modal.delete-modal')
                 @endif
             </div>
         </div>

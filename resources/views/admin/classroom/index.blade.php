@@ -56,21 +56,28 @@
         });
     </script>
 
+    <script src="{{ asset('js/showHideDialog.js') }}"></script>
     <script>
-        function showDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
+        function deleteClass() {
 
-        function hideDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
+            const dialog = document.getElementById('dialog');
+            const id = dialog.dataset.id;
+
+            fetch(`/classroom/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+
+                    // Recarga la página
+                    location.reload(); // O cualquier otra acción necesaria
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar la clase:', error);
+                });
         }
     </script>
 
@@ -88,16 +95,16 @@
         <div class="container py-4 mx-auto">
             {{-- INCLUYO MENSAJES DE ERROR --}}
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li><span class="p-1 text-sm text-white bg-red-300 rounded-md">{{ $error }}</span></li>
                         @endforeach
                     </ul>
                 </div>
             @elseif (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+                <div class="">
+                    <span class="p-1 text-white rounded-md bg-greenPersonal">{{ session('success') }}</span>
                 </div>
             @endif
 
@@ -187,24 +194,24 @@
                                                                 <td>{{ count($class->estudiante) }}</td>
                                                                 <td class="leading-4 text-right">
 
-                                                                    <a class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
+                                                                    <a class="px-2 py-2 font-bold text-white border rounded-md bg-yellowPersonalLight hover:bg-yellowPersonal"
                                                                         href="{{ route('classroom.classroomStudents', $class->id) }}">Alumn@s</a>
 
                                                                     <a class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
                                                                         href="{{ route('classroom.edit', $class->id) }}">Editar</a>
 
                                                                     <button id="delete-btn"
-                                                                        class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700"
+                                                                        class="px-5 py-2.5 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700"
                                                                         onclick="showDialog({{ $class->id }})">
                                                                         Eliminar
                                                                     </button>
                                                                 </td>
-                                                                @include('classroom.modal.delete-modal')
+
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
                                                 </table>
-
+                                                @include('classroom.modal.delete-modal')
                                             </div>
                                         </div>
                                     </div>

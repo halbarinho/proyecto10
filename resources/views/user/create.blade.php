@@ -15,7 +15,8 @@
                 <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li class="text-sm text-red-600">{{ $error }}</li>
+                            <li class="text-sm"><span
+                                    class="p-1 text-sm text-white bg-red-300 rounded-md">{{ $error }}</span></li>
                         @endforeach
                     </ul>
                 </div>
@@ -171,12 +172,11 @@
                 </div>
 
                 <a href="{{ route('user.listUsers') }}"
-                    class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base
-                    font-semibold text-white outline-none">Regresar</a>
+                    class="px-8 py-3 text-base font-semibold text-red-900 bg-red-300 border border-red-200 rounded-md outline-none hover:shadow-form focus:outline-none hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100">Cancelar</a>
 
 
                 <input type="submit" name="submit" id="submit"
-                    class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none"
+                    class="hover:shadow-form cursor-pointer rounded-md bg-[#6b64f1] hover:bg-[#4f4ab3] py-3 px-8 text-base font-semibold text-white outline-none focus:ring-4 focus:outline-none focus:ring-blue-300"
                     value="Registrar">
             </form>
         </div>

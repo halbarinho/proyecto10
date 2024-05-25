@@ -77,7 +77,6 @@ const handleSubmit = () => {
 
         const formData = new FormData();
         formData.append('title', title.value);
-        formData.append('slug', 'slug');
         formData.append('body', body.value);
         formData.append('img_url', img_url.value);
         formData.append('active', true);

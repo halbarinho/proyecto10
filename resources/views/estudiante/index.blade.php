@@ -113,24 +113,30 @@
             }
 
         });
+    </script>
 
+    <script src="{{ asset('js/showHideDialog.js') }}"></script>
+    <script>
+        function deleteUser() {
 
+            const dialog = document.getElementById('dialog');
+            const id = dialog.dataset.id;
 
+            fetch(`/user/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
 
-        function showDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
-
-        function hideDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
+                    // Recarga la página
+                    location.reload(); // O cualquier otra acción necesaria
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar al usuario:', error);
+                });
         }
     </script>
 
@@ -279,18 +285,16 @@
                             </td>
                             <td>
                                 <a class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
-                                    href="{{ route('user.edit', $estudiante->User->id) }}">Update</a>
+                                    href="{{ route('user.edit', $estudiante->User->id) }}">Editar</a>
                             </td>
 
-                            @include('user.modal.delete-modal', [
-                                'userId' => $estudiante->User->id,
-                            ]);
+
 
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-
+                @include('user.modal.delete-modal');
             @endif
         </div>
 

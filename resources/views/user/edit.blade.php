@@ -20,12 +20,13 @@
             @if (session('error'))
                 <div>
                     <ul>
-                        <li class="text-xs text-redPersonal">{{ session('error') }}</li>
+                        <li class="text-xs "><span
+                                class="p-1 text-sm text-white bg-red-300 rounded-md">{{ session('error') }}</span></li>
                     </ul>
                 </div>
             @endif
         </div>
-        <h2>Editar Datos Usuario</h2>
+        <h2 class="mt-3 text-2xl font-semibold text-center">Editar Datos Usuario</h2>
         <form action="{{ route('user.update', $user) }}" method="post">
             @csrf
             @method('put')
@@ -169,12 +170,11 @@
             </div>
 
             <a href="{{ route('user.listUsers') }}"
-                class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base
-                    font-semibold text-white outline-none">Regresar</a>
+                class="px-8 py-3 text-base font-semibold text-red-900 bg-red-300 border border-red-200 rounded-md outline-none hover:shadow-form focus:outline-none hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100">Cancelar</a>
 
 
             <input type="submit" name="submit" id="submit"
-                class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none"
+                class="hover:shadow-form rounded-md cursor-pointer bg-[#6b64f1] hover:bg-[#4f4ab3] py-3 px-8 text-base font-semibold text-white outline-none focus:ring-4 focus:outline-none focus:ring-blue-300"
                 value="Actualizar">
         </form>
     </div>

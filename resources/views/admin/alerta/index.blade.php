@@ -54,24 +54,14 @@
         });
     </script>
 
+
+    <script src="{{ asset('js/showHideDialog.js') }}"></script>
+
     <script>
-        function showDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
+        function deleteAlerta() {
 
-        function hideDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deleteAlerta(id) {
+            const dialog = document.getElementById('dialog');
+            const id = dialog.dataset.id;
 
             fetch(`/alerta/${id}`, {
                     method: 'DELETE',
@@ -144,16 +134,17 @@
         <div class="container py-4 mx-auto">
             {{-- INCLUYO MENSAJES DE ERROR --}}
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li class="text-sm text-red-600">{{ $error }}</li>
+                            <li class="text-sm"><span
+                                    class="p-1 text-sm text-white bg-red-300 rounded-md">{{ $error }}</span></li>
                         @endforeach
                     </ul>
                 </div>
             @elseif (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+                <div class="text-sm">
+                    <span class="p-1 text-white rounded-md bg-greenPersonal">{{ session('success') }}</span>
                 </div>
             @endif
 
@@ -248,7 +239,7 @@
                                                         @endif
 
                                                         <td class="leading-4 text-right">
-                                                            <a class="px-5 py-2 font-bold text-white bg-green-500 border border-green-700 rounded-md hover:bg-green-700"
+                                                            <a class="px-5 py-1.5 text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
                                                                 href="{{ route('admin.editAlerta', $alerta->id) }}">Acceder</a>
 
                                                             <button id="delete-btn"
@@ -258,12 +249,12 @@
                                                             </button>
                                                         </td>
                                                     </tr>
-                                                    @include('admin.alerta.modal.delete-modal')
                                                 @endforeach
                                             </tbody>
                                         </table>
-                                    </form>
 
+                                    </form>
+                                    @include('admin.alerta.modal.delete-modal')
                             </div>
                         </div>
                     </div>

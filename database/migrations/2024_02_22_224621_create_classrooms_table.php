@@ -22,17 +22,21 @@ return new class extends Migration {
             $table->foreignId('user_id')
                 ->nullable()
                 ->constrained()
-                ->onDelete('cascade')
+                ->nullOnDelete()
                 ->onUpdate('cascade');
 
 
 
-            $table->foreignId('stage_id')->references('id')->on('stages')
-                ->onDelete('cascade')
+            $table->foreignId('stage_id')
+                ->nullable()
+                ->references('id')->on('stages')
+                ->nullOnDelete()
                 ->onUpdate('cascade');
 
-            $table->foreignId('level_id')->references('id')->on('stage_levels')
-                ->onDelete('cascade')
+            $table->foreignId('level_id')
+                ->nullable()
+                ->references('id')->on('stage_levels')
+                ->nullOnDelete()
                 ->onUpdate('cascade');
         });
     }

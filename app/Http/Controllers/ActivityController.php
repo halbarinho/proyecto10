@@ -45,10 +45,10 @@ class ActivityController extends Controller
             return view('activity.index', ['activities' => $activities, 'classrooms' => $classrooms]);
 
         } elseif ($user->hasRole('alumno')) {
-            Log::info($user->id);
+
 
             $activities = ActivitiesResult::where('estudiante_id', '=', $user->id)->get();
-            Log::info($activities);
+
             return view('estudiante.activity.index', compact('activities'));
         }
     }
@@ -78,7 +78,7 @@ class ActivityController extends Controller
         ];
         $messages = [
             'activity_name.required' => __('El nombre de la actividad es obligatorio.'),
-            'unique' => __('El titulo de la actividad ya existe.'),
+            'unique' => __('El título de la actividad ya existe.'),
             'required' => __('El :attribute es obligatorio.'),
             'string' => __('El :attribute debe ser una cadena.'),
             'min' => __('El :attribute no cumple la longitud mínima.'),
@@ -121,7 +121,7 @@ class ActivityController extends Controller
         );
 
         if ($validator->fails()) {
-            Log::info('Aqui entro', [$validator]);
+
 
             return response()->json(['errors' => $validator->getMessageBag()], 422);
 
@@ -234,10 +234,10 @@ class ActivityController extends Controller
 
         } catch (QueryException $e) {
 
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Error al crear el Post. Inténtalo de nuevo."])->withInput();
         } catch (Exception $e) {
 
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Error al crear el Post. Inténtalo de nuevo."])->withInput();
 
         }
 
@@ -262,11 +262,11 @@ class ActivityController extends Controller
         try {
             $selectedActivity = Activity::findOrFail($id);
 
-            Log::info($selectedActivity);
+
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . "Fallo actualizando. Inténtalo de nuevo."])->withInput();
         }
 
         return view('activity.edit', ['activity' => $selectedActivity]);
@@ -289,15 +289,15 @@ class ActivityController extends Controller
                     'max:25',
                     Rule::unique('activities')->ignore($activity->id),
                 ],
-                // 'slug' => 'nullable',
+
                 'activity_description' => 'required|string|min:15|max:80',
             ],
             [
 
                 'activity_name.required' => __('El nombre de la actividad es obligatorio.'),
-                'activity_name.min' => __('La longitud del titulo de la actividad es de mínimo 3 caracteres.'),
-                'activity_name.max' => __('La longitud del titulo de la actividad es de máximo 3 caracteres.'),
-                'unique' => __('El titulo de la actividad ya existe.'),
+                'activity_name.min' => __('La longitud del título de la actividad es de mínimo 3 caracteres.'),
+                'activity_name.max' => __('La longitud del título de la actividad es de máximo 3 caracteres.'),
+                'unique' => __('El título de la actividad ya existe.'),
                 'required' => __('El :attribute es obligatorio.'),
                 'string' => __('El :attribute debe ser una cadena.'),
                 'min' => __('El :attribute no cumple la longitud mínima.'),
@@ -328,10 +328,10 @@ class ActivityController extends Controller
             return redirect()->route('activity.index');
 
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al actualizar el Post. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo buscando user id."])->withInput();
         }
     }
 
@@ -348,10 +348,10 @@ class ActivityController extends Controller
             return redirect()->back();
 
         } catch (QueryException $e) {
-            // log::info($e->errorInfo[1]);
+
             // Manejo de error al eliminar si la actividad ya tuviera registros vinculados en otras tablas como ActivityResult
             if ($e->errorInfo[1] === 1451) {
-                // return redirect()->back()->with('errorDelete', 'No se puede eliminar esta actividad porque tiene registros vinculados.');
+
                 return redirect()->back()->withErrors(['error' => 'No se puede eliminar esta actividad porque tiene registros vinculados.'])->withInput();
             }
             return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
@@ -384,14 +384,14 @@ class ActivityController extends Controller
                 $activity->delete();
             }
 
-            return redirect()->back()->with('success', 'Registros Actualizados con Exito');
+            return redirect()->back()->with('success', 'Registros Actualizados con Éxito');
 
 
         } catch (QueryException $e) {
-            // log::info($e->errorInfo[1]);
+
             // Manejo de error al eliminar si la actividad ya tuviera registros vinculados en otras tablas como ActivityResult
             if ($e->errorInfo[1] === 1451) {
-                // return redirect()->back()->with('errorDelete', 'No se puede eliminar esta actividad porque tiene registros vinculados.');
+
                 return redirect()->back()->withErrors(['error' => 'No se puede eliminar esta actividad porque tiene registros vinculados.'])->withInput();
             }
             return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
@@ -415,28 +415,46 @@ class ActivityController extends Controller
             //Obtener los estudiantes de la clase
             $estudiantes = $class->Estudiante;
 
-            foreach ($estudiantes as $estudiante) {
-
-                $activityEstudiante = ActivitiesResult::create([
-                    'activity_id' => $activity->id,
-                    'estudiante_id' => $estudiante->user_id,
-                    'class_id' => $class->id,
-                ]);
-
-                //Aqui creo la notificacion para cada user
-
-                $notificationActivity = Notification::create([
-                    'message' => 'Nueva Actividad: ' . $activity->activity_name,
-                    'type' => 'activity',
-                    'user_id' => $estudiante->user_id,
-                    'target_id' => $activity->id,
-                ]);
-
-
-                broadcast(new NotificationSend($notificationActivity->type, $notificationActivity->user_id, $notificationActivity->message))->toOthers();
+            // Verificar si la lista de estudiantes está vacía
+            if ($estudiantes->isEmpty()) {
+                return redirect()->back()->withErrors(['error' => 'La clase está vacía.'])->withInput();
             }
 
+            foreach ($estudiantes as $estudiante) {
 
+                // $activityEstudiante = ActivitiesResult::create([
+                //     'activity_id' => $activity->id,
+                //     'estudiante_id' => $estudiante->user_id,
+                //     'class_id' => $class->id,
+                // ]);
+
+
+                $exists = ActivitiesResult::where('activity_id', $activity->id)
+                    ->where('estudiante_id', $estudiante->user_id)
+                    ->exists();
+
+                if (!$exists) {
+
+                    $activityEstudiante = ActivitiesResult::create([
+                        'activity_id' => $activity->id,
+                        'estudiante_id' => $estudiante->user_id,
+                        'class_id' => $class->id,
+                    ]);
+
+                    //Aqui creo la notificacion para cada user
+
+                    $notificationActivity = Notification::create([
+                        'message' => 'Nueva Actividad: ' . $activity->activity_name,
+                        'type' => 'activity',
+                        'user_id' => $estudiante->user_id,
+                        'target_id' => $activity->id,
+                    ]);
+
+
+                    broadcast(new NotificationSend($notificationActivity->type, $notificationActivity->user_id, $notificationActivity->message))->toOthers();
+                }
+
+            }//fin if
             return redirect()->back()->with('success', 'Actividad Enviada con Exito');
 
 
@@ -446,10 +464,10 @@ class ActivityController extends Controller
             if ($e->getCode() === '23000') {
                 return redirect()->back()->withErrors(['error' => "Error al mandar la actividad, ya se mandó a esta clase."])->withInput();
             } else {
-                return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br> Failed to update post. Please try again."])->withInput();
+                return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al mandar la actividad. Inténtalo de nuevo."])->withInput();
             }
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br>"])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " "])->withInput();
         }
 
 
@@ -470,12 +488,12 @@ class ActivityController extends Controller
 
         } catch (QueryException $e) {
             if ($e->getCode() === '23000') {
-                return redirect()->back()->withErrors(['error' => "Error al mandar la actividad, ya se mandó a esta clase."])->withInput();
+                return redirect()->back()->withErrors(['error' => "Error al evaluar la actividad, ya se mandó a esta clase."])->withInput();
             } else {
-                return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br> Failed to update post. Please try again."])->withInput();
+                return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al evaluar la actividad. Inténtalo de nuevo."])->withInput();
             }
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br>"])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al evaluar la actividad. Inténtalo de nuevo."])->withInput();
         }
 
     }
@@ -504,10 +522,10 @@ class ActivityController extends Controller
             }
         } catch (QueryException $e) {
 
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br> Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al evaluar la actividad. Inténtalo de nuevo."])->withInput();
 
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br>"])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al evaluar la actividad. Inténtalo de nuevo."])->withInput();
         }
 
     }

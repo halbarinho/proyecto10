@@ -93,10 +93,10 @@ class EstudianteController extends Controller
             return redirect()->back()->with('success', 'Registro Actualizado con Exito');
 
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo eliminando al usuario de la clase. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo buscando user id."])->withInput();
         }
 
     }
@@ -129,10 +129,10 @@ class EstudianteController extends Controller
 
 
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo eliminando a los usuarios de la clase. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo buscando user id."])->withInput();
         }
 
     }
@@ -147,7 +147,7 @@ class EstudianteController extends Controller
             $users = Estudiante::all();
 
 
-            //ESTO FUNCIONA LO ANTERIOR NO Y NO LO ENTIENDO POR QUE?
+
             $selectedUsers = $users->filter(function ($user) use ($classroomId) {
                 return $user->class_id != $classroomId;
             });
@@ -161,10 +161,10 @@ class EstudianteController extends Controller
 
             return view('estudiante.addStudents', ['estudiantes' => $selectedUsers, 'estudiantesList' => $estudiantesList, 'classroom' => $classroomId]);
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al añadir al usuario. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo buscando user id. Inténtalo de nuevo."])->withInput();
         }
     }
 
@@ -185,10 +185,10 @@ class EstudianteController extends Controller
             return redirect()->back()->with('success', 'Registro Actualizado con Exito');
 
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo añadiendo el usuario. Inténtalo de nuev."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo buscando user id."])->withInput();
         }
 
     }
@@ -221,10 +221,10 @@ class EstudianteController extends Controller
 
 
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo añadiendo el usuario. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo buscando user id."])->withInput();
         }
 
     }
@@ -249,10 +249,10 @@ class EstudianteController extends Controller
             return redirect()->back()->with('success', 'Registro Actualizado con Exito');
 
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al actualizar el Status del usuario. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " -  Fallo buscando user id."])->withInput();
         }
 
     }

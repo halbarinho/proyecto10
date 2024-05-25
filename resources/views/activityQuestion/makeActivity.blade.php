@@ -72,7 +72,7 @@
                 <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li><span class="p-1 text-sm text-white bg-red-300 rounded-md">{{ $error }}</span></li>
                         @endforeach
                     </ul>
                 </div>

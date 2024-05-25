@@ -50,10 +50,10 @@ class TrackingSheetController extends Controller
 
             return view('trackingSheet.index', ['student' => $student, 'trackingSheets' => $trackingSheets]);
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al obtener Hojas de Seguimiento. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al obtener Hojas de Seguimiento. Inténtalo de nuevo."])->withInput();
         }
     }
 
@@ -111,10 +111,10 @@ class TrackingSheetController extends Controller
 
             return redirect()->route('trackingSheet.index', ['studentId' => $request->input('studentId')]);
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al editar la Hoja de Seguimiento. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar la Hoja de Seguimiento. Inténtalo de nuevo."])->withInput();
         }
 
 
@@ -126,11 +126,18 @@ class TrackingSheetController extends Controller
      */
     public function destroy(int $sheetId)
     {
-        $selectedSheet = TrackingSheet::findOrFail($sheetId);
+        try {
+            $selectedSheet = TrackingSheet::findOrFail($sheetId);
 
-        $selectedSheet->delete();
+            $selectedSheet->delete();
 
-        return redirect()->back();
+            return redirect()->back();
+
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al eliminar la Hoja de Seguimiento. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la Hoja de Seguimiento. Inténtalo de nuevo."])->withInput();
+        }
     }
 
     public function sendTrackingSheet(Request $request)
@@ -171,10 +178,10 @@ class TrackingSheetController extends Controller
 
         } catch (QueryException $e) {
 
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br> Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al enviar la Hoja de Seguimiento. Inténtalo de nuevo."])->withInput();
 
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br>"])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al enviar la Hoja de Seguimiento. Inténtalo de nuevo."])->withInput();
         }
 
     }

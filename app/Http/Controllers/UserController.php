@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -115,9 +116,12 @@ class UserController extends Controller
             // Auth::login($user);
 
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al crear al usuario. Inténtalo de nuevo."])->withInput();
         }
 
+        Password::sendResetLink(
+            $request->only('email')
+        );
 
         //Recupero el contenido de las tablas
         $docentes = Docente::all();
@@ -213,10 +217,10 @@ class UserController extends Controller
 
             return redirect()->back()->with('success', 'Registro Actualizado con Exito');
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al editar al usuario. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar al usuario. Inténtalo de nuevo."])->withInput();
         }
     }
 
@@ -226,15 +230,30 @@ class UserController extends Controller
     public function destroy(string $id)
     {
 
-        $selectedUser = User::findOrFail($id);
+        try {
 
-        $selectedUser->delete();
+            $selectedUser = User::findOrFail($id);
 
-        $users = User::all();
-        $docentes = Docente::all();
-        $estudiantes = Estudiante::all();
+            $selectedUser->delete();
 
-        return redirect()->route('user.listUsers', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
+            $users = User::all();
+            $docentes = Docente::all();
+            $estudiantes = Estudiante::all();
+
+            return redirect()->route('user.listUsers', ['users' => $users, 'docentes' => $docentes, 'estudiantes' => $estudiantes]);
+
+        } catch (QueryException $e) {
+
+            // Manejo de error al eliminar si el user ya tuviera registros vinculados en otras tablas como Activity
+            if ($e->errorInfo[1] === 1451) {
+
+                return redirect()->back()->withErrors(['error' => 'No se puede eliminar este usuario porque tiene registros vinculados.'])->withInput();
+            }
+
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al eliminar al usuario. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar al usuario. Inténtalo de nuevo."])->withInput();
+        }
     }
 
 
@@ -263,10 +282,10 @@ class UserController extends Controller
 
         } catch (QueryException $e) {
 
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br> Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD. Inténtalo de nuevo."])->withInput();
 
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br>"])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " -  Error. Inténtalo de nuevo."])->withInput();
         }
     }
 
@@ -301,10 +320,10 @@ class UserController extends Controller
 
             return redirect()->back()->with('success', 'Registro Actualizado con Exito');
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al editar la imagen de perfil. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar la imagen de perfil. Inténtalo de nuevo."])->withInput();
         }
     }
 

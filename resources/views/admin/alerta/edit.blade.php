@@ -1,24 +1,13 @@
 @extends('layout.template-adminDashboard')
 
 @section('js')
+    <script src="{{ asset('js/showHideDialog.js') }}"></script>
+
     <script>
-        function showDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
+        function deleteAlerta() {
 
-        function hideDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deleteAlerta(id) {
+            const dialog = document.getElementById('dialog');
+            const id = dialog.dataset.id;
 
             fetch(`/alerta/${id}`, {
                     method: 'DELETE',
@@ -52,7 +41,8 @@
         @if (session('error'))
             <div>
                 <ul>
-                    <li class="text-xs text-redPersonal">{{ session('error') }}</li>
+                    <li class="text-sm"><span
+                            class="p-1 text-sm text-white bg-red-300 rounded-md">{{ session('error') }}</span></li>
                 </ul>
             </div>
         @endif
@@ -127,7 +117,7 @@
                 </div>
             </form>
         </div>
-        @include('alerta.modal.delete-modal')
+        @include('admin.alerta.modal.delete-modal')
     </div>
 
 

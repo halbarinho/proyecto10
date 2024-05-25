@@ -130,9 +130,9 @@ class AlertaController extends Controller
 
         } catch (QueryException $e) {
 
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al crear la alerta. Inténtalo de nuevo."])->withInput();
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al crear la alerta. Inténtalo de nuevo."])->withInput();
 
         }
 
@@ -181,9 +181,9 @@ class AlertaController extends Controller
 
         } catch (QueryException $e) {
 
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al obtener la aleta. Inténtalo de nuevo."])->withInput();
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al obtener la aleta. Inténtalo de nuevo."])->withInput();
 
         }
 
@@ -243,10 +243,10 @@ class AlertaController extends Controller
 
             return redirect()->route('alerta.index');
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al actualizar la alerta. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al actualizar la alerta. Inténtalo de nuevo."])->withInput();
         }
     }
 
@@ -255,15 +255,21 @@ class AlertaController extends Controller
      */
     public function destroy(int $alertaId)
     {
-        $selectedAlerta = Alerta::findOrFail($alertaId);
+        try {
+            $selectedAlerta = Alerta::findOrFail($alertaId);
 
-        $selectedAlerta->delete();
+            $selectedAlerta->delete();
 
-        $alertas = Alerta::all();
+            $alertas = Alerta::all();
 
 
-        return redirect()->route('alerta.index');
+            return redirect()->route('alerta.index');
 
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la alerta. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la alerta. Inténtalo de nuevo."])->withInput();
+        }
     }
 
     /** */
@@ -287,10 +293,10 @@ class AlertaController extends Controller
             return redirect()->back()->with('success', 'Registros Actualizados con Exito');
 
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la alerta. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la alerta. Inténtalo de nuevo."])->withInput();
         }
     }
 

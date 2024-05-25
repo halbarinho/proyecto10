@@ -104,11 +104,11 @@ class NotificationController extends Controller
 
 
             return response()->json(['success' => true, 'message' => 'Notificacion marcada como leida.', 'notification' => $selectedNotification]);
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
-
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo de BD al editar la notificación. Inténtalo de nuevo."])->withInput();
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar la notificación. Inténtalo de nuevo."])->withInput();
 
         }
 
@@ -131,7 +131,7 @@ class NotificationController extends Controller
 
 
         $notificationChat = Notification::create([
-            // 'message' => 'Mensaje: ' . $alerta->id . 'en la Aula: ' . $class->id,
+
             'message' => 'Mensaje en el chat con ' . $user->name,
             'type' => 'chat',
             'user_id' => $userId,

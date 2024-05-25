@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             ClassroomsSeeder::class,
             EstudiantesSeeder::class,
             CategoriesSeeder::class,
+            AnonymousClassSeeder::class,
         ]);
 
     }

@@ -82,10 +82,10 @@ class ActivitiesResultController extends Controller
 
             return redirect()->back();
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " -Fallo al eliminar ActivityResult. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo buscando user id."])->withInput();
         }
 
 
@@ -117,10 +117,10 @@ class ActivitiesResultController extends Controller
             return redirect()->back()->with('success', 'Registros Actualizados con Exito');
 
 
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " -Fallo al eliminar ActivityResult. Inténtalo de nuevo."])->withInput();
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
-        } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . " Failed to update post. Please try again."])->withInput();
         }
     }
 }

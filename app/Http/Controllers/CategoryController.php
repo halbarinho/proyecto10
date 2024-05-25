@@ -121,10 +121,10 @@ class CategoryController extends Controller
         try {
             $selectedCategory = Category::findOrFail($id);
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar la categoría. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar la categoría. Inténtalo de nuevo."])->withInput();
         }
 
 
@@ -202,7 +202,7 @@ class CategoryController extends Controller
         } catch (QueryException $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo eliminando la Categoría. Inténtalo de nuevo."])->withInput();
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo buscando category id."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo eliminando la Categoría. Inténtalo de nuevo."])->withInput();
         }
     }
 }

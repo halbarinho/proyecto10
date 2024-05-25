@@ -13,20 +13,30 @@
 
 @section('content')
 
-    <div class="mr-4 ml-14 mt-14">
-        <div class="container py-4">
-            {{-- INCLUYO MENSAJES DE ERROR --}}
-            @if (session('error'))
-                <div>
-                    <ul>
-                        <li class="text-xs text-redPersonal">{{ session('error') }}</li>
-                    </ul>
-                </div>
-            @endif
+    <div
+        class="relative gap-16 items-center p-8 mx-auto max-w-4xl bg-white
+        shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif] dark:bg-gray-700"">
 
+
+        {{-- INCLUYO MENSAJES DE ERROR --}}
+        @if (session('error'))
+            <div>
+                <ul>
+                    <li class="text-xs"><span
+                            class="p-1 text-sm text-white bg-red-300 rounded-md">{{ session('error') }}</span></li>
+                </ul>
+            </div>
+        @endif
+
+        {{-- header --}}
+        <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                 Editar la Categoría: {{ $category->name }}
             </h3>
+        </div>
+
+        <!-- body -->
+        <div class="p-4 space-y-4 md:p-5">
             <form action="{{ route('category.update', ['category' => $category->id]) }}" method="post">
                 @csrf
                 @method('PUT')
@@ -55,16 +65,17 @@
                         @endif
                     </div>
                 </div>
+                <div class="flex justify-end gap-2">
+                    <a href="{{ route('category.index') }}"
+                        class="text-white bg-rose-500 hover:bg-rose-700 cursor-pointer font-bold rounded-md px-4 py-2.5">Cancelar</a>
 
-                <a href="{{ route('category.index') }}"
-                    class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base
-                    font-semibold text-white outline-none">Regresar</a>
 
-
-                <input type="submit" name="submit" id="submit"
-                    class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none"
-                    value="Actualizar">
+                    <input type="submit" name="submit" id="submit"
+                        class="text-white bg-yellowPersonalLight hover:bg-yellowPersonal font-bold rounded-md px-4 py-2.5"
+                        value="Actualizar">
+                </div>
             </form>
         </div>
+
     </div>
 @endsection

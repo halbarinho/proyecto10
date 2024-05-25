@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\PostRequest;
@@ -58,7 +59,6 @@ class PostController extends Controller
             $request->all(),
             [
                 'title' => 'required|string|unique:posts|min:3',
-                'slug' => 'nullable',
                 'body' => 'required|string|min:15',
                 'img_url' => 'nullable',
                 'active' => 'required',
@@ -99,7 +99,6 @@ class PostController extends Controller
             $post = Post::create(
                 [
                     'title' => $request->title,
-                    'slug' => $request->slug,
                     'body' => $request->body,
                     // 'img_url' => $request->input('img_url'),
                     'img_url' => $new_path,
@@ -147,11 +146,11 @@ class PostController extends Controller
 
 
             return view('posts.show', ['post' => $selectedPost, 'nextPostId' => $nextPostId, 'prevPostId' => $prevPostId]);
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
-
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al mostrar post. Inténtalo de nuevo."])->withInput();
+
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al mostrar post. Inténtalo de nuevo."])->withInput();
 
         }
     }
@@ -163,6 +162,12 @@ class PostController extends Controller
     {
         $selectedPost = Post::findOrFail($postId);
         $categories = Category::all();
+
+        if (Auth::user()->hasRole('admin')) {
+            $notifications = Notification::all();
+
+            return view('admin.post.edit', ['post' => $selectedPost, 'categories' => $categories, 'notifications' => $notifications]);
+        }
 
         return view('posts.edit', ['post' => $selectedPost, 'categories' => $categories]);
 
@@ -185,7 +190,7 @@ class PostController extends Controller
                     'min:3',
                     Rule::unique('posts')->ignore($id),
                 ],
-                // 'slug' => 'nullable',
+
                 'body' => 'required|string|min:15',
                 'img_url' => 'nullable',
                 'active' => 'required',
@@ -223,7 +228,6 @@ class PostController extends Controller
 
             $selectedPost->update([
                 'title' => $request->title,
-                'slug' => 'sluggy',
                 'body' => $request->body,
                 'img_url' => $new_path ?? null,
                 'active' => (bool) true,
@@ -235,10 +239,10 @@ class PostController extends Controller
             return redirect()->route('post.index')->with(['success' => 'Registro Actualizado con Exito']);
 
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al editar el post. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar el post. Inténtalo de nuevo."])->withInput();
         }
     }
 
@@ -248,22 +252,28 @@ class PostController extends Controller
     public function destroy(string $post_id)
     {
 
-        $selectedPost = Post::findOrFail($post_id);
+        try {
+            $selectedPost = Post::findOrFail($post_id);
 
-        //ELIMINAR LA IMAGEN ASOCIADA
-        if ($selectedPost->img_url) {
+            //ELIMINAR LA IMAGEN ASOCIADA
+            if ($selectedPost->img_url) {
 
-            $img = $selectedPost->img_url;
+                $img = $selectedPost->img_url;
 
-            Storage::delete($img);
+                Storage::delete($img);
+            }
+
+            $selectedPost->delete();
+
+            $posts = Post::all();
+
+            return redirect()->route('post.index', ['posts' => $posts]);
+
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al eliminar el post. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar el post. Inténtalo de nuevo."])->withInput();
         }
-
-        $selectedPost->delete();
-
-        $posts = Post::all();
-
-        return redirect()->route('post.index', ['posts' => $posts]);
-
     }
 
     /**

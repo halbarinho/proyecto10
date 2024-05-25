@@ -115,21 +115,28 @@
     </script>
 
 
+    <script src="{{ asset('js/showHideDialog.js') }}"></script>
     <script>
-        function showDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
+        function deleteUser() {
 
-        function hideDialog(id) {
-            let dialog = document.getElementById('dialog-' + id);
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
+            const dialog = document.getElementById('dialog');
+            const id = dialog.dataset.id;
+
+            fetch(`/user/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+
+                    // Recarga la página
+                    location.reload(); // O cualquier otra acción necesaria
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar al usuario:', error);
+                });
         }
     </script>
 
@@ -143,6 +150,24 @@
 
     <div class="grid grid-cols-1 ml-4 mr-4 mt-14">
         <div class="">
+
+            {{-- INCLUYO MENSAJES DE ERROR --}}
+            @if ($errors->any())
+                <div class="">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li class="text-sm "><span
+                                    class="p-1 text-sm text-white bg-red-300 rounded-md">{{ $error }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @elseif (session('success'))
+                <div class="">
+                    <span class="p-1 text-white rounded-md bg-greenPersonal">{{ session('success') }}</span>
+                </div>
+            @endif
+
             <div class="flex justify-between w-full ">
 
                 <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
@@ -254,7 +279,7 @@
 
                                     </td>
 
-                                    <td><a class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
+                                    <td><a class="px-4 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
                                             href="{{ route('user.edit', $docente->User->id) }}">Editar</a></td>
 
                                     <td>
@@ -265,14 +290,14 @@
                                             Eliminar
                                         </button>
                                     </td>
-                                    @include('user.modal.delete-modal', [
+                                    {{-- @include('user.modal.delete-modal', [
                                         'userId' => $docente->User->id,
-                                    ])
+                                    ]) --}}
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-
+                    {{-- @include('user.modal.delete-modal') --}}
                 @endif
             </div>
 
@@ -392,10 +417,10 @@
                                 </td>
 
 
-                                @include('user.modal.delete-modal', ['userId' => $estudiante->User->id])
+                                {{-- @include('user.modal.delete-modal', ['userId' => $estudiante->User->id]) --}}
                                 <td>
                                     <a class="px-4 py-2 font-bold text-white border rounded border-btnGreen bg-btnGreen hover:bg-greenPersonal"
-                                        href="{{ route('user.edit', $estudiante->User->id) }}">Update</a>
+                                        href="{{ route('user.edit', $estudiante->User->id) }}">Editar</a>
                                 </td>
 
 
@@ -413,10 +438,11 @@
                         @endforeach
                         </tbody>
                     </table>
-
+                    {{-- @include('user.modal.delete-modal') --}}
                 @endif
             </div>
         </div>
+        @include('user.modal.delete-modal')
     </div>
 
 @endsection

@@ -13,7 +13,8 @@
         @if (session('error'))
             <div>
                 <ul>
-                    <li class="text-xs text-redPersonal">{{ session('error') }}</li>
+                    <li class="text-sm"><span
+                            class="p-1 text-sm text-white bg-red-300 rounded-md">{{ session('error') }}</span></li>
                 </ul>
             </div>
         @endif

@@ -25,10 +25,10 @@ class Category extends Model
 
         // Evitar que el la categoria 'sin asignar' se elimine
         static::deleting(function ($category) {
-            if ($category->description == 'undefined') {
+            if ($category->name == 'Sin Asignar') {
                 return false; //
             } elseif ($category->Post->isNotEmpty()) {
-                Log::info($category->Post);
+
                 // Obtener la categoría 'undefined' o crearla si no existe
                 $undefinedCategory = Category::firstOrCreate(['name' => 'Sin Asignar', 'description' => 'undefined']);
 
@@ -39,7 +39,7 @@ class Category extends Model
 
         // Evitar que el la categoria 'sin asignar' se modifique
         static::updating(function ($category) {
-            if ($category->getOriginal('description') == 'undefined') {
+            if ($category->getOriginal('name') == 'Sin Asignar') {
                 return false;
             }
         });

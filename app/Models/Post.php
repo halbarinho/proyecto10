@@ -15,7 +15,6 @@ class Post extends Model
         'body',
         'img_url',
         'active',
-        'slug',
         'category_id',
         'user_id',
     ];

@@ -13,8 +13,15 @@ return new class extends Migration {
         Schema::create('activities_results', function (Blueprint $table) {
 
             $table->id();
-            $table->foreignId('activity_id')->references('id')->on('activities');
-            $table->foreignId('estudiante_id')->references('user_id')->on('estudiantes');
+            $table->foreignId('activity_id')
+                ->references('id')->on('activities')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreignId('estudiante_id')
+                ->references('user_id')->on('estudiantes')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->foreignId('class_id')
                 ->nullable()

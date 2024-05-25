@@ -1,41 +1,47 @@
 @extends('layout.template-dashboard')
 
 @section('js')
+
+    <script src="{{ asset('js/showHideDialog.js') }}"></script>
+
     <script>
         function goBack() {
             window.location.href = '{{ route('activity.index') }}';
         }
 
-        let activityId;
+        // let activityId;
 
-        function showDialog(id) {
+        // function showDialog(id) {
 
-            activityId = id;
+        //     activityId = id;
 
-            let dialog = document.getElementById('dialog');
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
+        //     let dialog = document.getElementById('dialog');
+        //     dialog.classList.remove('hidden');
+        //     setTimeout(() => {
+        //         dialog.classList.remove('opacity-0');
+        //     }, 20);
+        // }
 
-        function hideDialog(id) {
+        // function hideDialog(id) {
 
-            let dialog = document.getElementById('dialog');
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
+        //     let dialog = document.getElementById('dialog');
+        //     dialog.classList.add('opacity-0');
+        //     setTimeout(() => {
+        //         dialog.classList.add('hidden');
+        //     }, 500);
+        // }
 
-        function deleteActivity(id) {
+        function deleteActivity() {
 
-            if (!activityId) {
+            const dialog = document.getElementById('dialog');
+            const id = dialog.dataset.id;
+
+            if (!id) {
                 console.error('No se ha proporcionado un ID de activity para eliminar.');
                 return;
             }
 
-            fetch(`/activity/${activityId}`, {
+            fetch(`/activity/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -66,12 +72,12 @@
 
 
         @if ($errors->any())
-            <div class="alert alert-danger">
+            <div class="">
 
             </div>
         @elseif (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
+            <div class="">
+                <span class="p-1 text-white rounded-md bg-greenPersonal">{{ session('success') }}</span>
             </div>
         @endif
 

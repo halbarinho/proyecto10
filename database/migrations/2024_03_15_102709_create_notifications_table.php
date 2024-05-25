@@ -15,7 +15,9 @@ return new class extends Migration {
             $table->string('message')->nullable()->default('No hay mensaje establecido.');
             $table->enum('type', ['chat', 'activity', 'alerta']);
             $table->boolean('read')->default(false);
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->references('id')->on('users')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->bigInteger('target_id');
             $table->timestamps();
         });

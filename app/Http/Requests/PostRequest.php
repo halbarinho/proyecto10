@@ -25,7 +25,6 @@ class PostRequest extends FormRequest
 
             'title' => 'required|unique:posts|max:255|string',
             'body' => 'required|string',
-            'slug' => 'nullable',
             'img_url' => 'nullable',
             'active' => 'boolean|nullable',
             'category_id' => 'required',

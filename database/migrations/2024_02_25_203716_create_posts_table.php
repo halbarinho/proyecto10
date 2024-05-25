@@ -13,12 +13,19 @@ return new class extends Migration {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('slug');
             $table->text('body');
             $table->text('img_url')->nullable();
             $table->boolean('active')->default(true);
-            $table->foreignId('category_id')->references('id')->on('categories');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('category_id')
+                ->nullable()
+                ->references('id')->on('categories')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreignId('user_id')
+                ->nullable()
+                ->references('id')->on('users')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
             $table->timestamps();
         });
     }

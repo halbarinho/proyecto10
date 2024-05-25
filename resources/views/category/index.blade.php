@@ -56,21 +56,28 @@
         });
     </script>
     @if ($categories->isNotEmpty())
+        <script src="{{ asset('js/showHideDialog.js') }}"></script>
         <script>
-            function showDialog(id) {
-                let dialog = document.getElementById('dialog-' + id);
-                dialog.classList.remove('hidden');
-                setTimeout(() => {
-                    dialog.classList.remove('opacity-0');
-                }, 20);
-            }
+            function deleteCategory() {
 
-            function hideDialog(id) {
-                let dialog = document.getElementById('dialog-' + id);
-                dialog.classList.add('opacity-0');
-                setTimeout(() => {
-                    dialog.classList.add('hidden');
-                }, 500);
+                const dialog = document.getElementById('dialog');
+                const id = dialog.dataset.id;
+
+                fetch(`/category/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => {
+
+                        // Recarga la página
+                        location.reload(); // O cualquier otra acción necesaria
+                    })
+                    .catch(error => {
+                        console.error('Ha habido un error al intentar eliminar la categoría:', error);
+                    });
             }
         </script>
     @endif
@@ -89,16 +96,17 @@
         <div class="container py-4 mx-auto">
             {{-- INCLUYO MENSAJES DE ERROR --}}
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li class="text-sm text-red-600">{{ $error }}</li>
+                            <li class="text-sm"><span
+                                    class="p-1 text-sm text-white bg-red-300 rounded-md">{{ $error }}</span></li>
                         @endforeach
                     </ul>
                 </div>
             @elseif (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+                <div class="">
+                    <span class="p-1 text-white rounded-md bg-greenPersonal">{{ session('success') }}</span>
                 </div>
             @endif
 
@@ -174,23 +182,38 @@
                                                                 class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                                 {{ $category->description }}</td>
 
-                                                            <td class="text-right"><a
-                                                                    class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
-                                                                    href="{{ route('category.edit', $category->id) }}">Editar</a>
+                                                            @if ($category->description == 'undefined')
+                                                                <td class="text-right">
+                                                                    <span
+                                                                        class="px-2 py-2 font-bold text-white bg-green-200 border border-green-200 rounded-md"
+                                                                        href="">Editar</span>
 
-                                                                <button id="delete-btn"
-                                                                    class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700"
-                                                                    onclick="showDialog({{ $category->id }})">
-                                                                    Eliminar
-                                                                </button>
-                                                            </td>
-                                                            @include('category.modal.delete-modal')
+                                                                    <button id="delete-btn"
+                                                                        class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-200 ">
+                                                                        Eliminar
+                                                                    </button>
+
+                                                                </td>
+                                                            @else
+                                                                <td class="text-right"><a
+                                                                        class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal"
+                                                                        href="{{ route('category.edit', $category->id) }}">Editar</a>
+
+                                                                    <button id="delete-btn"
+                                                                        class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700"
+                                                                        onclick="showDialog({{ $category->id }})">
+                                                                        Eliminar
+                                                                    </button>
+                                                                </td>
+                                                            @endif
+
                                                         </tr>
                                                     @endforeach
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
+                                    @include('category.modal.delete-modal')
                                 @endif
                             </div>
                         </div>

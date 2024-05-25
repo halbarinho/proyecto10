@@ -73,9 +73,7 @@ class AnswerController extends Controller
             } else {
 
 
-                /**
-                 * TENGO QUE ESTUDIAR ESTE APARTADO
-                 */
+
                 if (!$activity) {
                     self::update($request);
                 } else {
@@ -121,10 +119,10 @@ class AnswerController extends Controller
             if ($e->getCode() === '23000') {
                 return redirect()->back()->withErrors(['error' => "Error al mandar la actividad, ya se mandó a esta clase."])->withInput();
             } else {
-                return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br> Failed to update post. Please try again."])->withInput();
+                return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Error al mandar la actividad. Inténtalo de nuevo."])->withInput();
             }
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br>"])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Error al mandar la actividad. Inténtalo de nuevo."])->withInput();
         }
 
         return redirect()->route('activity.index');
@@ -189,10 +187,10 @@ class AnswerController extends Controller
                 if ($e->getCode() === '23000') {
                     return redirect()->back()->withErrors(['error' => "Error ya existe el registro."])->withInput();
                 } else {
-                    return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br> Failed to update post. Please try again."])->withInput();
+                    return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Error al editar la actividad. Inténtalo de nuevo."])->withInput();
                 }
             } catch (Exception $e) {
-                return redirect()->back()->withErrors(['error' => $e->getMessage() . "<br>"])->withInput();
+                return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Error al mandar la actividad. Inténtalo de nuevo."])->withInput();
             }
         }
     }

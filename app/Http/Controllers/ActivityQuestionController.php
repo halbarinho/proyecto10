@@ -111,10 +111,10 @@ class ActivityQuestionController extends Controller
 
 
             return view('activityQuestion.makeActivity', ['activity' => $activitySelected, 'questions' => $activityQuestions]);
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al crear la actividad. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al crear la actividad. Inténtalo de nuevo."])->withInput();
         }
     }
 }

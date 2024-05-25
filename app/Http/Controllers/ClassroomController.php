@@ -66,10 +66,10 @@ class ClassroomController extends Controller
 
 
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create classroom. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al crear la Classroom. Inténtalo de nuevo."])->withInput();
         } catch (Exception $e) {
 
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create classroom. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al crear la Classroom. Inténtalo de nuevo."])->withInput();
 
         }
 
@@ -144,12 +144,13 @@ class ClassroomController extends Controller
 
             $selectedClass->update($request->all());
 
-            return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+            // return redirect()->back()->with('success', 'Registro Actualizado con Exito');
+            return redirect()->route('admin.classroom');
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar la Clase. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar la Clase. Inténtalo de nuevo."])->withInput();
         }
 
     }
@@ -159,30 +160,44 @@ class ClassroomController extends Controller
      */
     public function destroy(int $id)
     {
-        $selectedClass = Classroom::findOrFail($id);
+        try {
+            $selectedClass = Classroom::findOrFail($id);
 
-        $selectedClass->delete();
+            $selectedClass->delete();
 
-        $classes = Classroom::all();
+            $classes = Classroom::all();
 
-        // return redirect()->route('classroom.index', ['classes' => $classes]);
-        return redirect()->route('admin.classroom', ['classes' => $classes]);
+
+            return redirect()->route('admin.classroom', ['classes' => $classes]);
+
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la Clase. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la Clase. Inténtalo de nuevo."])->withInput();
+        }
     }
 
     public function edit(Classroom $classroom)
     {
-
-        $selectedClass = Classroom::findOrFail($classroom->id);
-
-
-        $docentes = Docente::all();
-        $stages = Stage::all();
-        $levels = StageLevel::all();
-        $notifications = Notification::all();
+        try {
+            $selectedClass = Classroom::findOrFail($classroom->id);
 
 
+            $docentes = Docente::all();
+            $stages = Stage::all();
+            $levels = StageLevel::all();
+            $notifications = Notification::all();
 
-        return view('classroom.edit', ['class' => $selectedClass, 'docentes' => $docentes, 'stages' => $stages, 'levels' => $levels, 'notifications' => $notifications]);
+
+
+            return view('classroom.edit', ['class' => $selectedClass, 'docentes' => $docentes, 'stages' => $stages, 'levels' => $levels, 'notifications' => $notifications]);
+
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar la Clase. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al editar la Clase. Inténtalo de nuevo."])->withInput();
+        }
+
     }
 
 

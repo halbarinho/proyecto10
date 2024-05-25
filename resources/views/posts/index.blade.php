@@ -15,13 +15,14 @@
                 <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li class="text-sm text-red-600">{{ $error }}</li>
+                            <li class="text-sm"><span
+                                    class="p-1 text-sm text-white bg-red-300 rounded-md">{{ $error }}</span></li>
                         @endforeach
                     </ul>
                 </div>
             @elseif (session('success'))
                 <div class="">
-                    {{ session('success') }}
+                    <span class="p-1 text-white rounded-md bg-greenPersonal">{{ session('success') }}</span>
                 </div>
             @endif
 
@@ -35,7 +36,7 @@
                             <img class="w-full rounded-lg" src="{{ asset('/storage/' . $post->img_url) }}" />
                         </a>
 
-                        <p class="mt-2 text-base font-semibold text-indigo-500">{{ $post->slug }}</p>
+                        <p class="mt-2 text-base font-semibold text-indigo-500"></p>
 
                         <h1 class="mt-1 text-xl font-semibold leading-none text-gray-900 capitalize truncate">
                             {{ $post->title }}

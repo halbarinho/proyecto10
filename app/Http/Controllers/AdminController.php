@@ -121,7 +121,7 @@ class AdminController extends Controller
                     'max:25',
                     Rule::unique('activities')->ignore($activity->id),
                 ],
-                // 'slug' => 'nullable',
+
                 'activity_description' => 'required|string|min:15|max:80',
             ],
             [
@@ -155,10 +155,10 @@ class AdminController extends Controller
             return redirect()->route('admin.activities');
 
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al actualizar la actividad. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al actualizar la actividad. Inténtalo de nuevo."])->withInput();
         }
     }
 
@@ -244,10 +244,10 @@ class AdminController extends Controller
 
             return redirect()->route('admin.alertas');
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al actualizar la alerta. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al actualizar la alerta. Inténtalo de nuevo."])->withInput();
         }
     }
 
@@ -317,10 +317,10 @@ class AdminController extends Controller
 
             return redirect()->route('admin.notifications');
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando user id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al actualizar la notificación. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al actualizar la notificación. Inténtalo de nuevo."])->withInput();
         }
     }
 
@@ -335,10 +335,10 @@ class AdminController extends Controller
 
             return redirect()->back();
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Fallo buscando category id."])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to delete category. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la notificación. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la notificación. Inténtalo de nuevo."])->withInput();
         }
     }
 
@@ -362,10 +362,10 @@ class AdminController extends Controller
             return redirect()->back()->with('success', 'Registros Actualizados con Exito');
 
 
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n"])->withInput();
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to update post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la notificación. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo al eliminar la notificación. Inténtalo de nuevo."])->withInput();
         }
     }
 

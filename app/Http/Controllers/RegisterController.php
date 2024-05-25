@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use Exception;
 
+use App\Models\User;
 use App\Http\Requests;
 use App\Models\Docente;
 use App\Models\Estudiante;
@@ -75,7 +76,9 @@ class RegisterController extends Controller
 
 
         } catch (QueryException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage() . "/n Failed to create post. Please try again."])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD en el registro. Inténtalo de nuevo."])->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo en el registro. Inténtalo de nuevo."])->withInput();
         }
 
 

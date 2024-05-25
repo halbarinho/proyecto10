@@ -57,36 +57,19 @@
 
 
 
-        let postToDeleteId;
 
-        function showDialog(id) {
 
-            postToDeleteId = id;
+        function deletePost() {
 
-            let dialog = document.getElementById('dialog');
-            dialog.classList.remove('hidden');
-            setTimeout(() => {
-                dialog.classList.remove('opacity-0');
-            }, 20);
-        }
+            const dialog = document.getElementById('dialog');
+            const id = dialog.dataset.id;
 
-        function hideDialog(id) {
-
-            let dialog = document.getElementById('dialog');
-            dialog.classList.add('opacity-0');
-            setTimeout(() => {
-                dialog.classList.add('hidden');
-            }, 500);
-        }
-
-        function deletePost(id) {
-
-            if (!postToDeleteId) {
+            if (!id) {
                 console.error('No se ha proporcionado un ID de post para eliminar.');
                 return;
             }
 
-            fetch(`/post/${postToDeleteId}`, {
+            fetch(`/post/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -103,6 +86,8 @@
         }
     </script>
 
+    <script src="{{ asset('js/showHideDialog.js') }}"></script>
+
 @endsection
 
 @section('title', 'Admin Posts')
@@ -117,16 +102,17 @@
 
             {{-- INCLUYO MENSAJES DE ERROR --}}
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li class="text-sm text-red-600">{{ $error }}</li>
+                            <li class="text-sm"><span
+                                    class="p-1 text-sm text-white bg-red-300 rounded-md">{{ $error }}</span></li>
                         @endforeach
                     </ul>
                 </div>
             @elseif (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+                <div class="">
+                    <span class="p-1 text-white rounded-md bg-greenPersonal">{{ session('success') }}</span>
                 </div>
             @endif
 
@@ -229,7 +215,7 @@
                                                     </td>
                                                     <td class="px-6 py-4 text-right">
                                                         <a href="{{ route('post.edit', $post->id) }}"
-                                                            class="px-2 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal">Editar</a>
+                                                            class="px-5 py-2 font-bold text-white border rounded-md border-btnGreen bg-btnGreen hover:bg-greenPersonal">Editar</a>
                                                     </td>
                                                     <td class="px-6 py-4 text-right">
                                                         {{-- <a href="{{ route('post.delete', $post->id) }}"
