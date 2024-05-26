@@ -74,7 +74,7 @@
 
 
                         <div class="mb-3 row">
-                            <label for="user_id" class="mb-3 block text-base font-medium text-[#07074D]">Clase</label>
+                            <label for="user_id" class="mb-3 block text-base font-medium text-[#07074D]">Tutor</label>
                             <div class="sm-5">
                                 <select name="user_id" id="user_id"
                                     class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">

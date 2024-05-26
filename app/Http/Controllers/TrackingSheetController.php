@@ -109,7 +109,7 @@ class TrackingSheetController extends Controller
             ]);
 
 
-            return redirect()->route('trackingSheet.index', ['studentId' => $request->input('studentId')]);
+            return redirect()->route('trackingSheet.show', ['studentId' => $request->input('studentId')]);
 
         } catch (QueryException $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage() . " - Fallo BD al editar la Hoja de Seguimiento. Inténtalo de nuevo."])->withInput();

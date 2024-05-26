@@ -296,7 +296,7 @@ class ActivityController extends Controller
 
                 'activity_name.required' => __('El nombre de la actividad es obligatorio.'),
                 'activity_name.min' => __('La longitud del título de la actividad es de mínimo 3 caracteres.'),
-                'activity_name.max' => __('La longitud del título de la actividad es de máximo 3 caracteres.'),
+                'activity_name.max' => __('La longitud del título de la actividad es de máximo 25 caracteres.'),
                 'unique' => __('El título de la actividad ya existe.'),
                 'required' => __('El :attribute es obligatorio.'),
                 'string' => __('El :attribute debe ser una cadena.'),
@@ -444,7 +444,7 @@ class ActivityController extends Controller
                     //Aqui creo la notificacion para cada user
 
                     $notificationActivity = Notification::create([
-                        'message' => 'Nueva Actividad: ' . $activity->activity_name,
+                        'message' => 'Actividad: ' . $activity->activity_name,
                         'type' => 'activity',
                         'user_id' => $estudiante->user_id,
                         'target_id' => $activity->id,

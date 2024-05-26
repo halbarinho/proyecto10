@@ -1021,9 +1021,8 @@
                     <h1 class="text-3xl font-bold text-white md:text-5xl lg:w-10/12">Diketive tu app de gestión de
                         aulas.</h1>
                     <p class="mt-3 mb-12 text-xl text-white">Donde las aulas se convierten en comunidad
-                        Adorado por más de 5 millones de alumnos y padres. Gratis para los docentes, para
-                        siempre ,
-                        and more.</p>
+                        Adorado por más de 5 millones de profesores y alumnos. Una gran herramienta para los docentes,
+                        un lugar de apoyo para el alumno, y mucho más.</p>
                 </div>
             </div>
 
@@ -1103,11 +1102,13 @@
                                     Nosotros</a>
                             </li>
                             <li class="mt-3">
-                                <a class="text-gray-400 lowercase cursor-pointer hover:text-white">Politica
+                                <a href="{{ route('about.privacy') }}"
+                                    class="text-gray-400 lowercase cursor-pointer hover:text-white">Política
                                     Privacidad</a>
                             </li>
                             <li class="mt-3">
-                                <a class="text-gray-400 lowercase cursor-pointer hover:text-white">Cookies</a>
+                                <a href="{{ route('about.privacy') }}"
+                                    class="text-gray-400 lowercase cursor-pointer hover:text-white">Cookies</a>
                             </li>
                         </nav>
                     </div>

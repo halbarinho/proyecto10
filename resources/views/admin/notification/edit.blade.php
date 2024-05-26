@@ -1,5 +1,38 @@
 @extends('layout.template-adminDashboard')
 
+@section('js')
+
+    <script src="{{ asset('js/showHideDialog.js') }}"></script>
+
+    <script>
+        function deleteNotification() {
+
+            const dialog = document.getElementById('dialog');
+            const id = dialog.dataset.id;
+
+            fetch(`/admin/notification/delete/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    // if (!response.ok) {
+                    //     throw new Error('Network response was not ok');
+                    // }
+                    // Recarga la página
+                    // location.reload(); // O cualquier otra acción necesaria
+                    // window.history.back();
+                    window.location.href = '{{ route('admin.notifications') }}';
+                })
+                .catch(error => {
+                    console.error('Ha habido un error al intentar eliminar la notificación:', error);
+                });
+        }
+    </script>
+@endsection
+
 @section('title', 'Editar Notificacion')
 
 @vite('resources\js\app.js')
@@ -39,23 +72,19 @@
                     <div class="col-span-2">
                         <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo
                             Notificación</label>
-                        <input type="text" name="type" id="type" value="{{ $notification->type }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="{{ $notification->type }}" required>
-                        @error('type')
-                            <div class="my-2 text-sm text-red-600">{{ $message }}</div>
-                        @enderror
+                        <div type="text" id="type"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            {{ $notification->type }}</div>
+
                     </div>
 
                     <div class="col-span-2">
                         <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contenido
                             Notificación</label>
-                        <textarea id="message" name="message" rows="4" value="{{ $notification->message }}"
-                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="{{ $notification->message }}">{{ $notification->message }}</textarea>
-                        @error('message')
-                            <div class="my-2 text-sm text-red-600">{{ $message }}</div>
-                        @enderror
+                        <div id="message" name="message" rows="4" contenteditable="false"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            {{ $notification->message }}</div>
+
                     </div>
 
                     <div class="col-span-2">
@@ -78,11 +107,9 @@
                     <input type="submit" value="Actualizar"
                         class="justify-end px-4 py-2 font-bold text-white rounded-md bg-blueLighterPersonal border-blueLighterPersonal hover:bg-blueLightPersonal">
 
-                    <a href="{{ route('admin.notificationDestroy', (int) $notification->id) }}">
-                        <button data-modal-hide="static-modal" type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-bold text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
-                            Borrar</button>
-                    </a>
+                    <button data-modal-hide="static-modal" type="button" onclick="showDialog({{ $notification->id }})"
+                        class="py-2.5 px-5 ms-3 text-sm font-bold text-red-900 focus:outline-none bg-red-300 rounded-lg border border-red-200 hover:bg-red-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-700 dark:bg-red-800 dark:text-red-400 dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700">
+                        Borrar</button>
 
                     <a href="{{ route('admin.notifications') }}">
                         <button data-modal-hide="static-modal" type="button"
@@ -92,5 +119,6 @@
                 </div>
             </form>
         </div>
+        @include('admin.notification.modal.delete-modal')
     </div>
 @endsection

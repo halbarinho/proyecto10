@@ -101,7 +101,7 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.string' => 'El titulo es requerido',
+            'title.string' => 'El título es requerido',
 
         ];
     }

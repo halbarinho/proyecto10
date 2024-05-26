@@ -66,7 +66,7 @@
                     <h1 class="my-1 text-4xl text-red-600">Mensaje Enviado</h1>
                     <br>
                     <p class="my-1 text-xl text-gray-600 ">En breve nos pondremos en contacto contigo</p>
-                    <p class="my-1 text-xl text-gray-600">Un salud, hasta pronto.</p>
+                    <p class="my-1 text-xl text-gray-600">Un saludo, hasta pronto.</p>
                     <br>
                     <button onclick="goBack(); event.preventDefault();"
                         class="px-5 py-2 text-white rounded-md cursor-pointer bg-rose-500 hover:bg-rose-700">Regresar</button>

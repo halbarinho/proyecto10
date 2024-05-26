@@ -98,6 +98,9 @@ Route::view('/contact/formSent', 'contact.formSent')->name('contact.formSent');
 //Ruta para el aboutUs
 Route::view('/about/aboutUs', 'about.aboutUs')->name('about.aboutUs');
 
+//Ruta para politica privacidad
+Route::view('/about/privacy', 'about.privacyPage')->name('about.privacy');
+
 //FIN RUTAS PUBLICAS//
 
 /**

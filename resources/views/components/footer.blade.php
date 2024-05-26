@@ -72,10 +72,12 @@
                                 class="text-gray-400 lowercase cursor-pointer hover:text-white">Sobre Nosotros</a>
                         </li>
                         <li class="mt-3">
-                            <a class="text-gray-400 lowercase cursor-pointer hover:text-white">Politica Privacidad</a>
+                            <a href="{{ route('about.privacy') }}"
+                                class="text-gray-400 lowercase cursor-pointer hover:text-white">Politica Privacidad</a>
                         </li>
                         <li class="mt-3">
-                            <a class="text-gray-400 lowercase cursor-pointer hover:text-white">Cookies</a>
+                            <a href="{{ route('about.privacy') }}"
+                                class="text-gray-400 lowercase cursor-pointer hover:text-white">Cookies</a>
                         </li>
                     </nav>
                 </div>

@@ -212,9 +212,9 @@
                 </li>
 
 
-                <li id="postsBtn" class="mb-1 group">
+                <li class="mb-1 group">
 
-                    <span
+                    <span id="postsBtn"
                         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
                         <i class='mr-3 text-lg bx bxl-blogger'></i>
                         <span class="hidden text-sm md:inline">Post</span>
@@ -244,13 +244,13 @@
                     </a>
                 </li>
 
-                <li class="mb-1 group">
+                {{-- <li class="mb-1 group">
                     <a href="{{ route('admin.activities') }}"
                         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                         <i class='mr-3 text-lg bx bx-list-ul'></i>
                         <span class="hidden text-sm md:inline">Datos Contacto</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>
@@ -286,22 +286,9 @@
 
 
         // methods: Sidebar
-        const sidebarToggle = document.querySelector('.sidebar-toggle')
-        const sidebarOverlay = document.querySelector('.sidebar-overlay')
-        const sidebarMenu = document.querySelector('.sidebar-menu')
-        const main = document.querySelector('.main')
-        sidebarToggle.addEventListener('click', function(e) {
-            e.preventDefault()
-            main.classList.toggle('active')
-            sidebarOverlay.classList.toggle('hidden')
-            sidebarMenu.classList.toggle('-translate-x-full')
-        })
-        sidebarOverlay.addEventListener('click', function(e) {
-            e.preventDefault()
-            main.classList.add('active')
-            sidebarOverlay.classList.add('hidden')
-            sidebarMenu.classList.add('-translate-x-full')
-        })
+
+
+
         document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function(item) {
             item.addEventListener('click', function(e) {
                 e.preventDefault()
@@ -400,98 +387,6 @@
             });
         }
         // end: Popper
-
-
-
-        // methods: Tab
-        document.querySelectorAll('[data-tab]').forEach(function(item) {
-            item.addEventListener('click', function(e) {
-                e.preventDefault()
-                const tab = item.dataset.tab
-                const page = item.dataset.tabPage
-                const target = document.querySelector('[data-tab-for="' + tab + '"][data-page="' + page +
-                    '"]')
-                document.querySelectorAll('[data-tab="' + tab + '"]').forEach(function(i) {
-                    i.classList.remove('active')
-                })
-                document.querySelectorAll('[data-tab-for="' + tab + '"]').forEach(function(i) {
-                    i.classList.add('hidden')
-                })
-                item.classList.add('active')
-                target.classList.remove('hidden')
-            })
-        })
-        // end: Tab
-
-
-
-        // start: Chart
-        new Chart(document.getElementById('order-chart'), {
-            type: 'line',
-            data: {
-                labels: generateNDays(7),
-                datasets: [{
-                        label: 'Active',
-                        data: generateRandomData(7),
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(59, 130, 246)',
-                        borderColor: 'rgb(59, 130, 246)',
-                        backgroundColor: 'rgb(59 130 246 / .05)',
-                        tension: .2
-                    },
-                    {
-                        label: 'Completed',
-                        data: generateRandomData(7),
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(16, 185, 129)',
-                        borderColor: 'rgb(16, 185, 129)',
-                        backgroundColor: 'rgb(16 185 129 / .05)',
-                        tension: .2
-                    },
-                    {
-                        label: 'Canceled',
-                        data: generateRandomData(7),
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(244, 63, 94)',
-                        borderColor: 'rgb(244, 63, 94)',
-                        backgroundColor: 'rgb(244 63 94 / .05)',
-                        tension: .2
-                    },
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        function generateNDays(n) {
-            const data = []
-            for (let i = 0; i < n; i++) {
-                const date = new Date()
-                date.setDate(date.getDate() - i)
-                data.push(date.toLocaleString('en-US', {
-                    month: 'short',
-                    day: 'numeric'
-                }))
-            }
-            return data
-        }
-
-        function generateRandomData(n) {
-            const data = []
-            for (let i = 0; i < n; i++) {
-                data.push(Math.round(Math.random() * 10))
-            }
-            return data
-        }
-        // end: Chart
     </script>
 
 </body>

@@ -69,7 +69,7 @@
                             Para cualquier duda o tema que quieras tratar con el autor del contenido, envíale un mensaje.
                         </p>
 
-                        @if (auth()->user()->id !== $post->User->id)
+                        @if (auth()->user()->id !== $post->User->id && !$post->User->hasRole('admin'))
                             <a href="{{ route('chat.with', $post->User->id) }}">
                                 <button
                                     class="flex items-center justify-center w-full px-2 py-1 text-white rounded bg-greenPersonal hover:bg-green-500">

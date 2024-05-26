@@ -132,7 +132,7 @@ class NotificationController extends Controller
 
         $notificationChat = Notification::create([
 
-            'message' => 'Mensaje en el chat con ' . $user->name,
+            'message' => 'Mensaje de ' . auth()->user()->name,
             'type' => 'chat',
             'user_id' => $userId,
             'target_id' => $target_id,
