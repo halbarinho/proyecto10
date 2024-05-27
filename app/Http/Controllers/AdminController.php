@@ -52,6 +52,8 @@ class AdminController extends Controller
         // Obtener las últimas actividades subidas
         $actividadesRecientes = Activity::latest()->take(4)->get();
 
+        $estudiantesWarning = Estudiante::where('status', '<>', 'safe')->take(6)->get();
+
 
         return view('admin.dashboard', [
             'notifications' => $notifications,
@@ -64,6 +66,7 @@ class AdminController extends Controller
             'latestMessages' => $latestMessages,
             'latestAlerts' => $latestAlerts,
             'latestPosts' => $latestPosts,
+            'estudiantesWarning' => $estudiantesWarning,
         ]);
     }
 

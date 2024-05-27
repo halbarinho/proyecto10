@@ -349,7 +349,7 @@
                                                 @endif
                                             </div>
                                             <div class="flex-shrink-0 ml-2 min-w-16">
-                                                @if ($alerta->active == 1)
+                                                @if ($alerta->active == 0)
                                                     <div
                                                         class="flex justify-center h-4 overflow-hidden text-xs tracking-wide text-red-600 bg-red-200 rounded">
                                                         <span>Activa</span>
@@ -386,10 +386,10 @@
             <div class="px-0 mb-0 border-0 rounded-t">
                 <div class="flex flex-wrap items-center px-4 py-2">
                     <div class="relative flex-1 flex-grow w-full max-w-full">
-                        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-50">Ultimas Alertas</h3>
+                        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-50">Alumnos en Seguimiento</h3>
                     </div>
                     <div class="relative flex-1 flex-grow w-full max-w-full text-right">
-                        <a href="{{ route('admin.alertas') }}">
+                        <a href="{{ route('admin.estudiantesIndex') }}">
                             <button
                                 class="px-3 py-1 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-blue-500 rounded outline-none dark:bg-gray-100 active:bg-blue-600 dark:text-gray-800 dark:active:text-gray-700 focus:outline-none"
                                 type="button">Ver</button>
@@ -399,9 +399,9 @@
                 <div class="block w-full overflow-x-auto">
                     <table class="items-center w-full bg-transparent border-collapse" id="classTable">
 
-                        @if ($alertas->isEmpty())
+                        @if ($estudiantesWarning->isEmpty())
                             <li class="flex px-4">
-                                <h2 class="text-redPersonal">Enhorabuena no hay alertas que mostrar.</h2>
+                                <h2 class="text-redPersonal">Enhorabuena no hay alumnos que mostrar.</h2>
                             </li>
                         @else
                             <thead>
@@ -420,37 +420,31 @@
 
                             <tbody>
 
-                                @foreach ($latestAlerts as $alerta)
+                                @foreach ($estudiantesWarning as $estudiante)
                                     <tr class="text-gray-700 dark:text-gray-100">
-                                        @if ($alerta->estudiante_id == null)
-                                            <th
-                                                class="p-4 px-4 text-xs text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                                Anonimo</th>
-                                        @else
-                                            <th
-                                                class="p-4 px-4 text-xs text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                                {{ $alerta->estudiante->user->name }}
-                                                {{ $alerta->estudiante->user->last_name_1 }}</th>
-                                        @endif
+                                        <th
+                                            class="p-4 px-4 text-xs text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
+                                            {{ $estudiante->user->name }}
+                                            {{ $estudiante->user->last_name_1 }}</th>
                                         <td
                                             class="p-4 px-4 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                            {{ $alerta->updated_at }}</td>
+                                            {{ $estudiante->updated_at }}</td>
                                         <td
                                             class="p-4 px-4 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
                                             <div class="flex items-center">
 
                                                 <div class="relative w-full">
 
-                                                    @if ($alerta->active == 1)
+                                                    @if ($estudiante->status == 'caution')
                                                         <div
                                                             class="flex justify-center h-4 overflow-hidden text-xs tracking-wide text-red-600 bg-red-200 rounded">
-                                                            <span>Activa</span>
+                                                            <span>Precaución</span>
 
                                                         </div>
                                                     @else
                                                         <div
                                                             class="flex justify-center h-4 overflow-hidden text-xs tracking-wide text-green-600 bg-green-200 rounded">
-                                                            <span>Cerrada</span>
+                                                            <span>Warning</span>
 
                                                         </div>
                                                     @endif

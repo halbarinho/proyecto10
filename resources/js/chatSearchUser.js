@@ -9,7 +9,7 @@ window.onload=function(){
 
 userSearch.addEventListener('input',(event)=>{
     const query = userSearch.value.trim();
-    console.log('Valor: ',query);
+
 
     if(query.length>0){
         searchUser(query);
@@ -58,7 +58,7 @@ function displaySearchResults(users){
     usersList.innerHTML=listContent;
 
 
-    // console.log(listContent);
+
 }
 
 

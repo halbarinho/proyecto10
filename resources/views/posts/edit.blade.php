@@ -137,8 +137,8 @@
                         @endif
                         <input
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                            aria-describedby="img_url_help" id="img_url" name="img_url" type="file"
-                            value="{{ $post->img_url }}">
+                            aria-describedby="img_url_help" id="img_url" name="img_url" type="file" accept="image/*"
+                            value="/storage/{{ $post->img_url }}">
 
                         @error('img_url')
                             <div class="my-2 text-sm text-red-600">{{ $message }}</div>

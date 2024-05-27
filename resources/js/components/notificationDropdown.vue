@@ -16,9 +16,9 @@
         </button>
 
         <div v-if="menuOpen" class="absolute right-0 z-40 mt-2 bg-white shadow">
-            <ul class="inline-block px-2 py-2">
+            <ul class="inline-block px-2 py-2 whitespace-nowrap">
                 <li v-if="notifications.length > 0" v-for=" notification in notifications" :key="notification.id">
-                    <!-- <a :href="getNotificationLink(notification)">{{ notification.type }}: {{ notification.message}}</a> -->
+
                     <a :href="getNotificationLink(notification)" @click.prevent="markAsRead(notification.id)"><span
                             style="color: 00b3e3;" onmouseover="this.style.color = '037dbf'"
                             onmouseout="this.style.color = '00b3e3'"
@@ -39,7 +39,7 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-// import Echo from '../vueJs/notificationMenu.js';
+
 
 const menuOpen = ref(false);
 let notifications = ref([])
@@ -66,13 +66,13 @@ onMounted(() => {
     axios.get('/auth/user')
         .then(res => {
             authUser = res.data.authUser;
-            // console.log(authUser.id);
+
         })
         .then(() => {
 
             window.Echo.private(`notification.${authUser.id}`)
                 .listen('NotificationSend', (e) => {
-                    // console.log('Escuchando', e.message);
+
                     getNotifications();
                 });
 
@@ -98,8 +98,8 @@ const getNotifications = () => {
 
                 notifications.value = response.data;
             }
-            console.log(notifications.value)
-            console.log(notifications.value.length);
+
+
 
         })
         .catch((er) => {
@@ -118,12 +118,12 @@ const getNotificationLink = (notification) => {
     switch (notification.type) {
         case 'activity':
             link = `http://localhost:8000/estudiante/${notification.user_id}/activity/${notification.target_id}`;
-            // console.log($link);
+
             return link;
             break;
         case 'alerta':
 
-            // $link = `http://localhost:8000/alert/${notification.target_id}/edit`;
+
             link = "http://localhost:8000/alerta/" + notification.target_id;
             return link;
             break;
@@ -155,7 +155,7 @@ const markAsRead = (notificationId) => {
 
                 // Redirigir al usuario a la dirección vinculada
                 const notificationLink = getNotificationLink(response.data.notification);
-                console.log(notificationLink);
+
                 window.location.href = notificationLink;
             }
         })

@@ -48,8 +48,7 @@ user_type.on('change',  function(){
 
     let option_checked = $('#user_type option:checked').val();
     if(option_checked == 'docente'){
-        // tipo_alumno.toggleClass('hidden');
-        // tipo_docente.toggleClass('block');
+
         tipo_docente.toggleClass('hidden');
         tipo_alumno.attr('class','hidden');
     }
@@ -57,24 +56,16 @@ user_type.on('change',  function(){
         tipo_alumno.toggleClass('hidden');
         tipo_docente.attr('class','hidden');
 
-        // tipo_alumno.toggleClass('block');
+
     }
 });
 
 });
 
 
-// window.onload(function(){
-//     $('#user_type').on('change', function(){
-//         console.log('jajjaja');
-//     });
-// });
-
-// $(document).ready(()=>{
-//     $('#user_type').on('change', ()=>{
-//         console.log('jajjaja');
-//     });
-// });
 
 
-// window.alert('HOLA Caracola');
+
+
+
+

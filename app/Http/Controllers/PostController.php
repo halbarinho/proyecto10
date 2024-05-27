@@ -223,7 +223,11 @@ class PostController extends Controller
                 $new_path = str_replace('public/', '', $img_path);
             } else {
                 //AÑADO IMAGEN POR DEFECTO
-                $new_path = '\images\defaultCollege.png';
+                // $new_path = '\images\defaultCollege.png';
+                Log::info($selectedPost->img_url);
+
+                //cambio el path
+                $new_path = $selectedPost->img_url;
             }
 
             $selectedPost->update([
